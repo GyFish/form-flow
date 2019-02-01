@@ -3,6 +3,7 @@
 import Vue, { CreateElement, VNode, VNodeData } from 'vue'
 import { Prop, Component } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
+import ItemFactory from './items/ItemFactory'
 
 @Component
 export default class Item extends Vue {
@@ -21,44 +22,6 @@ export default class Item extends Vue {
   }
 
   render(h: CreateElement): VNode {
-    // 基本的属性
-    let attributes: VNodeData = {
-      attrs: {
-        placeholder: this.data.placeholder
-      },
-      props: { value: this.data.value }
-    }
-
-    let subElements = new Array<VNode>()
-
-    if (this.data.type == 'el-input') {
-      // add or init prefix-icon 解决一开始未申明prop，后添加时不能实时渲染的问题
-      let { prefixIcon } = this.data
-      let { props } = attributes
-      if (!prefixIcon) {
-        prefixIcon = ''
-        this.data.prefixIcon = prefixIcon
-      }
-      props = Object.assign(attributes.props, {
-        'prefix-icon': prefixIcon
-      })
-      // 类型
-      if (this.data.inputType == 'textarea')
-
-      attributes.props = props
-    }
-
-    if (this.data.type == 'el-select') {
-      let { options } = this.data
-      for (const option of options)
-        subElements.push(
-          h('el-option', {
-            props: { value: option.value, label: option.label }
-          })
-        )
-      let o = (<h1></h1>)
-    }
-
     return (
       <el-form-item
         label={this.data.label}
@@ -69,7 +32,7 @@ export default class Item extends Vue {
           }
         }}
       >
-        {h(this.data.type, attributes, subElements)}
+        {ItemFactory.getItem({ h, item: this.data })}
       </el-form-item>
     )
   }
