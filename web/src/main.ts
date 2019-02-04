@@ -27,17 +27,17 @@ const store: StoreOptions<FormState> = {
           id: 1,
           prop: "input",
           type: "el-input",
-          label: "单行文本",
+          label: "输入框",
           placeholder: "请输入...",
-          icon: "el-icon-edit"
-          // 'prefixIcon': ''
+          icon: "",
+          'prefixIcon': "",
+          inputType: "text"
         },
         {
           id: 2,
           type: "el-input",
           prop: "input",
-          label: "多行文本",
-          icon: "el-icon-tickets",
+          label: "文本域",
           inputType: "textarea"
         },
         {
@@ -48,12 +48,12 @@ const store: StoreOptions<FormState> = {
           icon: "el-icon-arrow-down",
           options: [
             {
-              value: "选项1",
-              label: "黄金糕"
+              value: "k1",
+              label: "选项一"
             },
             {
-              value: "选项2",
-              label: "双皮奶"
+              value: "k2",
+              label: "选项二"
             }
           ]
         },
@@ -81,11 +81,15 @@ const store: StoreOptions<FormState> = {
       state.data.items = items
     },
     updateByIdx(state, { idx, item }) {
-      // 判断是否有该字段，动态添加
       let target = state.data.items[idx]
-      if (target.type == "el-input")
-        Vue.set(target, "prefixIcon", item.prefixIcon)
+      // 判断是否有该字段，动态添加
+      // 有点麻烦，不如在初始化时就指定数据
+      // if (target.type == "el-input")
+      //   Vue.set(target, "prefixIcon", item.prefixIcon)
       Object.assign(target, item)
+    },
+    removeByIdx(state, idx) {
+      state.data.items.splice(idx, 1)
     }
   }
 }
@@ -100,6 +104,16 @@ const routes = [
     path: "/form",
     name: "form",
     component: () => import("./views/Form.vue")
+  },
+  {
+    path: "/table",
+    name: "table",
+    component: () => import("./views/Table.vue")
+  },
+  {
+    path: "/flow",
+    name: "flow",
+    component: () => import("./views/Flow.vue")
   }
 ]
 

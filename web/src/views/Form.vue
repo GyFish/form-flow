@@ -18,7 +18,14 @@
         <el-form label-position="left" label-width="100px">
           <draggable class="pad" v-model="items" :options="{group:'people'}">
             <div v-for="(item, idx) of items">
-              <item :data="{...item, idx}" v-on:flushByIdx="onFlushByIdx"/>
+              <el-row type="flex" align="middle">
+                <el-col :span="22">
+                  <item :data="{...item, idx}" v-on:flushByIdx="onFlushByIdx"/>
+                </el-col>
+                <el-col :span="2">
+                  <el-button circle icon="el-icon-delete" type="danger" size="middle" @click="removeItem(idx)"/>
+                </el-col>
+              </el-row>
             </div>
           </draggable>
         </el-form>
@@ -64,6 +71,7 @@ export default class Design extends Vue {
   @State activeIdx: any
   @Mutation update: any
   @Mutation updateByIdx: any
+  @Mutation removeByIdx: any
 
   tempItem: any
 
@@ -82,9 +90,15 @@ export default class Design extends Vue {
 
   onFlushByIdx(prop: any) {
     console.log('父组件 design 监听到事件：onFlushByIdx')
-    this.updateByIdx({idx: prop.idx, item: prop})
+    this.updateByIdx({ idx: prop.idx, item: prop })
     // 清空
     this.tempItem = null
+  }
+
+  removeItem(idx: string) {
+    console.log('removeByIdx')
+    console.log(idx)
+    this.removeByIdx(idx)
   }
 
   mounted() {

@@ -42,7 +42,7 @@ export default class Item extends Vue {
 <style lang="scss">
 .el-form-item {
   padding: 1%;
-  margin: 0;
+  margin: 0px 5px 0px 0px;
 }
 .active {
   border: 1px solid #409eff;

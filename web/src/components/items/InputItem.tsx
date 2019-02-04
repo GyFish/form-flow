@@ -14,15 +14,6 @@ export default class InputItem extends AbstractItem {
     let { prefixIcon, inputType } = this.item
     let { props } = this.attributes
 
-    // 首部图标
-    if (!prefixIcon) {
-      prefixIcon = ""
-      this.item.prefixIcon = prefixIcon
-    }
-    props = Object.assign(props, {
-      "prefix-icon": prefixIcon
-    })
-
     // 类型
     if (!inputType) {
       inputType = "text"
@@ -31,8 +22,17 @@ export default class InputItem extends AbstractItem {
       type: inputType
     })
 
-    this.attributes.props = props
+    // 输入框
+    if (inputType == "text") {
+      // 首部图标
+      this.item.prefixIcon = prefixIcon ? prefixIcon : ""
+      props = Object.assign(props, {
+        "prefix-icon": prefixIcon
+      })
+    }
 
+    
+    this.attributes.props = props
     return this.h("el-input", this.attributes, this.subVNodes)
   }
 }

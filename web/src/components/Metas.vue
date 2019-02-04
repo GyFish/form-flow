@@ -52,7 +52,7 @@ export default class Metas extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-button {
   display: block;
   color: #409eff;

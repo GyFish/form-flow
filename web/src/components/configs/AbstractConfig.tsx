@@ -12,58 +12,44 @@ export default abstract class AbstractConfig {
     this.h = option.h
     this.item = option.item
     this.mutations = option.mutations
-    this.renderLabel()
-    this.renderPlaceHolder()
+    this.renderLabel(this.h)
+    this.renderValue(this.h)
   }
   //~ 方法 -------------------------
-  renderLabel() {
-    this.configs.push(
-      this.h(
-        "el-form-item",
-        {
+  renderLabel(h: CreateElement) {
+    let label = (
+      <el-form-item label="名称">
+        {h("el-input", {
           props: {
-            label: "名称"
-          }
-        },
-        [
-          this.h("el-input", {
-            props: {
-              value: this.item.label
-            },
-            on: {
-              input: (value: string) => {
-                this.item.label = value
-                this.mutations.update()
-              }
+            value: this.item.label
+          },
+          on: {
+            input: (value: string) => {
+              this.item.label = value
+              this.mutations.update()
             }
-          })
-        ]
-      )
+          }
+        })}
+      </el-form-item>
     )
+    this.configs.push(label)
   }
-  renderPlaceHolder() {
-    this.configs.push(
-      this.h(
-        "el-form-item",
-        {
+  renderValue(h: CreateElement) {
+    let value = (
+      <el-form-item label="字段（code）">
+        {this.h("el-input", {
           props: {
-            label: "占位文本"
-          }
-        },
-        [
-          this.h("el-input", {
-            props: {
-              value: this.item.placeholder
-            },
-            on: {
-              input: (value: string) => {
-                this.item.placeholder = value
-                this.mutations.update()
-              }
+            value: this.item.prop
+          },
+          on: {
+            input: (value: string) => {
+              this.item.prop = value
+              this.mutations.update()
             }
-          })
-        ]
-      )
+          }
+        })}
+      </el-form-item>
     )
+    this.configs.push(value)
   }
 }
