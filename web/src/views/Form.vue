@@ -23,7 +23,7 @@
                   <item :data="{...item, idx}" v-on:flushByIdx="onFlushByIdx"/>
                 </el-col>
                 <el-col :span="2">
-                  <el-button circle icon="el-icon-delete" type="danger" size="middle" @click="removeItem(idx)"/>
+                  <el-button circle icon="el-icon-minus" type="danger" size="mini" @click="removeItem(idx)"/>
                 </el-col>
               </el-row>
             </div>
@@ -34,7 +34,7 @@
       <el-aside>
         <el-tabs stretch :value="activeIdx < 0 ? 'formConfig' : 'itemConfig'">
           <el-tab-pane label="字段属性" name="itemConfig">
-            <pre>{{JSON.stringify(items[activeIdx], null, 4)}}</pre>
+            <!-- <pre>{{JSON.stringify(items[activeIdx], null, 4)}}</pre> -->
             <config :item="{...items[activeIdx], idx: activeIdx}"></config>
           </el-tab-pane>
           <el-tab-pane label="表单属性" name="formConfig" style="text-align:center">
@@ -56,7 +56,7 @@ import config from '@/components/Config.vue'
 import draggable from 'vuedraggable'
 
 @Component({
-  name: 'Design',
+  name: 'Form',
   components: {
     draggable,
     metas,
@@ -64,7 +64,7 @@ import draggable from 'vuedraggable'
     config
   }
 })
-export default class Design extends Vue {
+export default class Form extends Vue {
   // store
   @State meta: any
   @State data: any
@@ -85,7 +85,7 @@ export default class Design extends Vue {
 
   clone(el: any) {
     // 避免 copy 时引用同一个对象
-    return Object.assign({}, el)
+    return JSON.parse(JSON.stringify(el))
   }
 
   onFlushByIdx(prop: any) {

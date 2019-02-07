@@ -4,12 +4,14 @@ import Router from "vue-router"
 import Vuex, { StoreOptions } from "vuex"
 import ElementUI from "element-ui"
 import "element-ui/lib/theme-chalk/index.css"
+import draggable from 'vuedraggable'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
+Vue.use(draggable)
 
 interface FormState {
   activeIdx: any
@@ -29,7 +31,7 @@ const store: StoreOptions<FormState> = {
           type: "el-input",
           label: "输入框",
           placeholder: "请输入...",
-          icon: "",
+          icon: "el-icon-edit",
           'prefixIcon': "",
           inputType: "text"
         },
@@ -38,6 +40,7 @@ const store: StoreOptions<FormState> = {
           type: "el-input",
           prop: "input",
           label: "文本域",
+          icon: "el-icon-tickets",
           inputType: "textarea"
         },
         {

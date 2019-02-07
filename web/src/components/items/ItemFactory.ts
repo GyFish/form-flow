@@ -1,5 +1,6 @@
 import InputItem from "./InputItem"
 import SelectItem from "./SelectItem"
+import DateItem from "./DateItem"
 import { CreateElement, VNode } from "vue"
 
 export default class ItemFactory {
@@ -9,6 +10,7 @@ export default class ItemFactory {
     } = option
     if (type == "el-input") return new InputItem(option).render()
     if (type == "el-select") return new SelectItem(option).render()
+    if (type == "el-date-picker") return new DateItem(option).render()
     return option.h("div")
   }
 }
