@@ -6,6 +6,7 @@ export default abstract class AbstractItem {
   type: string
   item: any
   h: CreateElement
+  mutations: any
 
   attributes: VNodeData
   subVNodes: Array<VNode> = []
@@ -13,13 +14,31 @@ export default abstract class AbstractItem {
   //~ 构造器 -------------------------
   constructor(option: ItemOption) {
     this.type = option.item.type
-    this.item = option.item
     this.h = option.h
+    this.item = option.item
+    this.mutations = option.mutations
     this.attributes = {
       attrs: {
         placeholder: this.item.placeholder
       },
-      props: { value: this.item.value }
+      props: {
+        value: this.item.value
+      },
+      on: {
+        input: (value: string) => {
+          // 更新表单结构值
+          this.item.value = value
+          this.mutations.updateByIdx({
+            idx: this.item.idx,
+            item: this.item
+          })
+          // 更新结果
+          this.mutations.updateResult({
+            field: this.item.prop,
+            value: value
+          })
+        }
+      }
     }
   }
 

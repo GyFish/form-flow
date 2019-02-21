@@ -15,7 +15,7 @@
       </el-aside>
       <!-- 主面板 -->
       <el-main>
-        <el-form label-position="left" label-width="100px">
+        <el-form v-model="result" label-position="left" label-width="100px">
           <draggable class="pad" v-model="items" :options="{group:'people'}">
             <div v-for="(item, idx) of items">
               <el-row type="flex" align="middle">
@@ -34,7 +34,7 @@
               </el-row>
             </div>
             <el-form-item v-if="items.length > 0">
-              <el-button>提交</el-button>
+              <el-button type="success" @click="commit">提交</el-button>
             </el-form-item>
           </draggable>
         </el-form>
@@ -88,6 +88,7 @@ export default class Form extends Vue {
   @Mutation update: any
   @Mutation updateByIdx: any
   @Mutation removeByIdx: any
+  @Mutation commitTable: any
 
   // 是否显示配置栏数据
   showdata: number = 0
@@ -100,13 +101,20 @@ export default class Form extends Vue {
     this.update(items)
   }
 
+  get result() {
+    return this.data.result
+  }
+
   clone(el: any) {
-    // 避免 copy 时引用同一个对象
     return JSON.parse(JSON.stringify(el))
   }
 
   removeItem(idx: string) {
     this.removeByIdx(idx)
+  }
+
+  commit() {
+    this.commitTable()
   }
 }
 </script>

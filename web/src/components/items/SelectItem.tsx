@@ -8,10 +8,10 @@ export default class SelectItem extends AbstractItem {
   }
   render(): VNode {
     let { options } = this.item
-    for (const option of options) {
+    for (const { value, label } of options) {
       this.subVNodes.push(
         this.h("el-option", {
-          props: { value: option.value, label: option.label }
+          props: { key: value, value: value, label: label }
         })
       )
     }

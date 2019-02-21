@@ -18,4 +18,5 @@ export default class ItemFactory {
 export class ItemOption {
   item!: any
   h!: CreateElement
+  mutations?: any
 }

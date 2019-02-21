@@ -14,6 +14,9 @@ export default class Item extends Vue {
   @State(state => state.data.items) items: any
   @State activeIdx: any
   @Mutation active: any
+  @Mutation update: any
+  @Mutation updateByIdx: any
+  @Mutation updateResult: any
 
   render(h: CreateElement): VNode {
     return (
@@ -26,7 +29,14 @@ export default class Item extends Vue {
           }
         }}
       >
-        {ItemFactory.getItem({ h, item: this.data })}
+        {ItemFactory.getItem({
+          h,
+          item: this.data,
+          mutations: {
+            updateResult: this.updateResult,
+            updateByIdx: this.updateByIdx,
+          }
+        })}
       </el-form-item>
     )
   }

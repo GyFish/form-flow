@@ -4,14 +4,14 @@ import Router from "vue-router"
 import Vuex, { StoreOptions } from "vuex"
 import ElementUI from "element-ui"
 import "element-ui/lib/theme-chalk/index.css"
-import draggable from 'vuedraggable'
+import draggable from "vuedraggable"
 
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI, {
-  size: 'mini'
+  size: "mini"
 })
 Vue.use(draggable)
 
@@ -29,18 +29,19 @@ const store: StoreOptions<FormState> = {
       items: [
         {
           id: 1,
-          prop: "input",
-          type: "el-input",
-          label: "输入框",
-          placeholder: "请输入...",
-          icon: "el-icon-edit",
-          'prefixIcon': "",
+          prop: "input", // 字段
+          value: "", // 值
+          type: "el-input", // 类型
+          label: "输入框", // 名称
+          placeholder: "请输入...", // 占位值
+          icon: "el-icon-edit", // 左侧栏图标
+          prefixIcon: "", // 输入框前图标
           inputType: "text"
         },
         {
           id: 2,
           type: "el-input",
-          prop: "input",
+          prop: "text",
           label: "文本域",
           icon: "el-icon-tickets",
           inputType: "textarea"
@@ -48,7 +49,7 @@ const store: StoreOptions<FormState> = {
         {
           id: 3,
           type: "el-select",
-          prop: "input",
+          prop: "select",
           label: "下拉框",
           icon: "el-icon-arrow-down",
           options: [
@@ -65,7 +66,7 @@ const store: StoreOptions<FormState> = {
         {
           id: 4,
           type: "el-date-picker",
-          prop: "input",
+          prop: "date",
           label: "日期选择器",
           placeholder: "请选择...zhanweifu...",
           icon: "el-icon-time"
@@ -74,7 +75,9 @@ const store: StoreOptions<FormState> = {
     },
     data: {
       form: {},
-      items: []
+      items: [],
+      result: {},
+      table: []
     },
     activeIdx: -1
   },
@@ -82,9 +85,11 @@ const store: StoreOptions<FormState> = {
     active(state, idx) {
       state.activeIdx = idx
     },
+    // 更新表单结构数据
     update(state, items) {
       state.data.items = items
     },
+    // 根据顺序id更新
     updateByIdx(state, { idx, item }) {
       let target = state.data.items[idx]
       // 判断是否有该字段，动态添加
@@ -95,6 +100,15 @@ const store: StoreOptions<FormState> = {
     },
     removeByIdx(state, idx) {
       state.data.items.splice(idx, 1)
+    },
+    // 表单填值后，更新结果值
+    updateResult(state, { field, value }) {
+      Vue.set(state.data.result, field, value)
+    },
+    commitTable(state) {
+      let { result, table } = state.data
+      table.push(JSON.parse(JSON.stringify(result)))
+      result = {}
     }
   }
 }
