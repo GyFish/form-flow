@@ -20,27 +20,43 @@
             <div v-for="(item, idx) of items">
               <el-row type="flex" align="middle">
                 <el-col :span="22">
-                  <item :data="{...item, idx}" v-on:flushByIdx="onFlushByIdx"/>
+                  <item :data="{...item, idx}"/>
                 </el-col>
                 <el-col :span="2">
-                  <el-button circle icon="el-icon-minus" type="danger" size="mini" @click="removeItem(idx)"/>
+                  <el-button
+                    circle
+                    icon="el-icon-minus"
+                    type="danger"
+                    size="mini"
+                    @click="removeItem(idx)"
+                  />
                 </el-col>
               </el-row>
             </div>
+            <el-form-item v-if="items.length > 0">
+              <el-button>提交</el-button>
+            </el-form-item>
           </draggable>
         </el-form>
       </el-main>
       <!-- 右侧属性栏 -->
       <el-aside>
-        <el-tabs stretch :value="activeIdx < 0 ? 'formConfig' : 'itemConfig'">
-          <el-tab-pane label="字段属性" name="itemConfig">
-            <!-- <pre>{{JSON.stringify(items[activeIdx], null, 4)}}</pre> -->
-            <config :item="{...items[activeIdx], idx: activeIdx}"></config>
-          </el-tab-pane>
-          <el-tab-pane label="表单属性" name="formConfig" style="text-align:center">
-            <img src="@/assets/logo.png">
-          </el-tab-pane>
-        </el-tabs>
+        <el-container>
+          <el-main style="border:0">
+            <el-tabs stretch :value="activeIdx < 0 ? 'formConfig' : 'itemConfig'">
+              <el-tab-pane label="字段属性" name="itemConfig">
+                <config :item="{...items[activeIdx], idx: activeIdx}"></config>
+                <pre v-if="showdata%2==0">{{JSON.stringify(items[activeIdx], null, 4)}}</pre>
+              </el-tab-pane>
+              <el-tab-pane label="表单属性" name="formConfig" style="text-align:center">
+                <img src="@/assets/logo.png">
+              </el-tab-pane>
+            </el-tabs>
+          </el-main>
+          <el-footer height="50px">
+            <el-button @click="showdata++">查看数据</el-button>
+          </el-footer>
+        </el-container>
       </el-aside>
     </el-container>
   </div>
@@ -73,7 +89,8 @@ export default class Form extends Vue {
   @Mutation updateByIdx: any
   @Mutation removeByIdx: any
 
-  tempItem: any
+  // 是否显示配置栏数据
+  showdata: number = 0
 
   get items() {
     return this.data.items
@@ -88,27 +105,8 @@ export default class Form extends Vue {
     return JSON.parse(JSON.stringify(el))
   }
 
-  onFlushByIdx(prop: any) {
-    console.log('父组件 design 监听到事件：onFlushByIdx')
-    this.updateByIdx({ idx: prop.idx, item: prop })
-    // 清空
-    this.tempItem = null
-  }
-
   removeItem(idx: string) {
-    console.log('removeByIdx')
-    console.log(idx)
     this.removeByIdx(idx)
-  }
-
-  mounted() {
-    // console.log('design page mounted...')
-    // console.log(this.items)
-  }
-
-  updated() {
-    // console.log('design page updated...')
-    // console.log(this.items)
   }
 }
 </script>

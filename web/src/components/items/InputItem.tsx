@@ -8,7 +8,6 @@ export default class InputItem extends AbstractItem {
   }
 
   render(): VNode {
-    console.log("render item el-input")
 
     // 解决一开始未申明prop，后添加时不能实时渲染的问题
     let { prefixIcon, inputType } = this.item

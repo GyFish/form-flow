@@ -60,7 +60,7 @@ export default class InputConfig extends AbstractConfig {
               type="primary"
               size="mini"
               on-click={() => {
-                this.item.options.push({})
+                this.item.options.push({label: '', value: ''})
               }}
             />
           </el-col>

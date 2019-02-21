@@ -15,12 +15,6 @@ export default class Item extends Vue {
   @State activeIdx: any
   @Mutation active: any
 
-  mounted() {
-    // 渲染完成之后，prop可能已经改变，通知一下父组件刷新 state.data，只需要通知一次，渲染完成之后
-    console.log('item page mounted...')
-    this.$emit('flushByIdx', this.data)
-  }
-
   render(h: CreateElement): VNode {
     return (
       <el-form-item

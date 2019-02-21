@@ -10,7 +10,9 @@ Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(Router)
-Vue.use(ElementUI)
+Vue.use(ElementUI, {
+  size: 'mini'
+})
 Vue.use(draggable)
 
 interface FormState {
