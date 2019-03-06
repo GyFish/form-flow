@@ -7,6 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@antv/g6": "^2.2.6",
     "element-ui": "^2.4.11",
     "vue": "^2.5.21",
     "vue-class-component": "^6.0.0",

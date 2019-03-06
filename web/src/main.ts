@@ -77,7 +77,10 @@ const store: StoreOptions<FormState> = {
       form: {},
       items: [],
       result: {},
-      table: []
+      table: [],
+      flow: {
+        
+      }
     },
     activeIdx: -1
   },
@@ -130,9 +133,9 @@ const routes = [
     component: () => import("./views/Table.vue")
   },
   {
-    path: "/flow",
-    name: "flow",
-    component: () => import("./views/Flow.vue")
+    path: "/flowEditor",
+    name: "flowEditor",
+    component: () => import("./views/FlowEditor.vue")
   }
 ]
 
