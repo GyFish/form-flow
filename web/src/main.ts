@@ -136,6 +136,11 @@ const routes = [
     path: "/flowEditor",
     name: "flowEditor",
     component: () => import("./views/FlowEditor.vue")
+  },
+  {
+    path: "/app",
+    name: "App",
+    component: () => import("./views/App.vue")
   }
 ]
 

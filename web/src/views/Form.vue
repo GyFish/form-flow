@@ -55,6 +55,7 @@
           </el-main>
           <el-footer height="50px">
             <el-button @click="showdata++">查看数据</el-button>
+            <el-button @click="save" type="primary" icon="el-icon-check">保存</el-button>
           </el-footer>
         </el-container>
       </el-aside>
@@ -116,6 +117,12 @@ export default class Form extends Vue {
   commit() {
     this.commitTable()
   }
+
+  save() {
+    console.log('save...')
+    console.log(this.data.items)
+  }
+  
 }
 </script>
 

@@ -4,6 +4,7 @@
       <el-menu-item index="/form">表单</el-menu-item>
       <el-menu-item index="/table">表格</el-menu-item>
       <el-menu-item index="/flowEditor">流程</el-menu-item>
+      <el-menu-item index="/app">应用</el-menu-item>
     </el-menu>
     <router-view/>
   </div>
