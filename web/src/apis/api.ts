@@ -6,13 +6,13 @@ export default class Api {
 
   constructor() {
     this.http = axios.create({
-      baseURL: "https://some-domain.com/api/",
-      timeout: 1000
+      baseURL: "http://localhost:7001",
+      timeout: 3000
     })
   }
 
   // 保存表单结构数据
-  saveForm(form: any) {
-    return this.http.post("url", form)
+  async saveForm(form: any) {
+    return await this.http.post("/form/saveForm", form)
   }
 }

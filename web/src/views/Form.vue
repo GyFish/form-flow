@@ -46,15 +46,18 @@
             <el-tabs stretch :value="activeIdx < 0 ? 'formConfig' : 'itemConfig'">
               <el-tab-pane label="字段属性" name="itemConfig">
                 <config :item="{...items[activeIdx], idx: activeIdx}"></config>
-                <pre v-if="showdata%2==0">{{JSON.stringify(items[activeIdx], null, 4)}}</pre>
               </el-tab-pane>
               <el-tab-pane label="表单属性" name="formConfig" style="text-align:center">
+                <el-form>
+                  <el-form-item label="标题">
+                    <el-input v-model="data.form.title"></el-input>
+                  </el-form-item>
+                </el-form>
                 <img src="@/assets/logo.png">
               </el-tab-pane>
             </el-tabs>
           </el-main>
           <el-footer height="50px">
-            <el-button @click="showdata++">查看数据</el-button>
             <el-button @click="save" type="primary" icon="el-icon-check">保存</el-button>
           </el-footer>
         </el-container>
@@ -71,6 +74,7 @@ import metas from '@/components/Metas.vue'
 import item from '@/components/Item.vue'
 import config from '@/components/Config.vue'
 import draggable from 'vuedraggable'
+import Api from '@/apis/api'
 
 @Component({
   name: 'Form',
@@ -91,8 +95,10 @@ export default class Form extends Vue {
   @Mutation removeByIdx: any
   @Mutation commitTable: any
 
+  // 表单结构
+
   // 是否显示配置栏数据
-  showdata: number = 0
+  // showdata: number = 0
 
   get items() {
     return this.data.items
@@ -120,9 +126,9 @@ export default class Form extends Vue {
 
   save() {
     console.log('save...')
-    console.log(this.data.items)
+    console.log(this.data)
+    new Api().saveForm({ form: this.data.form, items: this.items })
   }
-  
 }
 </script>
 

@@ -26,6 +26,7 @@
   "dependencies": {
     "@types/sequelize": "^4.27.33",
     "egg": "^2.6.1",
+    "egg-cors": "^2.2.0",
     "egg-scripts": "^2.6.0",
     "egg-sequelize": "^4.3.1",
     "mysql2": "^1.6.4",

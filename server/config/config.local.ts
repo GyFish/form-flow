@@ -9,8 +9,16 @@ export default () => {
     username: "root",
     password: '123456',
     port: 3306,
-    database: 'csc',
+    database: 'test',
   }
+
+  config.security = {
+    domainWhiteList: [ 'http://localhost:8080' ],
+    csrf: {
+      enable: false
+    }
+  }
+
   
   return config
 };
