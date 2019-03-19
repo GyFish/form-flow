@@ -24,6 +24,33 @@
         </el-col>
       </el-main>
     </el-container>
+    <!-- 弹窗 -->
+    <el-dialog modal width="30%" :visible.sync="showDialog">
+      <el-form :model="app">
+        <el-form-item label="应用名称">
+          <el-input v-model="app.title"></el-input>
+        </el-form-item>
+        <el-form-item label="应用描述">
+          <el-input v-model="app.desc"></el-input>
+        </el-form-item>
+        <el-form-item label="类型">
+          <el-select v-model="app.type">
+            <el-option label="表单" value="form"></el-option>
+            <el-option label="流程" value="flow"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="表单" v-if="app.type == `form`">
+          <el-select v-model="app.form">
+            <el-option label="表单1" value="form"></el-option>
+            <el-option label="表单2" value="form"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="showDialog = false">取 消</el-button>
+        <el-button type="primary" @click="showDialog = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -33,8 +60,14 @@ import { Component, Vue } from 'vue-property-decorator'
   components: {}
 })
 export default class App extends Vue {
+  // 是否显示弹窗
+  showDialog: Boolean = false
+  // app详情
+  app: any = {}
+
   newApp() {
     console.log('new app...')
+    this.showDialog = true
   }
 }
 </script>

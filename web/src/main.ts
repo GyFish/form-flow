@@ -19,6 +19,7 @@ interface FormState {
   activeIdx: any
   meta: any
   data: any
+  arch: any // 存档，缓存创建好的表单和流程结构数据
 }
 const store: StoreOptions<FormState> = {
   state: {
@@ -82,7 +83,10 @@ const store: StoreOptions<FormState> = {
         
       }
     },
-    activeIdx: -1
+    activeIdx: -1,
+    arch: {
+
+    }
   },
   mutations: {
     active(state, idx) {
