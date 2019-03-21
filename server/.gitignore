@@ -1,20 +1,29 @@
-logs/
-npm-debug.log
-node_modules/
-coverage/
-.idea/
-run/
-logs/
-.DS_Store
-.vscode
-*.swp
-*.lock
-*.js
-!.autod.conf.js
+HELP.md
+/target/
+!.mvn/wrapper/maven-wrapper.jar
 
-app/**/*.js
-test/**/*.js
-config/**/*.js
-app/**/*.map
-test/**/*.map
-config/**/*.map
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/
+
+### VS Code ###
+.vscode/

@@ -74,7 +74,7 @@ import metas from '@/components/Metas.vue'
 import item from '@/components/Item.vue'
 import config from '@/components/Config.vue'
 import draggable from 'vuedraggable'
-import Api from '@/apis/api'
+import FormApi from '@/apis/formApi'
 
 @Component({
   name: 'Form',
@@ -127,7 +127,7 @@ export default class Form extends Vue {
   save() {
     console.log('save...')
     console.log(this.data)
-    new Api().saveForm({ form: this.data.form, items: this.items })
+    new FormApi().save({ form: this.data.form, items: this.items })
   }
 }
 </script>

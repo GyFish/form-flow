@@ -10,9 +10,4 @@ export default class Api {
       timeout: 3000
     })
   }
-
-  // 保存表单结构数据
-  async saveForm(form: any) {
-    return await this.http.post("/form/saveForm", form)
-  }
 }
