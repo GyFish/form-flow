@@ -18,6 +18,8 @@ public enum FlowStatus {
         this.statusLabel = statusLabel;
     }
 
+    private int processId;
+
     private int statusValue;
 
     private String statusLabel;

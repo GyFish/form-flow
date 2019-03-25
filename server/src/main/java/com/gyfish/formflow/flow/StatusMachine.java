@@ -1,42 +1,48 @@
 package com.gyfish.formflow.flow;
 
 import com.gyfish.formflow.flow.config.FlowAction;
+import com.gyfish.formflow.flow.config.FlowNode;
+import com.gyfish.formflow.flow.config.Task;
+import com.gyfish.formflow.flow.engine.FlowEngine;
 import com.gyfish.formflow.flow.event.FlowEvent;
-import com.gyfish.formflow.flow.service.ProcessService;
+import com.gyfish.formflow.flow.filter.FlowFilterChain;
+import com.gyfish.formflow.flow.filter.GlobalFlowFilter;
+import com.gyfish.formflow.flow.listener.FlowListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * 状态机，根据事件，调度
+ * 状态机，根据事件进行引擎调度
  */
 @Component
 public class StatusMachine {
 
-
-    final
-    ProcessService processService;
+    private FlowEngine flowEngine;
 
     @Autowired
-    public StatusMachine(ProcessService processService) {
-        this.processService = processService;
+    public StatusMachine(FlowEngine flowEngine) {
+        this.flowEngine = flowEngine;
     }
 
-
-    public void emit(FlowEvent e) {
+    /**
+     * 基于事件触发流程的执行，返回对应的任务
+     *
+     * @param e 流程事件
+     */
+    public Task emit(FlowEvent e) {
 
         if (e == null)
-            return;
+            return null;
 
-        FlowAction action = getAction(e);
+        // 获取流程的当前节点
+        FlowNode node = flowEngine.getCurNode(e.getProcessId());
 
-        if (action != null)
-            action.flow(e);
-    }
+        // 获取事件要触发的动作
+        FlowAction action = flowEngine.getActionById(e.getActionId());
 
-    private FlowAction getAction(FlowEvent e) {
-
-        return null;
+        // 执行动作，返回任务
+        return node.run(action, e);
     }
 
 
