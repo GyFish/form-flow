@@ -1,5 +1,4 @@
-import axios, { AxiosInstance } from "axios"
-import Api from './api';
+import Api from './Api';
 
 export default class FormApi extends Api{
 

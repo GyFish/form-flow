@@ -1,0 +1,40 @@
+.flow-editor {
+  height: calc(100% - 36px);
+
+  .flow-item-container {
+    .el-button {
+      display: block;
+      // color: #409eff;
+      border-color: #c6e2ff;
+      // background-color: #ecf5ff;
+      width: 80%;
+      margin: 15px 10%;
+      text-align: left;
+    }
+  }
+
+  .el-container {
+    height: 100%;
+  }
+
+  .el-aside {
+    width: 20%;
+    height: 100%;
+  }
+
+  .el-main {
+    border-left: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+    .flow-page {
+      .el-button {
+        margin: 0;
+        width: 200px;
+      }
+    }
+  }
+
+  .flow-page {
+    background-color: #f9f9f9;
+    min-height: 100%;
+  }
+}

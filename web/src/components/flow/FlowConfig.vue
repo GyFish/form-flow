@@ -21,7 +21,12 @@
             </el-form-item>
             <el-form-item label="下一节点">
               <el-select v-model="nextNode" @change="addLine">
-                <el-option v-for="node of allNodes" :label="node.model.nodeName" :value="node.id"></el-option>
+                <el-option
+                  v-for="node of allNodes"
+                  key="node.id"
+                  :label="node.model.nodeName"
+                  :value="node.id"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-form>
@@ -84,5 +89,4 @@ export default class FlowConfig extends Vue {
 }
 </script>
 
-<style lang="scss">
-</style>
+

@@ -9,7 +9,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 @Service
-public class AppService {
+public class AppStoreService {
 
     @Resource
     private AppDao appDao;

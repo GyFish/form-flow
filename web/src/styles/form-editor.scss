@@ -1,0 +1,47 @@
+.form-editor {
+  .el-aside {
+    width: 20%;
+    height: 100%;
+  }
+
+  .el-main {
+    border-left: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+  }
+
+  height: calc(100% - 36px);
+  .el-container {
+    height: 100%;
+  }
+
+  .el-form {
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .pad {
+    min-height: 100%;
+  }
+
+  .metas-panel {
+    .el-button {
+      display: block;
+      color: #409eff;
+      border-color: #c6e2ff;
+      background-color: #ecf5ff;
+      width: 80%;
+      margin: 15px 10%;
+      text-align: left;
+    }
+  }
+
+  .dynamic-item {
+    .el-form-item {
+      padding: 1%;
+      margin: 0px 5px 0px 0px;
+    }
+    .active {
+      border: 1px solid #409eff;
+    }
+  }
+}

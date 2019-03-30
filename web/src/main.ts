@@ -1,21 +1,34 @@
-import Vue from "vue"
-import App from "./App.vue"
-import Router from "vue-router"
-import Vuex, { StoreOptions } from "vuex"
-import ElementUI from "element-ui"
-import "element-ui/lib/theme-chalk/index.css"
-import draggable from "vuedraggable"
-
 Vue.config.productionTip = false
 
-Vue.use(Vuex)
+// 主页面
+import App from "./App.vue"
+
+// vue
+import Vue from "vue"
+// router
+import Router from "vue-router"
+import router from "./routes/router"
 Vue.use(Router)
+// vuex
+import Vuex, { StoreOptions } from "vuex"
+Vue.use(Vuex)
+
+// element
+import ElementUI from "element-ui"
+import "element-ui/lib/theme-chalk/index.css"
 Vue.use(ElementUI, {
   size: "mini"
 })
+
+// 拖拽插件
+import draggable from "vuedraggable"
 Vue.use(draggable)
 
+// 外部样式
+import './styles/index.scss'
+
 interface FormState {
+  activeMenu: any // 当前激活的导航菜单
   activeIdx: any
   meta: any
   data: any
@@ -83,6 +96,7 @@ const store: StoreOptions<FormState> = {
         
       }
     },
+    activeMenu: "/",
     activeIdx: -1,
     arch: {
 
@@ -91,6 +105,10 @@ const store: StoreOptions<FormState> = {
   mutations: {
     active(state, idx) {
       state.activeIdx = idx
+    },
+    // 设置当前激活导航菜单
+    setActiveMenu(state, menu) {
+      state.activeMenu = menu
     },
     // 更新表单结构数据
     update(state, items) {
@@ -120,36 +138,8 @@ const store: StoreOptions<FormState> = {
   }
 }
 
-const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: () => import("./views/Home.vue")
-  },
-  {
-    path: "/form",
-    name: "form",
-    component: () => import("./views/Form.vue")
-  },
-  {
-    path: "/table",
-    name: "table",
-    component: () => import("./views/Table.vue")
-  },
-  {
-    path: "/flowEditor",
-    name: "flowEditor",
-    component: () => import("./views/FlowEditor.vue")
-  },
-  {
-    path: "/app",
-    name: "App",
-    component: () => import("./views/App.vue")
-  }
-]
-
 new Vue({
-  router: new Router({ routes }),
+  router,
   store: new Vuex.Store<FormState>(store),
   render: h => h(App)
 }).$mount("#app")

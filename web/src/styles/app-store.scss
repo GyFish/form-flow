@@ -1,0 +1,29 @@
+.app-store {
+  // 卡片
+  .app-card {
+    $elCardHeight: 180px;
+    .el-button {
+      float: right;
+      width: 50px;
+      padding: 3px 0;
+      margin-left: 3px;
+    }
+    .new-button {
+      height: $elCardHeight - 20px * 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .el-button {
+        font-size: 200%;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .el-card {
+      height: $elCardHeight;
+      margin: 10px 10px;
+    }
+  }
+
+  // 弹窗
+}

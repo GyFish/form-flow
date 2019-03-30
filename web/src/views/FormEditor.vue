@@ -1,8 +1,8 @@
 <template>
-  <div class="design">
+  <div class="form-editor">
     <el-container>
       <!-- 左侧组件栏 -->
-      <el-aside>
+      <el-aside class="metas-panel">
         <draggable
           v-model="meta.items"
           :clone="clone"
@@ -70,11 +70,11 @@
 import Vue from 'vue'
 import { State, Mutation } from 'vuex-class'
 import { Provide, Component } from 'vue-property-decorator'
-import metas from '@/components/Metas.vue'
-import item from '@/components/Item.vue'
-import config from '@/components/Config.vue'
+import metas from '@/components/form/Metas.vue'
+import item from '@/components/form/Item.vue'
+import config from '@/components/form/Config.vue'
 import draggable from 'vuedraggable'
-import FormApi from '@/apis/formApi'
+import FormApi from '@/apis/FormApi'
 
 @Component({
   name: 'Form',
@@ -131,32 +131,3 @@ export default class Form extends Vue {
   }
 }
 </script>
-
-
-<style lang="scss">
-.el-aside {
-  width: 20%;
-  height: 100%;
-}
-
-.el-main {
-  border-left: 1px solid #e6e6e6;
-  border-right: 1px solid #e6e6e6;
-}
-
-.design {
-  height: calc(100% - 36px);
-  .el-container {
-    height: 100%;
-  }
-}
-
-.el-form {
-  height: 100%;
-  min-height: 100%;
-}
-
-.pad {
-  min-height: 100%;
-}
-</style>

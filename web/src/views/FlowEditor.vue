@@ -1,5 +1,5 @@
 <template>
-  <div class="design">
+  <div class="flow-editor">
     <el-container>
       <el-aside>
         <flow-item @addNode="addNode"></flow-item>
@@ -181,33 +181,3 @@ export default class FlowEditor extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-.el-aside {
-  width: 20%;
-  height: 100%;
-}
-
-.el-main {
-  border-left: 1px solid #e6e6e6;
-  border-right: 1px solid #e6e6e6;
-  .flow-page {
-    .el-button {
-      margin: 0;
-      width: 200px;
-    }
-  }
-}
-
-.design {
-  height: calc(100% - 36px);
-  .el-container {
-    height: 100%;
-  }
-}
-
-.flow-page {
-  background-color: #f9f9f9;
-  min-height: 100%;
-}
-</style>

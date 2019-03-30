@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flow-item-container">
     <div id="success" class="flow-item" draggable="true" @dragstart="dragstart" @dragend="dragend">
       <el-button type="success" icon="el-icon-circle-plus" plain>开始</el-button>
     </div>
@@ -35,15 +35,3 @@ export default class FlowItem extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-.el-button {
-  display: block;
-  // color: #409eff;
-  border-color: #c6e2ff;
-  // background-color: #ecf5ff;
-  width: 80%;
-  margin: 15px 10%;
-  text-align: left;
-}
-</style>

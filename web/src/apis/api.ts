@@ -6,8 +6,12 @@ export default class Api {
 
   constructor() {
     this.http = axios.create({
-      baseURL: "http://localhost:7001",
-      timeout: 3000
+      baseURL: "http://localhost:7007",
+      // timeout: 3000
     })
+  }
+
+  extractData(res: any) {
+    if (res.data.code == 0) return res.data.data
   }
 }

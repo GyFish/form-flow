@@ -7,7 +7,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import { Prop } from 'vue-property-decorator';
+import { Prop } from 'vue-property-decorator'
 
 export class MetaInfo {
   static form = {
@@ -51,16 +51,4 @@ export default class Metas extends Vue {
   @Prop() icon!: string
 }
 </script>
-
-<style lang="scss" scoped>
-.el-button {
-  display: block;
-  color: #409eff;
-  border-color: #c6e2ff;
-  background-color: #ecf5ff;
-  width: 80%;
-  margin: 15px 10%;
-  text-align: left;
-}
-</style>
 

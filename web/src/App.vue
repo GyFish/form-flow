@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <el-menu mode="horizontal" router>
-      <el-menu-item index="/form">表单</el-menu-item>
+    <el-menu :default-active="activeMenu" @select="setMenu" mode="horizontal" router>
+      <el-menu-item index="/formEditor">表单</el-menu-item>
       <el-menu-item index="/table">表格</el-menu-item>
       <el-menu-item index="/flowEditor">流程</el-menu-item>
-      <el-menu-item index="/app">应用</el-menu-item>
+      <el-menu-item index="/appStore">应用</el-menu-item>
     </el-menu>
     <router-view/>
   </div>
@@ -12,9 +12,17 @@
 
 <script lang="ts">
 import { Component, Prop, Provide, Vue } from 'vue-property-decorator'
+import { State, Mutation } from 'vuex-class'
 
 @Component
-export default class App extends Vue {}
+export default class App extends Vue {
+  @State activeMenu: any
+  @Mutation setActiveMenu: any
+
+  setMenu(indexPath: string) {
+    this.setActiveMenu(indexPath)
+  }
+}
 </script>
 
 <style lang="scss">

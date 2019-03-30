@@ -1,0 +1,15 @@
+@import "home.scss";
+@import "app-store.scss";
+@import "form-editor.scss";
+@import "flow-editor.scss";
+
+.el-dialog__header {
+  border-bottom: 1px solid #ebeef5
+}
+.el-dialog__body {
+  padding: 20px;
+}
+.el-dialog__footer {
+  padding: 20px;
+  padding-top: 0px;
+}
