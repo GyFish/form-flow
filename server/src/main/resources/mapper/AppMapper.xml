@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gyfish.formflow.dao.AppDao">
+
+    <resultMap id="appMap" type="com.gyfish.formflow.domain.App">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="appMap">
+        select * from app LIMIT 0, 100
+    </select>
+
+</mapper>
