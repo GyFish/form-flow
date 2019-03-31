@@ -32,6 +32,7 @@
       width: 80%;
       margin: 15px 10%;
       text-align: left;
+      cursor: move;
     }
   }
 
@@ -42,6 +43,9 @@
     }
     .active {
       border: 1px solid #409eff;
+    }
+    .el-form-item__label {
+      cursor: move;
     }
   }
 }

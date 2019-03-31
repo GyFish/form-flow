@@ -89,7 +89,7 @@ const store: StoreOptions<FormState> = {
     },
     data: {
       form: {},
-      items: [],
+      formItems: [],
       result: {},
       table: [],
       flow: {
@@ -111,8 +111,8 @@ const store: StoreOptions<FormState> = {
       state.activeMenu = menu
     },
     // 更新表单结构数据
-    update(state, items) {
-      state.data.items = items
+    updateFormItems(state, items) {
+      state.data.formItems = items
     },
     // 根据顺序id更新
     updateByIdx(state, { idx, item }) {

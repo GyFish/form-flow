@@ -1,12 +1,10 @@
-
-<script lang="tsx">
-import Vue, { CreateElement, VNode, VNodeData } from 'vue'
-import { Prop, Component } from 'vue-property-decorator'
-import { State, Mutation } from 'vuex-class'
-import ItemFactory from './items/ItemFactory'
+import Vue, { CreateElement, VNode } from "vue"
+import { Prop, Component } from "vue-property-decorator"
+import { State, Mutation } from "vuex-class"
+import ItemFactory from "./items/ItemFactory"
 
 @Component
-export default class Item extends Vue {
+export default class FormItem extends Vue {
   // prop
   @Prop() data!: any
 
@@ -14,7 +12,7 @@ export default class Item extends Vue {
   @State(state => state.data.items) items: any
   @State activeIdx: any
   @Mutation active: any
-  @Mutation update: any
+  @Mutation updateFormItems: any
   @Mutation updateByIdx: any
   @Mutation updateResult: any
 
@@ -43,4 +41,3 @@ export default class Item extends Vue {
     )
   }
 }
-</script>

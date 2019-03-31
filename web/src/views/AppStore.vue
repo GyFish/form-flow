@@ -3,15 +3,24 @@
     <el-container>
       <el-main class="app">
         <app-card
-          @newApp="newApp"
+          :appInfo="appInfoDemo"
           @toApp="toApp"
           @toFormEditor="toFormEditor"
           @toFlowEditor="toFlowEditor"
-        ></app-card>
+        />
+        <app-card
+          v-for="item of appInfoList"
+          :appInfo="item"
+          @toApp="toApp"
+          @toFormEditor="toFormEditor"
+          @toFlowEditor="toFlowEditor"
+          @deleteApp="deleteApp"
+        />
+        <new-card @newApp="showDialog = true"/>
       </el-main>
     </el-container>
     <!-- 弹窗 -->
-    <el-dialog modal title="新建应用" width="50%" :visible.sync="showDialog">
+    <el-dialog modal title="新建应用" width="600px" :visible.sync="showDialog">
       <el-form :model="appInfo" label-position="left" label-width="68px">
         <el-row>
           <el-col :span="11">
@@ -33,7 +42,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="应用描述">
-              <el-input v-model="appInfo.desc" type="textarea"></el-input>
+              <el-input v-model="appInfo.description" type="textarea"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -47,26 +56,47 @@
 </template>
 
 <script lang="ts">
-import AppCard from '@/components/appstore/AppCard.vue'
 import { Component, Vue } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
 import AppStoreApi from '@/apis/AppStoreApi'
+import AppCard from '@/components/appstore/AppCard.vue'
+import NewCard from '@/components/appstore/NewCard.vue'
 
 @Component({
-  components: { AppCard }
+  components: { AppCard, NewCard }
 })
 export default class AppStore extends Vue {
+  // ~ fields --------------------------------------------------
+
   // 是否显示弹窗
   showDialog: Boolean = false
-  // app详情
-  appInfo: any = {
-    title: '',
-    desc: '',
+
+  @Mutation setActiveMenu: any
+
+  // app demo
+  appInfoDemo: any = {
+    title: 'Demo App',
+    description: '使用设计好的表单收集数据，点击进入开始吧！',
     useForm: true,
     useFlow: false
   }
 
-  @Mutation setActiveMenu: any
+  // app 表单
+  appInfo: any = {
+    title: '',
+    description: '',
+    useForm: true,
+    useFlow: false
+  }
+
+  // app list
+  appInfoList: any = []
+
+  // ~ methods --------------------------------------------------
+
+  async mounted() {
+    this.showAppList()
+  }
 
   toApp() {
     alert('to app')
@@ -82,9 +112,33 @@ export default class AppStore extends Vue {
     this.setActiveMenu('/flowEditor')
   }
 
-  // 打开新建应用窗口
-  newApp() {
-    this.showDialog = true
+  // 查询应用列表
+  async showAppList() {
+    let res = await new AppStoreApi().appList()
+    console.log(res)
+    this.appInfoList = res
+  }
+
+  // 删除应用
+  async deleteApp(appId: any) {
+    console.log('app id = ', appId)
+    // 确认是否删除
+    try {
+      let confirmDelete = await this.$confirm('是否删除该应用?', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+    } catch (error) {
+      // 如果有异常代表点了取消
+      return
+    }
+    let res = await new AppStoreApi().deleteApp(appId)
+    this.$message({
+      message: res,
+      type: 'success'
+    })
+    this.showAppList()
   }
 
   // 保存应用
@@ -93,6 +147,7 @@ export default class AppStore extends Vue {
     let res = await new AppStoreApi().saveApp(this.appInfo)
     console.log(res)
     this.showDialog = false
+    this.showAppList()
   }
 }
 </script>

@@ -13,14 +13,15 @@
           </div>
         </draggable>
       </el-aside>
+
       <!-- 主面板 -->
       <el-main>
         <el-form v-model="result" label-position="left" label-width="100px">
-          <draggable class="pad" v-model="items" :options="{group:'people'}">
-            <div v-for="(item, idx) of items">
+          <draggable class="pad" v-model="computedFormItems" :options="{group:'people'}">
+            <div v-for="(item, idx) of computedFormItems">
               <el-row type="flex" align="middle">
                 <el-col :span="22">
-                  <item :data="{...item, idx}"/>
+                  <form-item :data="{...item, idx}"></form-item>
                 </el-col>
                 <el-col :span="2">
                   <el-button
@@ -33,19 +34,20 @@
                 </el-col>
               </el-row>
             </div>
-            <el-form-item v-if="items.length > 0">
-              <el-button type="success" @click="commit">提交</el-button>
+            <el-form-item v-if="computedFormItems.length > 0">
+              <!-- <el-button type="success" @click="commit">提交</el-button> -->
             </el-form-item>
           </draggable>
         </el-form>
       </el-main>
+
       <!-- 右侧属性栏 -->
       <el-aside>
         <el-container>
           <el-main style="border:0">
             <el-tabs stretch :value="activeIdx < 0 ? 'formConfig' : 'itemConfig'">
               <el-tab-pane label="字段属性" name="itemConfig">
-                <config :item="{...items[activeIdx], idx: activeIdx}"></config>
+                <form-config :item="{...FormItem[activeIdx], idx: activeIdx}"></form-config>
               </el-tab-pane>
               <el-tab-pane label="表单属性" name="formConfig" style="text-align:center">
                 <el-form>
@@ -53,7 +55,7 @@
                     <el-input v-model="data.form.title"></el-input>
                   </el-form-item>
                 </el-form>
-                <img src="@/assets/logo.png">
+                <img src="@/assets/yayi2.jpg" width="95%">
               </el-tab-pane>
             </el-tabs>
           </el-main>
@@ -71,26 +73,29 @@ import Vue from 'vue'
 import { State, Mutation } from 'vuex-class'
 import { Provide, Component } from 'vue-property-decorator'
 import metas from '@/components/form/Metas.vue'
-import item from '@/components/form/Item.vue'
-import config from '@/components/form/Config.vue'
+import FormItem from '@/components/form/FormItem.tsx'
+import FormConfig from '@/components/form/FormConfig.tsx'
 import draggable from 'vuedraggable'
 import FormApi from '@/apis/FormApi'
 
+console.log(metas)
+console.log(FormItem)
+console.log(FormConfig)
+
 @Component({
-  name: 'Form',
   components: {
     draggable,
     metas,
-    item,
-    config
+    FormItem,
+    FormConfig
   }
 })
-export default class Form extends Vue {
+export default class FormEditor extends Vue {
   // store
   @State meta: any
   @State data: any
   @State activeIdx: any
-  @Mutation update: any
+  @Mutation updateFormItems: any
   @Mutation updateByIdx: any
   @Mutation removeByIdx: any
   @Mutation commitTable: any
@@ -100,12 +105,12 @@ export default class Form extends Vue {
   // 是否显示配置栏数据
   // showdata: number = 0
 
-  get items() {
-    return this.data.items
+  get computedFormItems() {
+    return this.data.formItems
   }
 
-  set items(items) {
-    this.update(items)
+  set computedFormItems(updatedFormItems) {
+    this.updateFormItems(updatedFormItems)
   }
 
   get result() {
@@ -127,7 +132,10 @@ export default class Form extends Vue {
   save() {
     console.log('save...')
     console.log(this.data)
-    new FormApi().save({ form: this.data.form, items: this.items })
+    new FormApi().save({
+      form: this.data.form,
+      formItems: this.computedFormItems
+    })
   }
 }
 </script>
