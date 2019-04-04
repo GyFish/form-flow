@@ -1,10 +1,9 @@
 package com.gyfish.formflow.service;
 
 import com.gyfish.formflow.dao.AppDao;
+import com.gyfish.formflow.vo.AppInfoVo;
 
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -17,8 +16,16 @@ public class AppStoreService {
 
     public Object findAll() {
 
-        List list = appDao.findAll();
-        list.forEach(a -> System.out.println(a));
-        return list;
+        return appDao.findAll();
+    }
+
+    public void saveApp(AppInfoVo infoVo) {
+
+        appDao.saveApp(infoVo);
+    }
+
+    public void deleteApp(Integer appId) {
+
+        appDao.deleteApp(appId);
     }
 }

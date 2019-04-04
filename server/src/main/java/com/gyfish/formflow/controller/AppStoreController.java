@@ -2,13 +2,18 @@ package com.gyfish.formflow.controller;
 
 import com.gyfish.formflow.config.AppResponse;
 import com.gyfish.formflow.service.AppStoreService;
+import com.gyfish.formflow.vo.AppInfoVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/app-store")
 public class AppStoreController {
 
     private final AppStoreService appStoreService;
@@ -18,16 +23,26 @@ public class AppStoreController {
         this.appStoreService = appStoreService;
     }
 
-    @GetMapping("/app/appList")
+    @GetMapping("/appList")
     public Object appList() {
 
-        return appStoreService.findAll();
+        return AppResponse.ok(appStoreService.findAll());
     }
 
-    @PostMapping("/app-store/saveApp")
-    public AppResponse saveApp() {
+    @PostMapping("/saveApp")
+    public AppResponse saveApp(@RequestBody AppInfoVo infoVo) {
 
-        return AppResponse.ok("新建 app ok！");
+        appStoreService.saveApp(infoVo);
+        return AppResponse.ok("save appInfo ok!");
     }
+
+
+    @DeleteMapping("/deleteApp")
+    public AppResponse deleteApp(Integer appId) {
+
+        appStoreService.deleteApp(appId);
+        return AppResponse.ok("delete appInfo ok!");
+    }
+
 
 }

@@ -4,12 +4,27 @@
 
 <mapper namespace="com.gyfish.formflow.dao.AppDao">
 
-    <resultMap id="appMap" type="com.gyfish.formflow.domain.App">
+    <resultMap id="appMap" type="com.gyfish.formflow.domain.AppInfo">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="form_id" property="formId" jdbcType="INTEGER"/>
+        <id column="process_id" property="processId" jdbcType="INTEGER"/>
+        <id column="title" property="title" jdbcType="VARCHAR"/>
+        <id column="description" property="description" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="findAll" resultMap="appMap">
-        select * from app LIMIT 0, 100
+        select *
+        from app
+        LIMIT 0, 100
     </select>
+
+    <insert id="saveApp" parameterType="com.gyfish.formflow.domain.AppInfo">
+        insert into app (form_id, process_id, title, description)
+        values (#{formId}, #{processId}, #{title}, #{description})
+    </insert>
+
+    <delete id="deleteApp" parameterType="int">
+        delete from app where id = #{appId}
+    </delete>
 
 </mapper>

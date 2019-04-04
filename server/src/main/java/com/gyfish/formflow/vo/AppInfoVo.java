@@ -3,16 +3,16 @@ package com.gyfish.formflow.vo;
 import lombok.Data;
 
 @Data
-public class AppVo {
+public class AppInfoVo {
 
-    private int id;
+    private Integer id;
 
-    private int formId;
+    private Integer formId;
 
-    private int processId;
+    private Integer processId;
 
     private String title;
 
-    private String desc;
+    private String description;
 
 }
