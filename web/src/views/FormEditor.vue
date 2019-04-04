@@ -47,7 +47,7 @@
           <el-main style="border:0">
             <el-tabs stretch :value="activeIdx < 0 ? 'formConfig' : 'itemConfig'">
               <el-tab-pane label="字段属性" name="itemConfig">
-                <form-config :item="{...FormItem[activeIdx], idx: activeIdx}"></form-config>
+                <form-config :item="{...computedFormItems[activeIdx], idx: activeIdx}"></form-config>
               </el-tab-pane>
               <el-tab-pane label="表单属性" name="formConfig" style="text-align:center">
                 <el-form>
@@ -77,10 +77,6 @@ import FormItem from '@/components/form/FormItem.tsx'
 import FormConfig from '@/components/form/FormConfig.tsx'
 import draggable from 'vuedraggable'
 import FormApi from '@/apis/FormApi'
-
-console.log(metas)
-console.log(FormItem)
-console.log(FormConfig)
 
 @Component({
   components: {

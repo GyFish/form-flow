@@ -16,12 +16,19 @@ export default class FormItem extends Vue {
   @Mutation updateByIdx: any
   @Mutation updateResult: any
 
-  render(h: CreateElement): VNode {
+  render() {
+    return this.renderByFactory(this.$createElement)
+  }
+
+  renderByFactory(h: CreateElement): VNode {
     return (
       <div class="dynamic-item">
         <el-form-item
+          // 字段的名称
           label={this.data.label}
+          // 是否选中的样式
           class={{ active: this.data.idx == this.activeIdx }}
+          // 点击时设置选中
           nativeOn={{
             click: () => {
               this.active(this.data.idx)
