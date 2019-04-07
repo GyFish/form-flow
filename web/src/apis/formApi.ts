@@ -1,10 +1,13 @@
-import Api from './Api';
+import Api from "./Api"
 
-export default class FormApi extends Api{
+export default class FormApi extends Api {
+  constructor() {
+    super()
+  }
 
   // 保存表单结构数据
-  async save(form: any) {
-    return await this.http.post("/form/save", form)
+  async saveFormEditor(form: any) {
+    const res: any = await this.http.post("/form/saveFormEditor", form)
+    return super.extractData(res)
   }
-  
 }

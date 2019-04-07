@@ -99,7 +99,7 @@ export default class AppStore extends Vue {
   }
 
   toApp() {
-    alert('to app')
+    this.$router.push('/appLayout')
   }
 
   toFormEditor() {
@@ -134,10 +134,7 @@ export default class AppStore extends Vue {
       return
     }
     let res = await new AppStoreApi().deleteApp(appId)
-    this.$message({
-      message: res,
-      type: 'success'
-    })
+    this.$notify.success(res)
     this.showAppList()
   }
 

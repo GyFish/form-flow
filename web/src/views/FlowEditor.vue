@@ -166,10 +166,10 @@ export default class FlowEditor extends Vue {
           'el-button',
           {
             attrs: {
-              id: nodeModel.id
+              id: nodeModel.id,
             },
             props: {
-              plain: true,
+              autofocus: true,
               type: nodeModel.nodeType,
               icon: nodeModel.nodeIcon
             },

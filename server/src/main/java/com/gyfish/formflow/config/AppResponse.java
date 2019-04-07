@@ -9,9 +9,6 @@ public class AppResponse {
     private String msg;
     private Object data;
 
-    public AppResponse() {
-    }
-
     AppResponse(int code, String msg, Object data) {
         this.code = code;
         this.msg = msg;

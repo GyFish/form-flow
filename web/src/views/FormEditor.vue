@@ -45,7 +45,7 @@
       <el-aside>
         <el-container>
           <el-main style="border:0">
-            <el-tabs stretch :value="activeIdx < 0 ? 'formConfig' : 'itemConfig'">
+            <el-tabs stretch :value="activeConfigTab">
               <el-tab-pane label="字段属性" name="itemConfig">
                 <form-config :item="{...computedFormItems[activeIdx], idx: activeIdx}"></form-config>
               </el-tab-pane>
@@ -91,6 +91,7 @@ export default class FormEditor extends Vue {
   @State meta: any
   @State data: any
   @State activeIdx: any
+  @Mutation active: any
   @Mutation updateFormItems: any
   @Mutation updateByIdx: any
   @Mutation removeByIdx: any
@@ -109,6 +110,14 @@ export default class FormEditor extends Vue {
     this.updateFormItems(updatedFormItems)
   }
 
+  get activeConfigTab() {
+    return this.activeIdx < 0 ? 'formConfig' : 'itemConfig'
+  }
+
+  set activeConfigTab(tab) {
+    this.active(tab)
+  }
+
   get result() {
     return this.data.result
   }
@@ -125,13 +134,37 @@ export default class FormEditor extends Vue {
     this.commitTable()
   }
 
-  save() {
+  // 保存表单
+  async save() {
     console.log('save...')
-    console.log(this.data)
-    new FormApi().save({
-      form: this.data.form,
-      formItems: this.computedFormItems
-    })
+    // check
+    if (!this.saveCheck()) return
+    // data
+    let formEditorVo = {
+      formDefinition: this.data.form,
+      formItemDefinitions: this.data.formItems
+    }
+    console.log('formEditorVo = ', formEditorVo)
+    let res = await new FormApi().saveFormEditor(formEditorVo)
+    this.$notify.success(res)
+  }
+
+  // 保存表单时的各种检查
+  saveCheck() {
+    // 提醒内容
+    let alertMsg = ''
+
+    // 表单标题
+    if (!this.data.form.title) {
+      alertMsg = '请给表单取个名字~'
+      // 右侧标签页跳到表单配置
+      this.active(-1)
+    }
+
+    // 消息提醒
+    if (alertMsg) this.$notify.warning(alertMsg)
+
+    return alertMsg == ''
   }
 }
 </script>

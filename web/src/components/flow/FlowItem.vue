@@ -1,16 +1,16 @@
 <template>
   <div class="flow-item-container">
     <div id="success" class="flow-item" draggable="true" @dragstart="dragstart" @dragend="dragend">
-      <el-button type="success" icon="el-icon-circle-plus" plain>开始</el-button>
+      <el-button autofocus type="success" icon="el-icon-circle-plus">开始</el-button>
     </div>
     <div id="primary" class="flow-item" draggable="true" @dragstart="dragstart" @dragend="dragend">
-      <el-button type="primary" icon="el-icon-tickets" plain>任务节点</el-button>
+      <el-button autofocus type="primary" icon="el-icon-tickets">任务节点</el-button>
     </div>
     <div id="warning" class="flow-item" draggable="true" @dragstart="dragstart" @dragend="dragend">
-      <el-button type="warning" icon="el-icon-success" plain>审核节点</el-button>
+      <el-button autofocus type="warning" icon="el-icon-success">审核节点</el-button>
     </div>
     <div id="danger" class="flow-item" draggable="true" @dragstart="dragstart" @dragend="dragend">
-      <el-button type="danger" icon="el-icon-error" plain>结束</el-button>
+      <el-button autofocus type="danger" icon="el-icon-error">结束</el-button>
     </div>
   </div>
 </template>

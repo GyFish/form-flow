@@ -14,17 +14,17 @@
 
     <select id="findAll" resultMap="appMap">
         select *
-        from app
+        from t_app
         LIMIT 0, 100
     </select>
 
     <insert id="saveApp" parameterType="com.gyfish.formflow.domain.AppInfo">
-        insert into app (form_id, process_id, title, description)
+        insert into t_app (form_id, process_id, title, description)
         values (#{formId}, #{processId}, #{title}, #{description})
     </insert>
 
     <delete id="deleteApp" parameterType="int">
-        delete from app where id = #{appId}
+        delete from t_app where id = #{appId}
     </delete>
 
 </mapper>

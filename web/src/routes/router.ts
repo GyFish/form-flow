@@ -1,4 +1,6 @@
+import Vue from "vue"
 import Router from "vue-router"
+Vue.use(Router)
 
 const routes = [
   {
@@ -25,6 +27,11 @@ const routes = [
     path: "/appStore",
     name: "AppStore",
     component: () => import("@/views/AppStore.vue")
+  },
+  {
+    path: "/appLayout",
+    name: "AppLayout",
+    component: () => import("@/views/AppLayout.vue")
   }
 ]
 

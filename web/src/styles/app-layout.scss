@@ -1,0 +1,99 @@
+.app-layout {
+  // 设置父容器与页面等高
+  height: calc(100% - 36px);
+  .el-container {
+    height: 100%;
+  }
+
+  .el-aside {
+    height: 100%;
+  }
+
+  // 左侧菜单容器
+  .left-aside {
+    width: 60px;
+    height: 100%;
+    // 菜单高度
+    .el-menu-item {
+      height: 50px !important;
+    }
+    // 菜单宽度
+    .el-menu--collapse {
+      width: 100%;
+    }
+    // 菜单图标
+    .el-tooltip {
+      display: block !important;
+      padding: 0 13px !important;
+      [class^="el-icon-"] {
+        font-size: 22px;
+      }
+    }
+    // 头像框
+    .avatar-box {
+      height: 100px;
+      background-color: #282b31;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 60%;
+      }
+    }
+    .setting-box {
+      height: 60px;
+      background-color: #282b31;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  // 中间功能列表容器
+  .mid-aside {
+    width: 250px;
+    background-color: #ebe9e7;
+    // 搜索框
+    .search-box {
+      .el-input {
+        width: 68%;
+        padding: 20px 3px;
+      }
+      .el-button--mini {
+        padding: 7px 7px;
+      }
+    }
+    // 流程列表
+    .task-list {
+      height: calc(100% - 68px);
+      .el-table {
+        background-color: #ebe9e7;
+        .el-table__body tr.current-row > td {
+          background-color: #c4c4c4;
+        }
+        .el-table__row {
+          height: 50px;
+        }
+      }
+    }
+  }
+
+  // 右侧主界面容器
+  .right-aside {
+    width: 100%;
+    background-color: #f5f5f5;
+  }
+
+  .el-menu {
+    height: calc(100% - 160px);
+    background-color: #282b31;
+    border: 0;
+  }
+
+  .el-menu-item:hover {
+    i:hover {
+      color: #409eff;
+    }
+    background-color: #282b31;
+  }
+}

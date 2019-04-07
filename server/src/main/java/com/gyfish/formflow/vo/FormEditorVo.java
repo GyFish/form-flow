@@ -1,7 +1,8 @@
 package com.gyfish.formflow.vo;
 
-import com.gyfish.formflow.domain.Form;
-import com.gyfish.formflow.domain.FormItem;
+
+import com.gyfish.formflow.domain.FormDefinition;
+import com.gyfish.formflow.domain.FormItemDefinition;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ import lombok.Data;
 @Data
 public class FormEditorVo {
 
-    private Form form;
+    private FormDefinition formDefinition;
 
-    private List<FormItem> formItems;
+    private List<FormItemDefinition> formItemDefinitions;
 
 
 }

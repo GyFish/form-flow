@@ -6,11 +6,11 @@ import { CreateElement, VNode } from "vue"
 export default class ItemFactory {
   static getItem(option: ItemOption): VNode {
     let {
-      item: { type }
+      item: { itemType }
     } = option
-    if (type == "el-input") return new InputItem(option).render()
-    if (type == "el-select") return new SelectItem(option).render()
-    if (type == "el-date-picker") return new DateItem(option).render()
+    if (itemType == "el-input") return new InputItem(option).render()
+    if (itemType == "el-select") return new SelectItem(option).render()
+    if (itemType == "el-date-picker") return new DateItem(option).render()
     return option.h("div")
   }
 }

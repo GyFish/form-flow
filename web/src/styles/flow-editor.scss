@@ -4,12 +4,11 @@
   .flow-item-container {
     .el-button {
       display: block;
-      // color: #409eff;
       border-color: #c6e2ff;
-      // background-color: #ecf5ff;
       width: 80%;
       margin: 15px 10%;
       text-align: left;
+      cursor: move;
     }
   }
 
