@@ -5,11 +5,17 @@ import { CreateElement, VNode } from "vue"
 
 export default class ConfigFactory {
   static getConfigs(option: ConfigOption): Array<VNode> {
-    if (option.item.type == "el-input") return new InputConfig(option).configs
-    if (option.item.type == "el-select") return new SelectConfig(option).configs
-    if (option.item.type == "el-date-picker")
-      return new DateConfig(option).configs
-    return new Array<VNode>()
+    console.log('form item config is ' + option.item.type)
+    switch (option.item.itemType) {
+      case "el-input":
+        return new InputConfig(option).configs
+      case "el-select":
+        return new SelectConfig(option).configs
+      case "el-date-picker":
+        return new DateConfig(option).configs
+      default:
+        return new Array<VNode>()
+    }
   }
 }
 

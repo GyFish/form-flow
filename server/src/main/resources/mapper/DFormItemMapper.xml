@@ -174,22 +174,22 @@
             </if>
             <if test="prop != null">
                 prop,
-            </if>
-            <if test="itemType != null">
-                item_type,
-            </if>
-            <if test="label != null">
-                label,
-            </if>
-            <if test="placeholder != null">
-                placeholder,
-            </if>
-            <if test="icon != null">
-                icon,
-            </if>
-            <if test="inputType != null">
-                input_type,
-            </if>
+        </if>
+        <if test="itemType != null">
+            item_type,
+        </if>
+        <if test="label != null">
+            label,
+        </if>
+        <if test="placeholder != null">
+            placeholder,
+        </if>
+        <if test="icon != null">
+            icon,
+        </if>
+        <if test="inputType != null">
+            input_type,
+        </if>
             <if test="createdAt != null">
                 created_at,
             </if>

@@ -31,7 +31,25 @@ const routes = [
   {
     path: "/appLayout",
     name: "AppLayout",
-    component: () => import("@/views/AppLayout.vue")
+    component: () => import("@/views/AppLayout.vue"),
+    children: [
+      {
+        path: "start",
+        component: () => import("@/components/app/Start.vue")
+      },
+      {
+        path: "createdList",
+        component: () => import("@/components/app/CreatedList.vue")
+      },
+      {
+        path: "todoList",
+        component: () => import("@/components/app/TodoList.vue")
+      },
+      {
+        path: "doneList",
+        component: () => import("@/components/app/DoneList.vue")
+      },
+    ]
   }
 ]
 

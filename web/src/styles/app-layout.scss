@@ -9,6 +9,19 @@
     height: 100%;
   }
 
+  .el-menu {
+    height: calc(100% - 160px);
+    background-color: #282b31;
+    border: 0;
+  }
+
+  .el-menu-item:hover {
+    i:hover {
+      color: #409eff;
+    }
+    background-color: #282b31;
+  }
+
   // 左侧菜单容器
   .left-aside {
     width: 60px;
@@ -24,7 +37,7 @@
     // 菜单图标
     .el-tooltip {
       display: block !important;
-      padding: 0 13px !important;
+      padding: 0 30% !important;
       [class^="el-icon-"] {
         font-size: 22px;
       }
@@ -49,51 +62,8 @@
     }
   }
 
-  // 中间功能列表容器
-  .mid-aside {
-    width: 250px;
-    background-color: #ebe9e7;
-    // 搜索框
-    .search-box {
-      .el-input {
-        width: 68%;
-        padding: 20px 3px;
-      }
-      .el-button--mini {
-        padding: 7px 7px;
-      }
-    }
-    // 流程列表
-    .task-list {
-      height: calc(100% - 68px);
-      .el-table {
-        background-color: #ebe9e7;
-        .el-table__body tr.current-row > td {
-          background-color: #c4c4c4;
-        }
-        .el-table__row {
-          height: 50px;
-        }
-      }
-    }
+  .app-box {
+    margin: 20px;
   }
-
-  // 右侧主界面容器
-  .right-aside {
-    width: 100%;
-    background-color: #f5f5f5;
-  }
-
-  .el-menu {
-    height: calc(100% - 160px);
-    background-color: #282b31;
-    border: 0;
-  }
-
-  .el-menu-item:hover {
-    i:hover {
-      color: #409eff;
-    }
-    background-color: #282b31;
-  }
+  
 }

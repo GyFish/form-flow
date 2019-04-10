@@ -1,5 +1,5 @@
 <template>
   <div>
-    this is form list
+    this is done list
   </div>
 </template>

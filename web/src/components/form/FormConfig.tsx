@@ -16,16 +16,18 @@ export default class FormConfig extends Vue {
     })
   }
 
-  render(h: CreateElement): VNode {
-    if (!this.item) return <a>字段属性</a>
-    return h("el-form", [
-      ConfigFactory.getConfigs({
-        h,
-        item: this.item,
-        mutations: {
-          update: this.update
-        }
-      })
-    ])
+  render(): VNode {
+    console.log('render form item config panel...')
+    return (
+      <el-form>
+        {ConfigFactory.getConfigs({
+          h: this.$createElement,
+          item: this.item,
+          mutations: {
+            update: this.update
+          }
+        })}
+      </el-form>
+    )
   }
 }
