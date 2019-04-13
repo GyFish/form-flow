@@ -8,6 +8,10 @@ export default abstract class AbstractItem {
   h: CreateElement
   mutations: any
 
+  // EDIT、VIEW
+  mode: any
+  emit: any
+
   attributes: VNodeData
   subVNodes: Array<VNode> = []
 
@@ -17,6 +21,8 @@ export default abstract class AbstractItem {
     this.h = option.h
     this.item = option.item
     this.mutations = option.mutations
+    this.mode = option.mode
+    this.emit = option.emit
     this.attributes = {
       attrs: {
         placeholder: this.item.placeholder
@@ -27,7 +33,9 @@ export default abstract class AbstractItem {
       on: {
         input: (value: string) => {
           // 更新表单结构值
+          console.log(this.item)
           this.item.value = value
+          // debugger
           this.mutations.updateByIdx({
             idx: this.item.idx,
             item: this.item

@@ -7,6 +7,7 @@ import ItemFactory from "./items/ItemFactory"
 export default class FormItem extends Vue {
   // prop
   @Prop() data!: any
+  @Prop() mode!: any
 
   // store
   @State(state => state.data.items) items: any
@@ -40,8 +41,10 @@ export default class FormItem extends Vue {
             item: this.data,
             mutations: {
               updateResult: this.updateResult,
-              updateByIdx: this.updateByIdx
-            }
+              updateByIdx: this.updateByIdx,
+            },
+            mode: this.mode,
+            emit: this.$emit
           })}
         </el-form-item>
       </div>

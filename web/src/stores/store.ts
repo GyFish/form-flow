@@ -91,7 +91,7 @@ const store: StoreOptions<FormState> = {
 
     // 根据顺序id更新
     updateByIdx(state, { idx, item }) {
-      let target = state.data.items[idx]
+      let target = state.data.formItems[idx]
       // 判断是否有该字段，动态添加
       // 有点麻烦，不如在初始化时就指定数据
       // if (target.type == "el-input")

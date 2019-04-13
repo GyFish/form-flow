@@ -8,9 +8,15 @@ export default class ItemFactory {
     let {
       item: { itemType }
     } = option
-    if (itemType == "el-input") return new InputItem(option).render()
-    if (itemType == "el-select") return new SelectItem(option).render()
-    if (itemType == "el-date-picker") return new DateItem(option).render()
+    if (itemType == "el-input") {
+      return new InputItem(option).render()
+    }
+    if (itemType == "el-select") {
+      return new SelectItem(option).render()
+    }
+    if (itemType == "el-date-picker") {
+      return new DateItem(option).render()
+    }
     return option.h("div")
   }
 }
@@ -19,4 +25,6 @@ export class ItemOption {
   item!: any
   h!: CreateElement
   mutations?: any
+  mode!: any
+  emit!: any
 }

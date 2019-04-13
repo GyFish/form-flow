@@ -21,7 +21,7 @@
             <div v-for="(item, idx) of computedFormItems">
               <el-row type="flex" align="middle">
                 <el-col :span="22">
-                  <form-item :data="{...item, idx}"></form-item>
+                  <form-item :data="{...item, idx}" :mode="`EDIT`"></form-item>
                 </el-col>
                 <el-col :span="2">
                   <el-button

@@ -1,0 +1,38 @@
+// 中间功能列表容器
+.tool-box {
+  background-color: #f5f5f5;
+  width: 450px;
+  border-right: solid 1px #f5f5f5;
+  // 搜索框
+  .search-box {
+    .el-input {
+      width: 80%;
+      padding: 20px 5px 20px 10px;
+    }
+    .el-button--mini {
+      padding: 7px 7px;
+    }
+  }
+  // 流程列表
+  .task-list {
+    height: calc(100% - 68px);
+    .el-table {
+      background-color: #f5f5f5;
+      // 选中行的颜色
+      .el-table__body tr.current-row > td {
+        background-color: #ebe9e7;
+      }
+      // 正常行的颜色
+      .el-table__row {
+        height: 50px;
+        background-color: #f5f5f5;
+      }
+    }
+  }
+}
+
+// 右侧主界面容器
+.main-box {
+  width: 100%;
+  // background-color: #f5f5f5;
+}
