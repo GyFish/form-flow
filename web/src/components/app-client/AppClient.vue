@@ -1,5 +1,5 @@
 <template>
-  <div class="app-layout">
+  <div class="app-client">
     <el-container>
       <!-- 左侧 aside -->
       <div class="left-aside">
@@ -10,19 +10,19 @@
           </div>
           <!-- 导航 -->
           <el-menu router collapse width="100%">
-            <el-menu-item index="/appLayout/start">
+            <el-menu-item index="/appClient/start">
               <i class="el-icon-edit"></i>
               <span slot="title">新建一个任务，Go！</span>
             </el-menu-item>
-            <el-menu-item index="/appLayout/createdList">
+            <el-menu-item index="/appClient/createdList">
               <i class="el-icon-time"></i>
               <span slot="title">我发起的，看看结束了没有？</span>
             </el-menu-item>
-            <el-menu-item index="/appLayout/todoList">
+            <el-menu-item index="/appClient/todoList">
               <i class="el-icon-document"></i>
               <span slot="title">待处理的，天啊噜，怎么这么多 Todo 啊~</span>
             </el-menu-item>
-            <el-menu-item index="/appLayout/doneList">
+            <el-menu-item index="/appClient/doneList">
               <i class="el-icon-circle-check-outline"></i>
               <span slot="title">处理过的，数数，这周没少干啊，加钱！</span>
             </el-menu-item>
@@ -44,7 +44,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component
-export default class AppLayout extends Vue {
+export default class AppClient extends Vue {
   taskList = [
     {
       date: 1,

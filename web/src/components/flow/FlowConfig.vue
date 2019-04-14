@@ -2,21 +2,24 @@
   <el-container>
     <el-main>
       <el-tabs stretch value="flowConfig">
-        <el-tab-pane label="流程属性" name="flowConfig">
+        <el-tab-pane label="节点属性" name="nodeConfig">
           <el-form label-position="top">
-            <el-form-item>
-              <el-form-item label="节点id">
-                <el-input :value="curNode.id"></el-input>
-              </el-form-item>
+            <el-form-item label="节点名称">
+              <el-input v-model="nodeName"></el-input>
             </el-form-item>
-            <el-form-item>
-              <el-form-item label="节点名称">
-                <el-input v-model="nodeName"></el-input>
-              </el-form-item>
+            <el-form-item label="处理人">
+              <el-select></el-select>
             </el-form-item>
-            <el-form-item label="类型">
+            <el-form-item label="处理组">
+              <el-select></el-select>
+            </el-form-item>
+            <el-form-item label="关联表单">
+              <el-select></el-select>
+            </el-form-item>
+            <el-form-item label="节点类型">
               <el-select v-model="nodeType">
-                <el-option label="开始节点" value="shanghai"></el-option>
+                <el-option label="任务节点" value="shanghai"></el-option>
+                <el-option label="审核节点" value="shanghai"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="下一节点">
@@ -30,21 +33,34 @@
               </el-select>
             </el-form-item>
           </el-form>
-        </el-tab-pane>
-        <el-tab-pane label="节点属性" name="nodeConfig">
-          <el-form label-position="top">
+          <el-form label-position="left">
+            <el-form-item label="允许流回">
+              <el-switch v-model="curNode.canFlowBack"></el-switch>
+            </el-form-item>
             <el-form-item>
-              <el-form-item label="节点id">
-                <el-input :value="curNode.id"></el-input>
-              </el-form-item>
+              <el-button type="danger" @click="deleteNode">删除</el-button>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="流程属性" name="flowConfig">
+          <el-form>
+            <el-form-item label="流程 code">
+              <el-input></el-input>
+            </el-form-item>
+            <el-form-item label="流程名称">
+              <el-input></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-switch v-model="curNode.canFlowBack" active-text="分配模式" inactive-text="领取模式"></el-switch>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="saveFlow" type="primary" icon="el-icon-check">保存</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
       </el-tabs>
     </el-main>
-    <el-footer height="50px">
-      <el-button type="danger" @click="deleteNode">删除</el-button>
-    </el-footer>
+    <el-footer height="50px"></el-footer>
   </el-container>
 </template>
 

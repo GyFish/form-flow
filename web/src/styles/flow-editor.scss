@@ -32,8 +32,16 @@
     }
   }
 
+  // 中间，图
   .flow-page {
     background-color: #f9f9f9;
     min-height: 100%;
+  }
+
+  // 右侧配置
+  .flow-config {
+    .el-select {
+      width: 100%;
+    }
   }
 }

@@ -2,20 +2,8 @@
   <div class="app-store">
     <el-container>
       <el-main class="app">
-        <app-card
-          :appInfo="appInfoDemo"
-          @toApp="toApp"
-          @toFormEditor="toFormEditor"
-          @toFlowEditor="toFlowEditor"
-        />
-        <app-card
-          v-for="item of appInfoList"
-          :appInfo="item"
-          @toApp="toApp"
-          @toFormEditor="toFormEditor"
-          @toFlowEditor="toFlowEditor"
-          @deleteApp="deleteApp"
-        />
+        <app-card :appInfo="appInfoDemo"/>
+        <app-card v-for="item of appInfoList" :appInfo="item"/>
         <new-card @newApp="showDialog = true"/>
       </el-main>
     </el-container>
@@ -23,21 +11,9 @@
     <el-dialog modal title="新建应用" width="600px" :visible.sync="showDialog">
       <el-form :model="appInfo" label-position="left" label-width="68px">
         <el-row>
-          <el-col :span="11">
-            <el-form-item label="应用名称">
-              <el-input v-model="appInfo.title"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :offset="1" :span="5">
-            <el-form-item label="使用表单">
-              <el-switch v-model="appInfo.useForm"></el-switch>
-            </el-form-item>
-          </el-col>
-          <el-col :offset="1" :span="5">
-            <el-form-item label="使用流程">
-              <el-switch v-model="appInfo.useFlow"></el-switch>
-            </el-form-item>
-          </el-col>
+          <el-form-item label="应用名称">
+            <el-input v-model="appInfo.title"></el-input>
+          </el-form-item>
         </el-row>
         <el-row>
           <el-col :span="24">
@@ -59,8 +35,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
 import AppStoreApi from '@/apis/AppStoreApi'
-import AppCard from '@/components/appstore/AppCard.vue'
-import NewCard from '@/components/appstore/NewCard.vue'
+import AppCard from '@/components/app-store/AppCard.vue'
+import NewCard from '@/components/app-store/NewCard.vue'
 
 @Component({
   components: { AppCard, NewCard }
@@ -96,20 +72,6 @@ export default class AppStore extends Vue {
 
   async mounted() {
     this.showAppList()
-  }
-
-  toApp() {
-    this.$router.push('/appLayout')
-  }
-
-  toFormEditor() {
-    this.$router.push('/formEditor')
-    this.setActiveMenu('/formEditor')
-  }
-
-  toFlowEditor() {
-    this.$router.push('/flowEditor')
-    this.setActiveMenu('/flowEditor')
   }
 
   // 查询应用列表

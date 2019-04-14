@@ -19,7 +19,7 @@
     <!-- 中间 main -->
     <div class="main-box">
       <el-main>
-        <el-form>
+        <el-form label-position="top">
           <div v-for="(item, idx) of formItems">
             <el-row type="flex" align="middle">
               <el-col :span="22">

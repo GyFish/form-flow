@@ -8,7 +8,9 @@
         <div ref="page" class="flow-page"></div>
       </el-main>
       <el-aside>
-        <flow-config :data="configData" @addLine="addLine" @updateNodeModel="updateNodeModel"></flow-config>
+        <div class="flow-config">
+          <flow-config :data="configData" @addLine="addLine" @updateNodeModel="updateNodeModel"></flow-config>
+        </div>
       </el-aside>
     </el-container>
   </div>
@@ -128,7 +130,7 @@ export default class FlowEditor extends Vue {
     // 创建图实例
     const graph = new G6.Graph({
       container: this.$refs.page,
-      height: 600,
+      height: 500,
       renderer: 'svg'
     })
     this.graph = graph
@@ -166,13 +168,13 @@ export default class FlowEditor extends Vue {
           'el-button',
           {
             attrs: {
-              id: nodeModel.id,
+              id: nodeModel.id
             },
             props: {
               autofocus: true,
               type: nodeModel.nodeType,
               icon: nodeModel.nodeIcon
-            },
+            }
           },
           [nodeModel.nodeName]
         )

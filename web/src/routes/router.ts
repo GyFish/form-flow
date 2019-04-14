@@ -29,26 +29,42 @@ const routes = [
     component: () => import("@/views/AppStore.vue")
   },
   {
-    path: "/appLayout",
-    name: "AppLayout",
-    component: () => import("@/views/AppLayout.vue"),
+    path: "/appAdmin",
+    name: "AppAdmin",
+    component: () => import("@/components/app-admin/AppAdmin.vue"),
+    children: [
+      {
+        path: "appInfo",
+        component: () => import("@/components/app-admin/AppInfo.vue")
+      }
+    ]
+  },
+  {
+    path: "/appReport",
+    name: "AppReport",
+    component: () => import("@/components/app-report/AppReport.vue")
+  },
+  {
+    path: "/appClient",
+    name: "AppClient",
+    component: () => import("@/components/app-client/AppClient.vue"),
     children: [
       {
         path: "start",
-        component: () => import("@/components/app/Start.vue")
+        component: () => import("@/components/app-client/Start.vue")
       },
       {
         path: "createdList",
-        component: () => import("@/components/app/CreatedList.vue")
+        component: () => import("@/components/app-client/CreatedList.vue")
       },
       {
         path: "todoList",
-        component: () => import("@/components/app/TodoList.vue")
+        component: () => import("@/components/app-client/TodoList.vue")
       },
       {
         path: "doneList",
-        component: () => import("@/components/app/DoneList.vue")
-      },
+        component: () => import("@/components/app-client/DoneList.vue")
+      }
     ]
   }
 ]
