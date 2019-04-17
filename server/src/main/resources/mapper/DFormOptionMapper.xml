@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gyfish.formflow.dao.DFormOptionMapper" >
-  <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.DFormOption" >
+  <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.form.definition.DFormOption" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="item_id" property="itemId" jdbcType="VARCHAR" />
     <result column="label" property="label" jdbcType="VARCHAR" />
@@ -98,13 +98,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.gyfish.formflow.domain.DFormOption" >
+  <insert id="insert" parameterType="com.gyfish.formflow.domain.form.definition.DFormOption" >
     insert into d_form_option (id, item_id, label, 
       value)
     values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
       #{value,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.gyfish.formflow.domain.DFormOption" >
+  <insert id="insertSelective" parameterType="com.gyfish.formflow.domain.form.definition.DFormOption" >
     insert into d_form_option
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -171,7 +171,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.gyfish.formflow.domain.DFormOption" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.gyfish.formflow.domain.form.definition.DFormOption" >
     update d_form_option
     <set >
       <if test="itemId != null" >
@@ -186,7 +186,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.gyfish.formflow.domain.DFormOption" >
+  <update id="updateByPrimaryKey" parameterType="com.gyfish.formflow.domain.form.definition.DFormOption" >
     update d_form_option
     set item_id = #{itemId,jdbcType=VARCHAR},
       label = #{label,jdbcType=VARCHAR},

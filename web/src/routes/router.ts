@@ -36,7 +36,19 @@ const routes = [
       {
         path: "appInfo",
         component: () => import("@/components/app-admin/AppInfo.vue")
-      }
+      },
+      {
+        path: "userAdmin",
+        component: () => import("@/components/app-admin/UserAdmin.vue")
+      },
+      {
+        path: "formAdmin",
+        component: () => import("@/components/app-admin/FormAdmin.vue")
+      },
+      {
+        path: "flowAdmin",
+        component: () => import("@/components/app-admin/FlowAdmin.vue")
+      },
     ]
   },
   {

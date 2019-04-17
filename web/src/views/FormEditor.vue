@@ -54,6 +54,9 @@
                   <el-form-item label="标题">
                     <el-input v-model="data.form.title"></el-input>
                   </el-form-item>
+                  <el-form-item label="businessCode">
+                    <el-input v-model="data.form.businessCode"></el-input>
+                  </el-form-item>
                 </el-form>
                 <img src="@/assets/yayi2.jpg" width="95%">
               </el-tab-pane>
@@ -141,11 +144,12 @@ export default class FormEditor extends Vue {
     if (!this.saveCheck()) return
     // data
     let formEditorVo = {
-      formDefinition: this.data.form,
-      formItemDefinitions: this.data.formItems
+      id: 123,
+      dForm: this.data.form,
+      dFormItems: this.data.formItems
     }
     console.log('formEditorVo = ', formEditorVo)
-    let res = await new FormApi().saveFormEditor(formEditorVo)
+    let res = await new FormApi().saveDefinition(formEditorVo)
     this.$notify.success(res)
   }
 

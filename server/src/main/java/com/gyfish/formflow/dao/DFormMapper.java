@@ -1,32 +1,52 @@
 package com.gyfish.formflow.dao;
 
 import com.gyfish.formflow.domain.DFormExample;
-import com.gyfish.formflow.domain.FormDefinition;
+import com.gyfish.formflow.domain.form.definition.DForm;
 
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 表单定义 mapper
+ *
+ * @author geyu
+ */
 public interface DFormMapper {
+
     int countByExample(DFormExample example);
 
     int deleteByExample(DFormExample example);
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(FormDefinition record);
+    /**
+     * 插入一条表单定义
+     *
+     * @param dForm 表单定义
+     * @return 插入数量
+     */
+    int insert(DForm dForm);
 
-    int insertSelective(FormDefinition record);
+    /**
+     * 查询表单定义列表
+     *
+     * @return 表单定义数组
+     */
+    List<DForm> getFormList();
 
-    List<FormDefinition> selectByExample(DFormExample example);
+    int insertSelective(DForm record);
 
-    FormDefinition selectByPrimaryKey(Integer id);
+    List<DForm> selectByExample(DFormExample example);
 
-    int updateByExampleSelective(@Param("record") FormDefinition record, @Param("example") DFormExample example);
+    DForm selectByPrimaryKey(Integer id);
 
-    int updateByExample(@Param("record") FormDefinition record, @Param("example") DFormExample example);
+    int updateByExampleSelective(@Param("record") DForm record, @Param("example") DFormExample example);
 
-    int updateByPrimaryKeySelective(FormDefinition record);
+    int updateByExample(@Param("record") DForm record, @Param("example") DFormExample example);
 
-    int updateByPrimaryKey(FormDefinition record);
+    int updateByPrimaryKeySelective(DForm record);
+
+    int updateByPrimaryKey(DForm record);
+
 }

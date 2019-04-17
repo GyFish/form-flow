@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gyfish.formflow.dao.DFormMapper">
 
-    <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.FormDefinition">
+    <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.form.definition.DForm">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
@@ -115,8 +115,10 @@
     </delete>
 
     <!-- 插入一条记录，返回自增主键 -->
-    <insert id="insert" parameterType="com.gyfish.formflow.domain.FormDefinition"
-            useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert"
+            parameterType="com.gyfish.formflow.domain.form.definition.DForm"
+            useGeneratedKeys="true"
+            keyProperty="id">
         insert into d_form (id, title, created_at, updated_at)
         values (#{id, jdbcType=INTEGER},
                 #{title, jdbcType=VARCHAR},
@@ -124,7 +126,12 @@
                 #{updatedAt, jdbcType=TIMESTAMP})
     </insert>
 
-    <insert id="insertSelective" parameterType="com.gyfish.formflow.domain.FormDefinition">
+    <select id="getFormList" resultMap="BaseResultMap">
+        select id, title, created_at, updated_at
+        from d_form
+    </select>
+
+    <insert id="insertSelective" parameterType="com.gyfish.formflow.domain.form.definition.DForm">
         insert into d_form
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -197,7 +204,7 @@
     </update>
 
     <update id="updateByPrimaryKeySelective"
-            parameterType="com.gyfish.formflow.domain.FormDefinition">
+            parameterType="com.gyfish.formflow.domain.form.definition.DForm">
         update d_form
         <set>
             <if test="title != null">
@@ -213,7 +220,8 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.gyfish.formflow.domain.FormDefinition">
+    <update id="updateByPrimaryKey"
+            parameterType="com.gyfish.formflow.domain.form.definition.DForm">
         update d_form
         set title      = #{title,jdbcType=VARCHAR},
             created_at = #{createdAt,jdbcType=TIMESTAMP},

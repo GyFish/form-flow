@@ -1,6 +1,6 @@
 package com.gyfish.formflow.dao;
 
-import com.gyfish.formflow.domain.DFormOption;
+import com.gyfish.formflow.domain.form.definition.DFormOption;
 import com.gyfish.formflow.domain.DFormOptionExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;

@@ -1,15 +1,26 @@
 package com.gyfish.formflow.dao;
 
-import com.gyfish.formflow.domain.DFormItem;
+import com.gyfish.formflow.domain.form.definition.DFormItem;
 import com.gyfish.formflow.domain.DFormItemExample;
 import com.gyfish.formflow.domain.FormItemDefinition;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+/**
+ * 表单元素 mapper
+ *
+ * @author geyu
+ */
 public interface DFormItemMapper {
 
-    Integer insertMany(List<FormItemDefinition> formItemDefinitions);
+    /**
+     * 批量插入表单项
+     *
+     * @param dFormItems 表单元素
+     * @return 插入个数
+     */
+    Integer insertMany(List<DFormItem> dFormItems);
 
     int countByExample(DFormItemExample example);
 

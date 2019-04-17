@@ -2,8 +2,8 @@ package com.gyfish.formflow.service;
 
 import com.gyfish.formflow.dao.DFormItemMapper;
 import com.gyfish.formflow.dao.DFormMapper;
-import com.gyfish.formflow.domain.FormDefinition;
-import com.gyfish.formflow.domain.FormItemDefinition;
+import com.gyfish.formflow.domain.form.definition.DForm;
+import com.gyfish.formflow.domain.form.definition.DFormItem;
 import com.gyfish.formflow.vo.FormEditorVo;
 
 import org.springframework.stereotype.Service;
@@ -23,39 +23,39 @@ public class FormService {
     @Resource
     private DFormItemMapper itemMapper;
 
-    // 保存表单配置
-    @Transactional
-    public void saveFormEditor(FormEditorVo formEditorVo) {
-
+    /**
+     * 保存表单配置
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void saveDefinition(FormEditorVo formEditorVo) {
 
         // 先保存 form，填充主键
-        FormDefinition formDefinition = formEditorVo.getFormDefinition();
-        formDefinition.setCreatedAt(new Date());
-        this.saveFormDefinition(formDefinition);
+        DForm dForm = formEditorVo.getdForm();
+        dForm.setCreatedAt(new Date());
+        this.saveFormDefinition(dForm);
 
         // 再保存 formItems
-        List<FormItemDefinition> itemDefinitions = formEditorVo.getFormItemDefinitions();
-        itemDefinitions.forEach(i -> {
-            i.setFormId(formDefinition.getId());
+        List<DFormItem> dFormItems = formEditorVo.getdFormItems();
+        dFormItems.forEach(i -> {
+            i.setFormId(dForm.getId());
             i.setCreatedAt(new Date());
         });
-        this.saveFormItemDefinition(itemDefinitions);
+        this.saveFormItemDefinition(dFormItems);
 
     }
 
-    private void saveFormDefinition(FormDefinition formDefinition) {
+    private void saveFormDefinition(DForm dForm) {
 
-        formMapper.insert(formDefinition);
+        formMapper.insert(dForm);
     }
 
-    public void saveFormItemDefinition(FormItemDefinition formItemDefinition) {
+    private void saveFormItemDefinition(List<DFormItem> dFormItems) {
 
-        itemMapper.insert(formItemDefinition);
+        itemMapper.insertMany(dFormItems);
     }
 
-    private void saveFormItemDefinition(List<FormItemDefinition> formItemDefinitions) {
+    public Object getFormList() {
 
-        itemMapper.insertMany(formItemDefinitions);
+        return formMapper.getFormList();
     }
-
 }
