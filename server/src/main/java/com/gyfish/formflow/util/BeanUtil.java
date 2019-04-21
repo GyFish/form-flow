@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.cglib.core.Converter;
 
 import java.beans.PropertyDescriptor;
 import java.util.HashSet;
@@ -11,6 +12,11 @@ import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 对象复制工具类
+ *
+ * @author geyu
+ */
 @Slf4j
 public class BeanUtil {
 
@@ -30,11 +36,11 @@ public class BeanUtil {
 
         try {
             target = clazz.newInstance();
-            copier.copy(bean, target, null);
+            copier.copy(bean, target, (o, aClass, o1) -> o);
         } catch (Exception e) {
             log.error("=== bean util copy 异常 ===");
-            log.error("=== bean：{}");
-            log.error("=== clazz：{}");
+            log.error("=== bean：{}", bean);
+            log.error("=== clazz：{}", clazz);
             e.printStackTrace();
         }
 

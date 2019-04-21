@@ -49,9 +49,9 @@
     }
     // 主页面
     .main-box {
-      .el-form-item {
-        height: 29px;
-      }
+      // .el-form-item {
+      //   height: 29px;
+      // }
       .search-box {
         float: right;
         .el-input {
@@ -63,11 +63,12 @@
         .el-table {
           padding-top: 20px;
           width: 99%;
+          height: 100%;
           .el-icon-delete {
             color: #f56c6c;
           }
           .el-icon-view {
-            color: #409EFF;
+            color: #409eff;
           }
         }
       }

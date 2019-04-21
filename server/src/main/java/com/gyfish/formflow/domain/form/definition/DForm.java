@@ -1,13 +1,9 @@
 package com.gyfish.formflow.domain.form.definition;
 
-import com.gyfish.formflow.domain.FormItemDefinition;
-
 import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * 表单定义
@@ -21,10 +17,10 @@ public class DForm {
 
     private String title;
 
-    private Date createdAt;
+    private Date createTime;
 
-    private Date updatedAt;
+    private Date updateTime;
 
-    private List<FormItemDefinition> formItemDefinitions;
+    private List<DFormItem> dFormItems;
 
 }

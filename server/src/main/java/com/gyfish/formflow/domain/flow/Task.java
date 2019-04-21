@@ -1,4 +1,4 @@
-package com.gyfish.formflow.flow.config;
+package com.gyfish.formflow.domain.flow;
 
 import lombok.Data;
 

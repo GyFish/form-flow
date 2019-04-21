@@ -101,14 +101,17 @@ export default class AppStart extends Vue {
       ]
     }
   ]
+
   // mounted
   mounted() {
     this.updateFormItems(this.formItems)
   }
+
   // 提交表单
   commit() {
     console.log('commit...')
   }
+
   // 响应输入值
   onViewInput(value: any) {
     console.log(value)

@@ -1,9 +1,6 @@
-package com.gyfish.formflow.flow.config;
+package com.gyfish.formflow.domain.flow.definition;
 
 import com.gyfish.formflow.flow.event.FlowEvent;
-import com.gyfish.formflow.flow.filter.FlowFilter;
-import com.gyfish.formflow.flow.filter.FlowFilterChain;
-import com.gyfish.formflow.flow.filter.GlobalFlowFilter;
 import com.gyfish.formflow.flow.listener.FlowListener;
 
 import java.util.ArrayList;

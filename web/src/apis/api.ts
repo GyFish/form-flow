@@ -14,4 +14,8 @@ export default class Api {
   extractData(res: any) {
     if (res.data.code == 0) return res.data.data
   }
+
+  extractMsg(res: any) {
+    if (res.data.code == 0) return res.data.msg
+  }
 }

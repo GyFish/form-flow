@@ -1,6 +1,6 @@
-package com.gyfish.formflow.flow.config;
+package com.gyfish.formflow.domain.flow;
 
-import com.gyfish.formflow.flow.config.FlowNode;
+import com.gyfish.formflow.domain.flow.definition.FlowNode;
 
 import lombok.Data;
 

@@ -54,15 +54,13 @@
                   <el-form-item label="标题">
                     <el-input v-model="data.form.title"></el-input>
                   </el-form-item>
-                  <el-form-item label="businessCode">
-                    <el-input v-model="data.form.businessCode"></el-input>
-                  </el-form-item>
                 </el-form>
                 <img src="@/assets/yayi2.jpg" width="95%">
               </el-tab-pane>
             </el-tabs>
           </el-main>
           <el-footer height="50px">
+            <el-button @click="backToFormAdmin" type="warning" icon="el-icon-back">返回</el-button>
             <el-button @click="save" type="primary" icon="el-icon-check">保存</el-button>
           </el-footer>
         </el-container>
@@ -151,6 +149,7 @@ export default class FormEditor extends Vue {
     console.log('formEditorVo = ', formEditorVo)
     let res = await new FormApi().saveDefinition(formEditorVo)
     this.$notify.success(res)
+    this.backToFormAdmin()
   }
 
   // 保存表单时的各种检查
@@ -169,6 +168,11 @@ export default class FormEditor extends Vue {
     if (alertMsg) this.$notify.warning(alertMsg)
 
     return alertMsg == ''
+  }
+
+  // 返回管理页面
+  backToFormAdmin() {
+    this.$router.push('/appAdmin/formAdmin')
   }
 }
 </script>

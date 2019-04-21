@@ -14,7 +14,7 @@ public class DFormItem {
 
     private Integer id;
 
-    private Integer formId;
+    private Integer dFormId;
 
     private String prop;
 
@@ -28,8 +28,8 @@ public class DFormItem {
 
     private String inputType;
 
-    private Date createdAt;
+    private Date createTime;
 
-    private Date updatedAt;
+    private Date updateTime;
 
 }

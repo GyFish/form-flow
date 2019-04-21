@@ -2,9 +2,9 @@ package com.gyfish.formflow.flow.engine;
 
 import com.gyfish.formflow.flow.filter.FlowFilter;
 import com.gyfish.formflow.flow.listener.FlowListener;
-import com.gyfish.formflow.flow.config.Process;
-import com.gyfish.formflow.flow.config.FlowAction;
-import com.gyfish.formflow.flow.config.FlowNode;
+import com.gyfish.formflow.domain.flow.Process;
+import com.gyfish.formflow.domain.flow.definition.FlowAction;
+import com.gyfish.formflow.domain.flow.definition.FlowNode;
 import com.gyfish.formflow.flow.event.FlowEvent;
 
 import org.springframework.stereotype.Service;

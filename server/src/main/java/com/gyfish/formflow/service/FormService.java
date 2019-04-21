@@ -31,14 +31,14 @@ public class FormService {
 
         // 先保存 form，填充主键
         DForm dForm = formEditorVo.getdForm();
-        dForm.setCreatedAt(new Date());
+        dForm.setCreateTime(new Date());
         this.saveFormDefinition(dForm);
 
         // 再保存 formItems
         List<DFormItem> dFormItems = formEditorVo.getdFormItems();
         dFormItems.forEach(i -> {
-            i.setFormId(dForm.getId());
-            i.setCreatedAt(new Date());
+            i.setDFormId(dForm.getId());
+            i.setCreateTime(new Date());
         });
         this.saveFormItemDefinition(dFormItems);
 
@@ -57,5 +57,10 @@ public class FormService {
     public Object getFormList() {
 
         return formMapper.getFormList();
+    }
+
+    public Object getFormItems(Integer dFormId) {
+
+        return itemMapper.getFormItems(dFormId);
     }
 }

@@ -34,7 +34,7 @@ public class FormController {
     @PostMapping("/saveDefinition")
     public Object saveDefinition(@RequestBody FormEditorVo formEditorVo) {
 
-        log.info("=== save form definition ===");
+        log.info("=== 保存表单结构信息 ===");
         log.info("formEditorVo = {}", JSON.toJSONString(formEditorVo, true));
 
         formService.saveDefinition(formEditorVo);
@@ -44,8 +44,17 @@ public class FormController {
 
     @GetMapping("/getFormList")
     public Object getFormList() {
-
+        log.info("=== 获取表单列表 ===");
         return AppResponse.ok(formService.getFormList());
+    }
+
+    @GetMapping("/getFormItems")
+    public Object getFormItems(Integer dFormId) {
+
+        log.info("=== 获取表单元素列表 ===");
+        log.info("dFormId = {}", JSON.toJSONString(dFormId));
+
+        return AppResponse.ok(formService.getFormItems(dFormId));
     }
 
 }

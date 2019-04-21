@@ -3,33 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gyfish.formflow.dao.DFormItemMapper">
 
-    <insert id="insertMany" parameterType="java.util.List">
-        insert into d_form_item (id,
-        form_id,
-        prop,
-        item_type,
-        label,
-        placeholder,
-        icon,
-        input_type,
-        created_at,
-        updated_at)
-        values
-        <foreach collection="list" item="item" separator=",">
-            (#{item.id, jdbcType=INTEGER},
-            #{item.formId, jdbcType=INTEGER},
-            #{item.prop, jdbcType=VARCHAR},
-            #{item.itemType, jdbcType=VARCHAR},
-            #{item.label, jdbcType=VARCHAR},
-            #{item.placeholder, jdbcType=VARCHAR},
-            #{item.icon, jdbcType=VARCHAR},
-            #{item.inputType, jdbcType=VARCHAR},
-            #{item.createdAt, jdbcType=TIMESTAMP},
-            #{item.updatedAt, jdbcType=TIMESTAMP})
-        </foreach>
-    </insert>
-
-    <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.FormItemDefinition">
+    <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.form.definition.DFormItem">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="form_id" property="formId" jdbcType="INTEGER"/>
         <result column="prop" property="prop" jdbcType="VARCHAR"/>
@@ -38,304 +12,50 @@
         <result column="placeholder" property="placeholder" jdbcType="VARCHAR"/>
         <result column="icon" property="icon" jdbcType="VARCHAR"/>
         <result column="input_type" property="inputType" jdbcType="VARCHAR"/>
-        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
-        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
-    <sql id="Example_Where_Clause">
-        <where>
-            <foreach collection="oredCriteria" item="criteria" separator="or">
-                <if test="criteria.valid">
-                    <trim prefix="(" suffix=")" prefixOverrides="and">
-                        <foreach collection="criteria.criteria" item="criterion">
-                            <choose>
-                                <when test="criterion.noValue">
-                                    and ${criterion.condition}
-                                </when>
-                                <when test="criterion.singleValue">
-                                    and ${criterion.condition} #{criterion.value}
-                                </when>
-                                <when test="criterion.betweenValue">
-                                    and ${criterion.condition} #{criterion.value} and
-                                    #{criterion.secondValue}
-                                </when>
-                                <when test="criterion.listValue">
-                                    and ${criterion.condition}
-                                    <foreach collection="criterion.value" item="listItem" open="("
-                                             close=")" separator=",">
-                                        #{listItem}
-                                    </foreach>
-                                </when>
-                            </choose>
-                        </foreach>
-                    </trim>
-                </if>
-            </foreach>
-        </where>
-    </sql>
-    <sql id="Update_By_Example_Where_Clause">
-        <where>
-            <foreach collection="example.oredCriteria" item="criteria" separator="or">
-                <if test="criteria.valid">
-                    <trim prefix="(" suffix=")" prefixOverrides="and">
-                        <foreach collection="criteria.criteria" item="criterion">
-                            <choose>
-                                <when test="criterion.noValue">
-                                    and ${criterion.condition}
-                                </when>
-                                <when test="criterion.singleValue">
-                                    and ${criterion.condition} #{criterion.value}
-                                </when>
-                                <when test="criterion.betweenValue">
-                                    and ${criterion.condition} #{criterion.value} and
-                                    #{criterion.secondValue}
-                                </when>
-                                <when test="criterion.listValue">
-                                    and ${criterion.condition}
-                                    <foreach collection="criterion.value" item="listItem" open="("
-                                             close=")" separator=",">
-                                        #{listItem}
-                                    </foreach>
-                                </when>
-                            </choose>
-                        </foreach>
-                    </trim>
-                </if>
-            </foreach>
-        </where>
-    </sql>
 
     <sql id="Base_Column_List">
-        id, form_id, prop, item_type, label, placeholder, icon, input_type, created_at, updated_at
+        id, d_form_id, prop, item_type, label, placeholder, icon, input_type, create_time,
+        update_time
     </sql>
 
-
-    <select id="selectByExample" resultMap="BaseResultMap"
-            parameterType="com.gyfish.formflow.domain.DFormItemExample">
-        select
-        <if test="distinct">
-            distinct
-        </if>
-        <include refid="Base_Column_List"/>
-        from d_form_item
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
-        </if>
-    </select>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List"/>
-        from d_form_item
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete
-        from d_form_item
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
-    <delete id="deleteByExample" parameterType="com.gyfish.formflow.domain.DFormItemExample">
-        delete from d_form_item
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-    </delete>
-    <insert id="insert" parameterType="com.gyfish.formflow.domain.FormItemDefinition">
-        insert into d_form_item (id,
-                                 form_id,
-                                 prop,
-                                 item_type,
-                                 label,
-                                 placeholder,
-                                 icon,
-                                 input_type,
-                                 created_at,
-                                 updated_at)
-        values (#{id,jdbcType=INTEGER},
-                #{formId,jdbcType=INTEGER},
-                #{prop,jdbcType=VARCHAR},
-                #{itemType,jdbcType=VARCHAR},
-                #{label,jdbcType=VARCHAR},
-                #{placeholder,jdbcType=VARCHAR},
-                #{icon,jdbcType=VARCHAR},
-                #{inputType,jdbcType=VARCHAR},
-                #{createdAt,jdbcType=TIMESTAMP},
-                #{updatedAt,jdbcType=TIMESTAMP})
-    </insert>
-    <insert id="insertSelective" parameterType="com.gyfish.formflow.domain.FormItemDefinition">
+    <insert id="insertMany" parameterType="java.util.List">
         insert into d_form_item
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="formId != null">
-                form_id,
-            </if>
-            <if test="prop != null">
-                prop,
-        </if>
-        <if test="itemType != null">
-            item_type,
-        </if>
-        <if test="label != null">
-            label,
-        </if>
-        <if test="placeholder != null">
-            placeholder,
-        </if>
-        <if test="icon != null">
-            icon,
-        </if>
-        <if test="inputType != null">
-            input_type,
-        </if>
-            <if test="createdAt != null">
-                created_at,
-            </if>
-            <if test="updatedAt != null">
-                updated_at,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="formId != null">
-                #{formId,jdbcType=INTEGER},
-            </if>
-            <if test="prop != null">
-                #{prop,jdbcType=VARCHAR},
-            </if>
-            <if test="itemType != null">
-                #{itemType,jdbcType=VARCHAR},
-            </if>
-            <if test="label != null">
-                #{label,jdbcType=VARCHAR},
-            </if>
-            <if test="placeholder != null">
-                #{placeholder,jdbcType=VARCHAR},
-            </if>
-            <if test="icon != null">
-                #{icon,jdbcType=VARCHAR},
-            </if>
-            <if test="inputType != null">
-                #{inputType,jdbcType=VARCHAR},
-            </if>
-            <if test="createdAt != null">
-                #{createdAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updatedAt != null">
-                #{updatedAt,jdbcType=TIMESTAMP},
-            </if>
-        </trim>
+        (
+        id,
+        d_form_id,
+        prop,
+        item_type,
+        label,
+        placeholder,
+        icon,
+        input_type,
+        create_time,
+        update_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id, jdbcType=INTEGER},
+            #{item.dFormId, jdbcType=INTEGER},
+            #{item.prop, jdbcType=VARCHAR},
+            #{item.itemType, jdbcType=VARCHAR},
+            #{item.label, jdbcType=VARCHAR},
+            #{item.placeholder, jdbcType=VARCHAR},
+            #{item.icon, jdbcType=VARCHAR},
+            #{item.inputType, jdbcType=VARCHAR},
+            #{item.createTime, jdbcType=TIMESTAMP},
+            #{item.updateTime, jdbcType=TIMESTAMP}
+            )
+        </foreach>
     </insert>
-    <select id="countByExample" parameterType="com.gyfish.formflow.domain.DFormItemExample"
-            resultType="java.lang.Integer">
-        select count(*) from d_form_item
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
+
+    <select id="getFormItems" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select *
+        from d_form_item
+        where d_form_id = #{dFormId}
     </select>
-    <update id="updateByExampleSelective" parameterType="map">
-        update d_form_item
-        <set>
-            <if test="record.id != null">
-                id = #{record.id,jdbcType=INTEGER},
-            </if>
-            <if test="record.formId != null">
-                form_id = #{record.formId,jdbcType=INTEGER},
-            </if>
-            <if test="record.prop != null">
-                prop = #{record.prop,jdbcType=VARCHAR},
-            </if>
-            <if test="record.itemType != null">
-                item_type = #{record.itemType,jdbcType=VARCHAR},
-            </if>
-            <if test="record.label != null">
-                label = #{record.label,jdbcType=VARCHAR},
-            </if>
-            <if test="record.placeholder != null">
-                placeholder = #{record.placeholder,jdbcType=VARCHAR},
-            </if>
-            <if test="record.icon != null">
-                icon = #{record.icon,jdbcType=VARCHAR},
-            </if>
-            <if test="record.inputType != null">
-                input_type = #{record.inputType,jdbcType=VARCHAR},
-            </if>
-            <if test="record.createdAt != null">
-                created_at = #{record.createdAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.updatedAt != null">
-                updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
-        </if>
-    </update>
-    <update id="updateByExample" parameterType="map">
-        update d_form_item
-        set id = #{record.id,jdbcType=INTEGER},
-        form_id = #{record.formId,jdbcType=INTEGER},
-        prop = #{record.prop,jdbcType=VARCHAR},
-        item_type = #{record.itemType,jdbcType=VARCHAR},
-        label = #{record.label,jdbcType=VARCHAR},
-        placeholder = #{record.placeholder,jdbcType=VARCHAR},
-        icon = #{record.icon,jdbcType=VARCHAR},
-        input_type = #{record.inputType,jdbcType=VARCHAR},
-        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
-        updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}
-        <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
-        </if>
-    </update>
-    <update id="updateByPrimaryKeySelective"
-            parameterType="com.gyfish.formflow.domain.FormItemDefinition">
-        update d_form_item
-        <set>
-            <if test="formId != null">
-                form_id = #{formId,jdbcType=INTEGER},
-            </if>
-            <if test="prop != null">
-                prop = #{prop,jdbcType=VARCHAR},
-            </if>
-            <if test="itemType != null">
-                item_type = #{itemType,jdbcType=VARCHAR},
-            </if>
-            <if test="label != null">
-                label = #{label,jdbcType=VARCHAR},
-            </if>
-            <if test="placeholder != null">
-                placeholder = #{placeholder,jdbcType=VARCHAR},
-            </if>
-            <if test="icon != null">
-                icon = #{icon,jdbcType=VARCHAR},
-            </if>
-            <if test="inputType != null">
-                input_type = #{inputType,jdbcType=VARCHAR},
-            </if>
-            <if test="createdAt != null">
-                created_at = #{createdAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updatedAt != null">
-                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.gyfish.formflow.domain.FormItemDefinition">
-        update d_form_item
-        set form_id     = #{formId,jdbcType=INTEGER},
-            prop        = #{prop,jdbcType=VARCHAR},
-            item_type   = #{itemType,jdbcType=VARCHAR},
-            label       = #{label,jdbcType=VARCHAR},
-            placeholder = #{placeholder,jdbcType=VARCHAR},
-            icon        = #{icon,jdbcType=VARCHAR},
-            input_type  = #{inputType,jdbcType=VARCHAR},
-            created_at  = #{createdAt,jdbcType=TIMESTAMP},
-            updated_at  = #{updatedAt,jdbcType=TIMESTAMP}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
+    
 </mapper>

@@ -19,4 +19,8 @@ public class AppResponse {
         return new AppResponse(0, "ok", data);
     }
 
+    public static AppResponse ok(String msg, Object data) {
+        return new AppResponse(0, msg, data);
+    }
+
 }

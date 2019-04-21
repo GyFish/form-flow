@@ -3,6 +3,7 @@ server:
 
 spring:
   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://formflow.gyfish.com:3306/form_flow?serverTimezone=UTC
     username: root
     password: Root@123

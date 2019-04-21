@@ -1,13 +1,10 @@
 package com.gyfish.formflow.flow;
 
-import com.gyfish.formflow.flow.config.FlowAction;
-import com.gyfish.formflow.flow.config.FlowNode;
-import com.gyfish.formflow.flow.config.Task;
+import com.gyfish.formflow.domain.flow.definition.FlowAction;
+import com.gyfish.formflow.domain.flow.definition.FlowNode;
+import com.gyfish.formflow.domain.flow.Task;
 import com.gyfish.formflow.flow.engine.FlowEngine;
 import com.gyfish.formflow.flow.event.FlowEvent;
-import com.gyfish.formflow.flow.filter.FlowFilterChain;
-import com.gyfish.formflow.flow.filter.GlobalFlowFilter;
-import com.gyfish.formflow.flow.listener.FlowListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
