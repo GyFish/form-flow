@@ -37,4 +37,9 @@ public class UserService {
 
         return userMapper.userList(userQuery);
     }
+
+    public Integer deleteUser(Integer id) {
+
+        return userMapper.deleteUser(id);
+    }
 }

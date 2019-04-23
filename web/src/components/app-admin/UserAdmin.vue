@@ -120,10 +120,16 @@ export default class UserAdmin extends Vue {
 
   // 新建用户
   async addUser() {
-    this.userVo = {}
     let res = await new UserApi().addUser(this.userVo)
     this.$notify.success(res)
     this.addUserFlag = false
+    this.search()
+  }
+
+  // 删除用户
+  async handleDelete(user: any) {
+    let res = await new UserApi().deleteUser(user.id)
+    this.$notify.success(res)
     this.search()
   }
 

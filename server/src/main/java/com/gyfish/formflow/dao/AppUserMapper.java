@@ -28,4 +28,12 @@ public interface AppUserMapper {
      * @return 用户列表
      */
     List<AppUser> userList(UserQuery userQuery);
+
+    /**
+     * 根据 id 删除用户
+     *
+     * @param id user id
+     * @return 删除的数量
+     */
+    Integer deleteUser(Integer id);
 }

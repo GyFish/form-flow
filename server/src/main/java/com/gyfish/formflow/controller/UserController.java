@@ -6,11 +6,10 @@ import com.gyfish.formflow.vo.UserQuery;
 import com.gyfish.formflow.vo.UserVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -45,6 +44,15 @@ public class UserController {
     public Object userList(@RequestBody UserQuery userQuery) {
 
         return AppResponse.ok(userService.userList(userQuery));
+    }
+
+    /**
+     * 删除用户
+     */
+    @DeleteMapping("/deleteUser")
+    public Object deleteUser(Integer id) {
+
+        return AppResponse.ok("删除用户成功！", userService.deleteUser(id));
     }
 
 }

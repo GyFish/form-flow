@@ -37,7 +37,7 @@
         </div>
       </el-main>
       <!-- 预览弹出框 -->
-      <el-dialog fullscreen title="预览" :visible.sync="showViewFlag">
+      <el-dialog fullscreen :title="showViewTitle" :visible.sync="showViewFlag">
         <el-form label-position="top">
           <div v-for="(item, idx) of formItems">
             <el-row type="flex" align="middle">
@@ -66,6 +66,8 @@ export default class AppInfo extends Vue {
 
   // 是否显示预览
   showViewFlag = false
+  // 预览弹窗标题
+  showViewTitle = '预览'
 
   // 当前选中表单的元素
   formItems = []
@@ -101,8 +103,9 @@ export default class AppInfo extends Vue {
   }
 
   // 编辑
-  handleEdit(row: any) {
-    this.getFormItems(row.id)
+  async handleEdit(row: any) {
+    await this.getFormItems(row.id)
+    this.updateFormItems(this.formItems)
     this.$router.push('/formEditor')
   }
 
@@ -110,6 +113,7 @@ export default class AppInfo extends Vue {
   handleView(row: any) {
     this.getFormItems(row.id)
     this.showViewFlag = true
+    this.showViewTitle = row.title
   }
 
   // 删除

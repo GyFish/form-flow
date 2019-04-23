@@ -1,15 +1,22 @@
 <template>
   <div class="flow-editor">
     <el-container>
+      <!-- 左侧类型节点面板 -->
       <el-aside>
         <flow-item @addNode="addNode"></flow-item>
       </el-aside>
+      <!-- 中间画板 -->
       <el-main>
         <div ref="page" class="flow-page"></div>
       </el-main>
+      <!-- 右侧配置面板 -->
       <el-aside>
         <div class="flow-config">
-          <flow-config :data="configData" @addLine="addLine" @updateNodeModel="updateNodeModel"></flow-config>
+          <flow-config
+            :configData="configData"
+            @addLine="addLine"
+            @updateNodeModel="updateNodeModel"
+          ></flow-config>
         </div>
       </el-aside>
     </el-container>
@@ -27,15 +34,15 @@ import G6Register from '@/components/flow/G6Register'
   components: { FlowItem, FlowConfig }
 })
 export default class FlowEditor extends Vue {
-  // 图数据
+  //== 图数据 =====================================
   data = {}
   // 图实例
   graph: any = {}
   // 当前节点
-  curNode: any = {}
-  // 节点 - g6节点 map
-  idNodeMap: any = {}
-  // 节点 - g6节点 map
+  curNode: FlowNode = {}
+  // id - g6Node map
+  idG6Map: any = {}
+  // id - Vue map
   idVueMap: any = {}
   // 当前节点位置
   dx: any = 0
@@ -44,13 +51,19 @@ export default class FlowEditor extends Vue {
   lx: any = 0
   ly: any = 0
 
+  //== 其他数据 =====================================
+
   get configData() {
-    return { curNode: this.curNode, idNodeMap: this.idNodeMap }
+    return { curNode: this.curNode, idG6Map: this.idG6Map }
   }
+
+  //== vue 狗子 =====================================
 
   mounted() {
     this.createEditor()
   }
+
+  //== 绘图方法 =====================================
 
   // 获取节点
   getNode(ev: any) {
@@ -100,12 +113,13 @@ export default class FlowEditor extends Vue {
 
     // 同步数据
     this.curNode = node
-    this.idNodeMap[id] = node
+    this.idG6Map[id] = node
   }
 
   // 修该节点属性
   updateNodeModel(id: string, nodeModel: any) {
-    console.log('update node model, id = ' + id)
+    console.log('update node id = ', id)
+    console.log('update node model = ', nodeModel)
     // 更新图
     this.graph.update(id, nodeModel)
     // 更新 vue 节点
@@ -137,7 +151,7 @@ export default class FlowEditor extends Vue {
     // 点击事件
     graph.on('node:click', (ev: any) => {
       console.log('点击节点，id = ' + ev.item.id)
-      this.curNode = this.idNodeMap[ev.item.id]
+      this.curNode = this.idG6Map[ev.item.id]
     })
     // 拖动开始时
     graph.on('node:dragstart', (ev: any) => {
@@ -181,5 +195,9 @@ export default class FlowEditor extends Vue {
     })
     new vueNode().$mount('#' + nodeModel.id)
   }
+
+  //== 其他方法 =====================================
 }
+
+interface FlowNode {}
 </script>

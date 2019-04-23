@@ -8,7 +8,14 @@
               <el-input v-model="nodeName"></el-input>
             </el-form-item>
             <el-form-item label="处理人">
-              <el-select></el-select>
+              <el-select v-model="handlerId">
+                <el-option
+                  v-for="user in userList"
+                  :key="user.id"
+                  :label="user.userName"
+                  :value="user.id"
+                />
+              </el-select>
             </el-form-item>
             <el-form-item label="处理组">
               <el-select></el-select>
@@ -23,7 +30,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="下一节点">
-              <el-select v-model="nextNode" @change="addLine">
+              <el-select v-model="nextNode" @change="handleNextNode">
                 <el-option
                   v-for="node of allNodes"
                   key="node.id"
@@ -44,9 +51,6 @@
         </el-tab-pane>
         <el-tab-pane label="流程属性" name="flowConfig">
           <el-form>
-            <el-form-item label="流程 code">
-              <el-input></el-input>
-            </el-form-item>
             <el-form-item label="流程名称">
               <el-input></el-input>
             </el-form-item>
@@ -66,42 +70,73 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import UserApi from '@/apis/UserApi'
+
+interface FlowConfigData {
+  curNode: any // 当前节点
+  idG6Map: any // 所有节点的 map
+}
 
 @Component
 export default class FlowConfig extends Vue {
   // 属性
   @Prop()
-  data: any
+  configData!: FlowConfigData
+
+  //== data =====================================
+
   // 节点类型
   nodeType: any = ''
+
   // 下一节点
   nextNode: any = ''
+
   // 节点绘图属性
   get curNode() {
-    return this.data.curNode
+    return this.configData.curNode
   }
+
   // 节点名称
   get nodeName() {
-    let { model } = this.data.curNode
+    let { model } = this.configData.curNode
     return model ? model.nodeName : ''
   }
   set nodeName(value: string) {
-    let { model } = this.data.curNode
+    let { model } = this.configData.curNode
     model.nodeName = value
     this.$emit('updateNodeModel', this.curNode.id, model)
   }
+
   // 所有节点
   get allNodes() {
-    return Object.values(this.data.idNodeMap)
+    return Object.values(this.configData.idG6Map)
+  }
+
+  // 处理人列表
+  userList = []
+
+  //== model =====================================
+  // 处理人
+  handlerId = ''
+
+  //== methods =====================================
+
+  async mounted() {
+    await this.getUserList()
   }
 
   // 与下一节点连线
-  addLine(nextNodeId: any) {
+  handleNextNode(nextNodeId: any) {
     this.$emit('addLine', { source: this.curNode.id, target: nextNodeId })
   }
 
   // 删除节点
   deleteNode() {}
+
+  // 获取处理人列表
+  async getUserList() {
+    this.userList = await new UserApi().userList({})
+  }
 }
 </script>
 

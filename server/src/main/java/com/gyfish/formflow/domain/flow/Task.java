@@ -4,6 +4,8 @@ import lombok.Data;
 
 /**
  * 流程的一个任务，描述当前到了哪个节点，该由谁处理
+ *
+ * @author geyu
  */
 @Data
 public class Task {

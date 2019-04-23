@@ -12,7 +12,7 @@
 
     <!-- 表字段 -->
     <sql id="Base_Column_List">
-        id, title, create_time, update_time
+        id, user_id, user_name
     </sql>
 
     <!-- 插入一条记录，返回自增主键 -->
@@ -26,8 +26,15 @@
 
     <!-- 获取列表 -->
     <select id="userList" resultMap="BaseResultMap">
-        select *
+        select
+        <include refid="Base_Column_List"/>
         from t_user
     </select>
 
+    <!-- 根据 id 删除用户 -->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete
+        from t_user
+        where id = #{id}
+    </delete>
 </mapper>
