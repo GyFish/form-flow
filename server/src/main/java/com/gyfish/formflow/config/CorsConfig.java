@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * @author geyu
+ */
 @Configuration
 public class CorsConfig {
 
@@ -17,7 +20,8 @@ public class CorsConfig {
                         .allowedOrigins("*")
                         .allowCredentials(true)
                         .allowedMethods("GET", "POST", "DELETE", "PUT","PATCH")
-                        .maxAge(3600); // 预检请求的有效时间
+                        // 预检请求的有效时间
+                        .maxAge(3600);
             }
         };
     }

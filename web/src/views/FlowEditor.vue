@@ -29,6 +29,7 @@ import FlowItem from '@/components/flow/FlowItem.vue'
 import FlowConfig from '@/components/flow/FlowConfig.vue'
 import G6 from '@antv/g6'
 import G6Register from '@/components/flow/G6Register'
+import { FlowNode } from '@/components/flow/index'
 
 @Component({
   components: { FlowItem, FlowConfig }
@@ -39,7 +40,12 @@ export default class FlowEditor extends Vue {
   // 图实例
   graph: any = {}
   // 当前节点
-  curNode: FlowNode = {}
+  curNode: FlowNode = {
+    id: 0,
+    processId: 0,
+    status: {},
+    model: {}
+  }
   // id - g6Node map
   idG6Map: any = {}
   // id - Vue map
@@ -198,6 +204,4 @@ export default class FlowEditor extends Vue {
 
   //== 其他方法 =====================================
 }
-
-interface FlowNode {}
 </script>

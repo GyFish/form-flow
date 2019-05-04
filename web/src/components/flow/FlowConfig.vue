@@ -5,10 +5,10 @@
         <el-tab-pane label="节点属性" name="nodeConfig">
           <el-form label-position="top">
             <el-form-item label="节点名称">
-              <el-input v-model="nodeName"></el-input>
+              <el-input v-model="configData.curNode.nodeName"></el-input>
             </el-form-item>
             <el-form-item label="处理人">
-              <el-select v-model="handlerId">
+              <el-select v-model="configData.curNode.handlerId">
                 <el-option
                   v-for="user in userList"
                   :key="user.id"
@@ -18,19 +18,26 @@
               </el-select>
             </el-form-item>
             <el-form-item label="处理组">
-              <el-select></el-select>
+              <el-select v-model="configData.curNode.handlerGroupId"></el-select>
             </el-form-item>
             <el-form-item label="关联表单">
-              <el-select></el-select>
+              <el-select v-model="configData.curNode.formId">
+                <el-option
+                  v-for="form in formList"
+                  :key="form.id"
+                  :label="form.title"
+                  :value="form.id"
+                />
+              </el-select>
             </el-form-item>
             <el-form-item label="节点类型">
-              <el-select v-model="nodeType">
-                <el-option label="任务节点" value="shanghai"></el-option>
-                <el-option label="审核节点" value="shanghai"></el-option>
+              <el-select v-model="configData.curNode.nodeType">
+                <el-option label="任务节点" value="task"></el-option>
+                <el-option label="审核节点" value="check"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="下一节点">
-              <el-select v-model="nextNode" @change="handleNextNode">
+              <el-select v-model="configData.curNode.nextNode" @change="handleNextNode">
                 <el-option
                   v-for="node of allNodes"
                   key="node.id"
@@ -58,7 +65,7 @@
               <el-switch v-model="curNode.canFlowBack" active-text="分配模式" inactive-text="领取模式"></el-switch>
             </el-form-item>
             <el-form-item>
-              <el-button @click="saveFlow" type="primary" icon="el-icon-check">保存</el-button>
+              <el-button @click="saveDefinition" type="primary" icon="el-icon-check">保存</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -71,11 +78,8 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import UserApi from '@/apis/UserApi'
-
-interface FlowConfigData {
-  curNode: any // 当前节点
-  idG6Map: any // 所有节点的 map
-}
+import { FlowConfigData, FlowNode } from '@/components/flow/index'
+import FormApi from '../../apis/FormApi'
 
 @Component
 export default class FlowConfig extends Vue {
@@ -84,12 +88,6 @@ export default class FlowConfig extends Vue {
   configData!: FlowConfigData
 
   //== data =====================================
-
-  // 节点类型
-  nodeType: any = ''
-
-  // 下一节点
-  nextNode: any = ''
 
   // 节点绘图属性
   get curNode() {
@@ -109,11 +107,15 @@ export default class FlowConfig extends Vue {
 
   // 所有节点
   get allNodes() {
+    console.log(this.configData.idG6Map)
     return Object.values(this.configData.idG6Map)
   }
 
   // 处理人列表
   userList = []
+
+  // 表单列表
+  formList = []
 
   //== model =====================================
   // 处理人
@@ -137,6 +139,14 @@ export default class FlowConfig extends Vue {
   async getUserList() {
     this.userList = await new UserApi().userList({})
   }
+
+  // 获取表单列表
+  async getFormList() {
+    this.formList = await new FormApi().getFormList()
+  }
+
+  // 保存流程定义
+  async saveDefinition() {}
 }
 </script>
 

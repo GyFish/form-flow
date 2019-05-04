@@ -31,6 +31,9 @@ public class FormController {
         this.formService = formService;
     }
 
+    /**
+     * 保存表单定义
+     */
     @PostMapping("/saveDefinition")
     public Object saveDefinition(@RequestBody FormEditorVo formEditorVo) {
 
@@ -42,12 +45,18 @@ public class FormController {
         return AppResponse.ok("保存表单结构数据成功！");
     }
 
+    /**
+     * 获取表单列表
+     */
     @GetMapping("/getFormList")
     public Object getFormList() {
         log.info("=== 获取表单列表 ===");
         return AppResponse.ok(formService.getFormList());
     }
 
+    /**
+     * 获取表单的具体元素
+     */
     @GetMapping("/getFormItems")
     public Object getFormItems(Integer dFormId) {
 

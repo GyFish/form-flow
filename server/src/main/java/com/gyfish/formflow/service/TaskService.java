@@ -3,11 +3,10 @@ package com.gyfish.formflow.service;
 import org.springframework.stereotype.Service;
 
 /**
- * 流程定义
+ * 任务
  *
  * @author geyu
  */
 @Service
-public class FlowService {
-
+public class TaskService {
 }

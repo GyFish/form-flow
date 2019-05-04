@@ -1,8 +1,8 @@
 package com.gyfish.formflow.flow;
 
+import com.gyfish.formflow.domain.flow.Task;
 import com.gyfish.formflow.domain.flow.definition.FlowAction;
 import com.gyfish.formflow.domain.flow.definition.FlowNode;
-import com.gyfish.formflow.domain.flow.Task;
 import com.gyfish.formflow.flow.engine.FlowEngine;
 import com.gyfish.formflow.flow.event.FlowEvent;
 
@@ -29,8 +29,9 @@ public class StatusMachine {
      */
     public Task emit(FlowEvent e) {
 
-        if (e == null)
+        if (e == null) {
             return null;
+        }
 
         // 获取流程的当前节点
         FlowNode node = flowEngine.getCurNode(e.getProcessId());
