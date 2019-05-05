@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FlowController {
 
-    @GetMapping("/saveDefinition")
+    @GetMapping("/")
     public String home() {
         return "hello, i am ok!";
     }

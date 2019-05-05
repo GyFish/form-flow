@@ -13,9 +13,10 @@
       <el-aside>
         <div class="flow-config">
           <flow-config
-            :configData="configData"
+            :nodeData="nodeData"
             @addLine="addLine"
-            @updateNodeModel="updateNodeModel"
+            @updateVueModel="updateVueModel"
+            @saveDefinition="saveDefinition"
           ></flow-config>
         </div>
       </el-aside>
@@ -29,27 +30,38 @@ import FlowItem from '@/components/flow/FlowItem.vue'
 import FlowConfig from '@/components/flow/FlowConfig.vue'
 import G6 from '@antv/g6'
 import G6Register from '@/components/flow/G6Register'
-import { FlowNode } from '@/components/flow/index'
+import { FlowNode, nodeModel } from '@/components/flow/index'
+import FlowApi from '@/apis/FlowApi'
 
 @Component({
   components: { FlowItem, FlowConfig }
 })
 export default class FlowEditor extends Vue {
   //== 图数据 =====================================
-  data = {}
   // 图实例
   graph: any = {}
   // 当前节点
-  curNode: FlowNode = {
-    id: 0,
-    processId: 0,
-    status: {},
-    model: {}
+  nodeData: nodeModel = {
+    model: {},
+    flow: {
+      id: 0,
+      processId: 0,
+      formId: 0,
+      nextNodeId: 0,
+      nodeName: '',
+      nodeType: '',
+      status: {},
+      model: {},
+      handlerId: 0,
+      handlerName: '',
+      handlerGroupId: 0,
+      handlerGroupName: ''
+    },
+    dataMap: {},
+    nodeMap: {}
   }
   // id - g6Node map
   idG6Map: any = {}
-  // id - Vue map
-  idVueMap: any = {}
   // 当前节点位置
   dx: any = 0
   dy: any = 0
@@ -57,16 +69,14 @@ export default class FlowEditor extends Vue {
   lx: any = 0
   ly: any = 0
 
-  //== 其他数据 =====================================
-
-  get configData() {
-    return { curNode: this.curNode, idG6Map: this.idG6Map }
-  }
-
   //== vue 狗子 =====================================
 
   mounted() {
     this.createEditor()
+    this.handleRead()
+    this.handleClick()
+    this.handleDragStart()
+    this.handleDrag()
   }
 
   //== 绘图方法 =====================================
@@ -100,11 +110,14 @@ export default class FlowEditor extends Vue {
     }
 
     let id: string = 'node-' + new Date().getTime().toString()
-    let model = {
+    let g6model = {
       id,
       shape: id,
       x: event.clientX - 320,
-      y: event.clientY - 56,
+      y: event.clientY - 56
+    }
+    let flowModel = {
+      id,
       nodeName,
       nodeType,
       nodeIcon
@@ -112,24 +125,23 @@ export default class FlowEditor extends Vue {
 
     // 向图内创建新节点
     new G6Register().elButton(id)
-    let node = this.graph.add('node', model)
+    let node = this.graph.add('node', g6model)
 
     // 挂载节点组件
-    this.createVueNode(model)
+    this.renderVueNode(flowModel)
 
     // 同步数据
-    this.curNode = node
-    this.idG6Map[id] = node
+    this.nodeData.model = node
+    this.nodeData.flow = flowModel
+    this.nodeData.dataMap = node.dataMap
+    this.nodeData.nodeMap[id] = flowModel
   }
 
   // 修该节点属性
-  updateNodeModel(id: string, nodeModel: any) {
-    console.log('update node id = ', id)
-    console.log('update node model = ', nodeModel)
-    // 更新图
-    this.graph.update(id, nodeModel)
+  updateVueModel() {
+    console.log('updateVueModel')
     // 更新 vue 节点
-    this.createVueNode(nodeModel)
+    this.renderVueNode(this.nodeData.flow)
   }
 
   // 增加连线
@@ -142,66 +154,89 @@ export default class FlowEditor extends Vue {
     })
   }
 
-  // 创建编辑器
+  // 创建编辑器，点击、拖动事件
   createEditor() {
     console.log('创建编辑器')
     // 注册节点
     new G6Register().register()
     // 创建图实例
-    const graph = new G6.Graph({
+    this.graph = new G6.Graph({
       container: this.$refs.page,
       height: 500,
       renderer: 'svg'
     })
-    this.graph = graph
-    // 点击事件
-    graph.on('node:click', (ev: any) => {
-      console.log('点击节点，id = ' + ev.item.id)
-      this.curNode = this.idG6Map[ev.item.id]
+  }
+
+  // 渲染数据
+  handleRead(graphData: any = {}) {
+    this.graph.read(graphData)
+  }
+
+  // 点击事件
+  handleClick() {
+    this.graph.on('node:click', (ev: any) => {
+      let nodeId = ev.item.id
+      console.log('点击节点', nodeId, ev.item)
+      this.nodeData.flow = this.nodeData.nodeMap[ev.item.id]
     })
-    // 拖动开始时
-    graph.on('node:dragstart', (ev: any) => {
-      const { item } = ev
-      this.curNode = item
-      const model = item.getModel()
+  }
+
+  // 拖动开始时
+  handleDragStart() {
+    this.graph.on('node:dragstart', (ev: any) => {
+      let {
+        item: { id, model }
+      } = ev
+      // console.log('拖动开始', id, model)
+      this.nodeData.model = model
       this.dx = model.x - ev.x
       this.dy = model.y - ev.y
     })
-    // 拖动时
-    graph.on('node:drag', (ev: any) => {
-      this.curNode &&
-        graph.update(this.curNode, {
-          x: ev.x + this.dx,
-          y: ev.y + this.dy
-        })
+  }
+
+  // 拖动时
+  handleDrag() {
+    this.graph.on('node:drag', (ev: any) => {
+      let {
+        item: { id, model }
+      } = ev
+      // console.log('拖动时', id, model)
+      this.graph.update(id, {
+        x: ev.x + this.dx,
+        y: ev.y + this.dy
+      })
     })
-    // 渲染数据
-    graph.read(this.data)
   }
 
   // 在节点上挂载 vue 组件
-  createVueNode(nodeModel: any) {
-    console.log('mount vue node, id = ' + nodeModel.id)
+  renderVueNode(flowModel: any) {
+    console.log('renderVueNode: ', flowModel)
     let vueNode = Vue.extend({
       render: h =>
         h(
           'el-button',
           {
             attrs: {
-              id: nodeModel.id
+              id: flowModel.id
             },
             props: {
               autofocus: true,
-              type: nodeModel.nodeType,
-              icon: nodeModel.nodeIcon
+              type: flowModel.nodeType,
+              icon: flowModel.nodeIcon
             }
           },
-          [nodeModel.nodeName]
+          [flowModel.nodeName]
         )
     })
-    new vueNode().$mount('#' + nodeModel.id)
+    new vueNode().$mount('#' + flowModel.id)
   }
 
-  //== 其他方法 =====================================
+  //== api =====================================
+
+  // 保存流程定义
+  async saveDefinition() {
+    console.log(this.nodeData.dataMap)
+    await new FlowApi().saveDefinition(this.idG6Map)
+  }
 }
 </script>
