@@ -1,14 +1,17 @@
 <template>
   <div class="flow-editor">
     <el-container>
+      
       <!-- 左侧类型节点面板 -->
       <el-aside>
         <flow-item @addNode="addNode"></flow-item>
       </el-aside>
+
       <!-- 中间画板 -->
       <el-main>
         <div ref="page" class="flow-page"></div>
       </el-main>
+
       <!-- 右侧配置面板 -->
       <el-aside>
         <div class="flow-config">
@@ -30,7 +33,7 @@ import FlowItem from '@/components/flow/FlowItem.vue'
 import FlowConfig from '@/components/flow/FlowConfig.vue'
 import G6 from '@antv/g6'
 import G6Register from '@/components/flow/G6Register'
-import { FlowNode, nodeModel } from '@/components/flow/index'
+import { FlowNode, NodeModel } from '@/components/flow/index'
 import FlowApi from '@/apis/FlowApi'
 
 @Component({
@@ -41,9 +44,9 @@ export default class FlowEditor extends Vue {
   // 图实例
   graph: any = {}
   // 当前节点
-  nodeData: nodeModel = {
+  nodeData: NodeModel = {
     model: {},
-    flow: {
+    node: {
       id: 0,
       processId: 0,
       formId: 0,
@@ -116,7 +119,7 @@ export default class FlowEditor extends Vue {
       x: event.clientX - 320,
       y: event.clientY - 56
     }
-    let flowModel = {
+    let nodeModel = {
       id,
       nodeName,
       nodeType,
@@ -128,20 +131,22 @@ export default class FlowEditor extends Vue {
     let node = this.graph.add('node', g6model)
 
     // 挂载节点组件
-    this.renderVueNode(flowModel)
+    this.renderVueNode(nodeModel)
 
     // 同步数据
     this.nodeData.model = node
-    this.nodeData.flow = flowModel
     this.nodeData.dataMap = node.dataMap
-    this.nodeData.nodeMap[id] = flowModel
+    this.nodeData.node = nodeModel
+    this.nodeData.nodeMap[id] = nodeModel
+
+    console.log('>> 更新 nodeData = ', this.nodeData)
   }
 
   // 修该节点属性
   updateVueModel() {
     console.log('updateVueModel')
     // 更新 vue 节点
-    this.renderVueNode(this.nodeData.flow)
+    this.renderVueNode(this.nodeData.node)
   }
 
   // 增加连线
@@ -176,8 +181,8 @@ export default class FlowEditor extends Vue {
   handleClick() {
     this.graph.on('node:click', (ev: any) => {
       let nodeId = ev.item.id
-      console.log('点击节点', nodeId, ev.item)
-      this.nodeData.flow = this.nodeData.nodeMap[ev.item.id]
+      console.log('>> 点击节点', nodeId, ev.item)
+      this.nodeData.node = this.nodeData.nodeMap[ev.item.id]
     })
   }
 
@@ -210,7 +215,7 @@ export default class FlowEditor extends Vue {
 
   // 在节点上挂载 vue 组件
   renderVueNode(flowModel: any) {
-    console.log('renderVueNode: ', flowModel)
+    console.log('>> renderVueNode = ', flowModel)
     let vueNode = Vue.extend({
       render: h =>
         h(

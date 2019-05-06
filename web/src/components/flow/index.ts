@@ -1,10 +1,10 @@
 
 // G6 node，前两个是 g6 属性
-export interface nodeModel {
+export interface NodeModel {
   // 当前节点 g6 model
   model: any
   // 节点流程属性
-  flow: FlowNode
+  node: FlowNode
   // g6 所有节点、连线 map
   dataMap: any
   // id - vue map
