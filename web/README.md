@@ -1,5 +1,9 @@
 # 前端
 
+参考
+ - https://github.com/GavinZhuLei/vue-form-making
+ - https://github.com/oOBobbyOo/vue-element-admin
+ 
 ### vuegraggable
 
 https://blog.csdn.net/zjiang1994/article/details/79809687
