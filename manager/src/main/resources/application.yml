@@ -1,5 +1,7 @@
 server:
-  port: 7007
+  port: 7001
+  servlet:
+    context-path: /manager
 
 spring:
   datasource:

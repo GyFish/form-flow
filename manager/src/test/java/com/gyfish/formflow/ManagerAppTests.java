@@ -1,4 +1,4 @@
-package com.gyfish.api;
+package com.gyfish.formflow;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ApiApplicationTests {
+public class ManagerAppTests {
 
     @Test
     public void contextLoads() {
