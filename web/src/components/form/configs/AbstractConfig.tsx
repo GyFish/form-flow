@@ -12,8 +12,8 @@ export default abstract class AbstractConfig {
     this.h = option.h
     this.item = option.item
     this.mutations = option.mutations
-    this.renderLabel(this.h)
     this.renderValue(this.h)
+    this.renderLabel(this.h)
   }
   //~ 方法 -------------------------
   renderLabel(h: CreateElement) {
@@ -36,7 +36,7 @@ export default abstract class AbstractConfig {
   }
   renderValue(h: CreateElement) {
     let value = (
-      <el-form-item label="字段（code）">
+      <el-form-item label="key">
         {this.h("el-input", {
           props: {
             value: this.item.prop

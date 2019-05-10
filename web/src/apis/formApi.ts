@@ -25,7 +25,7 @@ export default class FormApi extends Api {
 
   // 查询表单元素列表
   async getFormItems(dFormId: any) {
-    const res: any = await this.http.get("/form/getFormItems", {
+    const res: any = await this.http.get("/form/getDefinition", {
       params: {
         dFormId
       }

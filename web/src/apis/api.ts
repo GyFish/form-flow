@@ -9,6 +9,7 @@ export default class Api {
       baseURL: "http://localhost:7000",
       // timeout: 3000
     })
+    // this.http.
   }
 
   extractData(res: any) {

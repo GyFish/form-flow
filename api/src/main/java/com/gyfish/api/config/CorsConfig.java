@@ -21,6 +21,7 @@ public class CorsConfig {
 
         config.addAllowedOrigin("*");
         config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
 
