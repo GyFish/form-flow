@@ -1,5 +1,5 @@
 import { Document } from 'mongoose'
 
-export interface Form extends Document {
+export interface FormMeta extends Document {
   title: string
 }

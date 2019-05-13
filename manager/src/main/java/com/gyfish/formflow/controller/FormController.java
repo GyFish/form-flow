@@ -40,7 +40,7 @@ public class FormController {
         log.info("=== 保存表单结构信息 ===");
         log.info("formEditorVo = {}", JSON.toJSONString(formEditorVo, true));
 
-        formService.saveDefinition(formEditorVo);
+//        formService.saveDefinition(formEditorVo);
 
         return AppResponse.ok("保存表单结构数据成功！");
     }

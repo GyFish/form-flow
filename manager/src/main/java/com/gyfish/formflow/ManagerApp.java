@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author geyu1
+ * @author geyu
  */
 @SpringBootApplication
 @MapperScan("com.gyfish.formflow.dao")

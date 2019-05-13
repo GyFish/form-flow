@@ -2,6 +2,9 @@ package com.gyfish.formflow.config;
 
 import lombok.Data;
 
+/**
+ * @author geyu
+ */
 @Data
 public class AppResponse {
 
