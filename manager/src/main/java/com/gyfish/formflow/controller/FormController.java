@@ -1,9 +1,9 @@
 package com.gyfish.formflow.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.gyfish.formflow.config.AppResponse;
-import com.gyfish.formflow.service.FormService;
-import com.gyfish.formflow.vo.FormEditorVo;
+import com.gyfish.formflow.domain.form.FormInfo;
+import com.gyfish.formflow.service.FormInfoService;
+import com.gyfish.formflow.util.AppResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,25 +26,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FormController {
 
-    private final FormService formService;
+    private final FormInfoService formInfoService;
 
     @Autowired
-    public FormController(FormService formService) {
-        this.formService = formService;
+    public FormController(FormInfoService formInfoService) {
+        this.formInfoService = formInfoService;
     }
 
     /**
-     * 保存表单定义
+     * 保存表单信息
      */
-    @PostMapping("/saveDefinition")
-    public Object saveDefinition(@RequestBody FormEditorVo formEditorVo) {
+    @PostMapping("/saveFormInfo")
+    public Object saveFormInfo(@RequestBody FormInfo formInfo) {
 
-        log.info("=== 保存表单结构信息 ===");
-        log.info("formEditorVo = {}", JSON.toJSONString(formEditorVo, true));
+        log.info("=== 保存表单信息 ===");
+        log.info("formInfo = {}", JSON.toJSONString(formInfo, true));
 
-//        formService.saveDefinition(formEditorVo);
+        formInfo.setUuid(UUID.randomUUID().toString());
+        formInfoService.insert(formInfo);
 
-        return AppResponse.ok("保存表单结构数据成功！");
+        return new AppResponse<>().ok("保存表单结构数据成功！", formInfo);
     }
 
     /**
@@ -50,8 +53,10 @@ public class FormController {
      */
     @GetMapping("/getFormList")
     public Object getFormList() {
+
         log.info("=== 获取表单列表 ===");
-        return AppResponse.ok(formService.getFormList());
+
+        return new AppResponse<>().ok(formInfoService.getFormList());
     }
 
     /**
@@ -63,7 +68,7 @@ public class FormController {
         log.info("=== 获取表单元素列表 ===");
         log.info("dFormId = {}", JSON.toJSONString(dFormId));
 
-        return AppResponse.ok(formService.getFormItems(dFormId));
+        return new AppResponse<>().ok();
     }
 
 }

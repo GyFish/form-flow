@@ -1,6 +1,6 @@
 package com.gyfish.formflow.controller;
 
-import com.gyfish.formflow.config.AppResponse;
+import com.gyfish.formflow.util.AppResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +34,7 @@ public class FlowController {
 
         // 保存各个节点
 
-        return AppResponse.ok("");
+        return new AppResponse<>().ok("");
     }
 
 }

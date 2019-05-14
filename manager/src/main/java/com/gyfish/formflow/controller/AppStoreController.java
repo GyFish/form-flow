@@ -1,6 +1,6 @@
 package com.gyfish.formflow.controller;
 
-import com.gyfish.formflow.config.AppResponse;
+import com.gyfish.formflow.util.AppResponse;
 import com.gyfish.formflow.service.AppStoreService;
 import com.gyfish.formflow.vo.AppInfoVo;
 
@@ -29,14 +29,14 @@ public class AppStoreController {
     @GetMapping("/appList")
     public Object appList() {
 
-        return AppResponse.ok(appStoreService.findAll());
+        return new AppResponse<>().ok(appStoreService.findAll());
     }
 
     @PostMapping("/saveApp")
     public AppResponse saveApp(@RequestBody AppInfoVo infoVo) {
 
         appStoreService.saveApp(infoVo);
-        return AppResponse.ok("save appInfo ok!");
+        return new AppResponse<>().ok("save appInfo ok!");
     }
 
 
@@ -44,7 +44,7 @@ public class AppStoreController {
     public AppResponse deleteApp(Integer appId) {
 
         appStoreService.deleteApp(appId);
-        return AppResponse.ok("delete appInfo ok!");
+        return new AppResponse<>().ok("delete appInfo ok!");
     }
 
 

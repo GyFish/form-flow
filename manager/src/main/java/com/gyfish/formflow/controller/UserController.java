@@ -1,6 +1,6 @@
 package com.gyfish.formflow.controller;
 
-import com.gyfish.formflow.config.AppResponse;
+import com.gyfish.formflow.util.AppResponse;
 import com.gyfish.formflow.service.UserService;
 import com.gyfish.formflow.vo.UserQuery;
 import com.gyfish.formflow.vo.UserVo;
@@ -34,7 +34,7 @@ public class UserController {
     @PostMapping("/addUser")
     public Object addUser(@RequestBody UserVo userVo) {
 
-        return AppResponse.ok("新建用户成功！", userService.addUser(userVo));
+        return new AppResponse<>().ok("新建用户成功！", userService.addUser(userVo));
     }
 
     /**
@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping("/userList")
     public Object userList(@RequestBody UserQuery userQuery) {
 
-        return AppResponse.ok(userService.userList(userQuery));
+        return new AppResponse<>().ok(userService.userList(userQuery));
     }
 
     /**
@@ -52,7 +52,7 @@ public class UserController {
     @DeleteMapping("/deleteUser")
     public Object deleteUser(Integer id) {
 
-        return AppResponse.ok("删除用户成功！", userService.deleteUser(id));
+        return new AppResponse<>().ok("删除用户成功！", userService.deleteUser(id));
     }
 
 }

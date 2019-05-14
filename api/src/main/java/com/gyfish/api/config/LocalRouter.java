@@ -1,4 +1,4 @@
-package com.gyfish.api.router;
+package com.gyfish.api.config;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author geyu1
  */
 @Component
-public class DefaultRouter {
+public class LocalRouter {
 
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
