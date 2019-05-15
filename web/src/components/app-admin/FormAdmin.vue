@@ -88,8 +88,8 @@ export default class AppInfo extends Vue {
   }
 
   // 查询表单元素列表
-  async getFormItems(dFormId: any) {
-    this.formItems = await new FormApi().getFormItems(dFormId)
+  async getFormItems(uuid: any) {
+    this.formItems = await new FormApi().getFormItems(uuid)
   }
 
   // 获取表单列表
@@ -104,14 +104,14 @@ export default class AppInfo extends Vue {
 
   // 编辑
   async handleEdit(row: any) {
-    await this.getFormItems(row.id)
+    await this.getFormItems(row.uuid)
     this.updateFormItems(this.formItems)
     this.$router.push('/formEditor')
   }
 
   // 预览
   handleView(row: any) {
-    this.getFormItems(row.id)
+    this.getFormItems(row.uuid)
     this.showViewFlag = true
     this.showViewTitle = row.title
   }

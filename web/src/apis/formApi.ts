@@ -9,9 +9,9 @@ export default class FormApi extends Api {
 
   //~ ------------------------------------------------------
   // 保存表单结构数据
-  async saveDefinition(formDefinition: any) {
+  async saveForm(formDefinition: any) {
     const res: any = await this.http.post(
-      "/form/saveDefinition",
+      "/api/saveForm",
       formDefinition
     )
     return super.extractData(res)
@@ -19,15 +19,15 @@ export default class FormApi extends Api {
 
   // 查询表单列表
   async getFormList() {
-    const res: any = await this.http.get("/form/getFormList")
+    const res: any = await this.http.get("/manager/form/getFormList")
     return super.extractData(res)
   }
 
   // 查询表单元素列表
-  async getFormItems(dFormId: any) {
-    const res: any = await this.http.get("/form/getDefinition", {
+  async getFormItems(uuid: any) {
+    const res: any = await this.http.get("/form/getFormMeta", {
       params: {
-        dFormId
+        uuid
       }
     })
     return super.extractData(res)

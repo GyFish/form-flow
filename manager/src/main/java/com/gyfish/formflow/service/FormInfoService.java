@@ -5,8 +5,13 @@ import com.gyfish.formflow.domain.form.FormInfo;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+/**
+ * @author geyu
+ */
 @Service
 public class FormInfoService {
 
@@ -14,9 +19,9 @@ public class FormInfoService {
     private FormInfoMapper formInfoMapper;
 
 
-    public Object getFormList() {
+    public List<FormInfo> getFormList() {
 
-        return null;
+        return formInfoMapper.findAll();
     }
 
     public Integer insert(FormInfo formInfo) {

@@ -12,13 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import reactor.core.publisher.Mono;
+import java.util.UUID;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author geyu
  */
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class FormController {
 
     private final ManagerClient managerClient;
@@ -37,11 +40,17 @@ public class FormController {
     @PostMapping("/saveForm")
     public Object saveForm(@RequestBody FormVo formVo) {
 
+        log.info("\n>> /saveForm");
+
+        String uuid = UUID.randomUUID().toString();
+
+        log.info("set uuid = {}", uuid);
+        formVo.setUuid(uuid);
+        formVo.getForm().setUuid(uuid);
+
         // manager 添加记录，生成 uuid
-        FormInfo info = formVo.getFormInfo();
-        managerClient
-                .saveFormInfo(info)
-                .subscribe(info::setUuid);
+        FormInfo info = formVo.getForm();
+        managerClient.saveFormInfo(info);
 
         // service-form 带着 uuid，保存数据
         formClient.saveFormMeta(formVo);

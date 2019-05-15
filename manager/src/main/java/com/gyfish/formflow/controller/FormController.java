@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,10 +37,8 @@ public class FormController {
     @PostMapping("/saveFormInfo")
     public Object saveFormInfo(@RequestBody FormInfo formInfo) {
 
-        log.info("=== 保存表单信息 ===");
-        log.info("formInfo = {}", JSON.toJSONString(formInfo, true));
+        log.info("\n>> 保存表单信息，formInfo = {}", JSON.toJSONString(formInfo, true));
 
-        formInfo.setUuid(UUID.randomUUID().toString());
         formInfoService.insert(formInfo);
 
         return new AppResponse<>().ok("保存表单结构数据成功！", formInfo);

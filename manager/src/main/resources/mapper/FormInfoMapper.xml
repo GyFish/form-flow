@@ -34,5 +34,12 @@
         where id = #{id}
     </select>
 
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from form_info
+        order by create_time desc
+    </select>
+
 
 </mapper>

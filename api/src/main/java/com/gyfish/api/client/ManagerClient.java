@@ -1,18 +1,18 @@
 package com.gyfish.api.client;
 
-import com.alibaba.fastjson.JSON;
 import com.gyfish.api.client.vo.FormInfo;
-import com.gyfish.api.util.AppResponse;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 /**
  * @author geyu
  */
 @Component
+@Slf4j
 public class ManagerClient {
 
     private WebClient client = WebClient.builder()
@@ -31,16 +31,15 @@ public class ManagerClient {
     /**
      * mysql 插入数据，返回 uuid
      */
-    public Mono<String> saveFormInfo(FormInfo info) {
+    public void saveFormInfo(FormInfo info) {
 
-        return client.post()
+        log.info(">> saveFormInfo");
+
+        client.post()
                 .uri("/form/saveFormInfo")
                 .syncBody(info)
                 .retrieve()
-                .bodyToMono(AppResponse.class)
-                .map(AppResponse::getData)
-                .map(JSON::toJSONString)
-                .map(json -> JSON.parseObject(json, FormInfo.class))
-                .map(FormInfo::getUuid);
+                .bodyToMono(String.class)
+                .subscribe(log::info);
     }
 }

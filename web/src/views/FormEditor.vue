@@ -142,12 +142,11 @@ export default class FormEditor extends Vue {
     if (!this.saveCheck()) return
     // data
     let formEditorVo = {
-      id: 123,
-      dForm: this.data.form,
-      dFormItems: this.data.formItems
+      form: this.data.form,
+      items: this.data.formItems
     }
     console.log('formEditorVo = ', formEditorVo)
-    let res = await new FormApi().saveDefinition(formEditorVo)
+    let res = await new FormApi().saveForm(formEditorVo)
     this.$notify.success(res)
     this.backToFormAdmin()
   }

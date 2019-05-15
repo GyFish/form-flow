@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common'
 import { Model } from 'mongoose'
-import { FormMeta } from './domain/FormMeta'
+import { FormMeta } from './vo/FormMeta'
 
 @Injectable()
 export class FormService {
@@ -17,6 +17,17 @@ export class FormService {
   async findAll(): Promise<FormMeta[]> {
     console.log('form service find all...')
     return await this.formMetaModel.find().exec()
+  }
+
+  async getFormMeta(uuid: string): Promise<FormMeta> {
+    console.log('getFormMeta uuid = ', uuid)
+
+    let meta = await this.formMetaModel
+      .findOne({ uuid })
+      .lean()
+      .exec()
+
+    return meta.items
   }
 
   saveFormMeta(formMeta: FormMeta) {

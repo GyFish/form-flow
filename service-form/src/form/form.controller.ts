@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common'
 import { FormService } from './form.service'
-import { FormMeta } from './domain/FormMeta'
+import { FormMeta } from './vo/FormMeta'
 import { AppResponse } from 'src/util/AppResponse'
+import { async } from 'rxjs/internal/scheduler/async'
 
 @Controller('form')
 export class FormController {
@@ -18,9 +19,11 @@ export class FormController {
     return await this.formService.findAll()
   }
 
-  /**
-   * 保存表单定义
-   */
+  @Get('getFormMeta')
+  async getFormMeta(@Query('uuid') uuid: string) {
+    return await this.formService.getFormMeta(uuid)
+  }
+
   @Post('saveFormMeta')
   async saveFormMeta(@Body() formMeta: FormMeta) {
     console.log('>> saveFormMeta, formMeta = ', formMeta)

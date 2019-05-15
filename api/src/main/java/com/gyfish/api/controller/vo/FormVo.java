@@ -3,6 +3,8 @@ package com.gyfish.api.controller.vo;
 import com.gyfish.api.client.vo.FormInfo;
 import com.gyfish.api.client.vo.FormMeta;
 
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -11,8 +13,10 @@ import lombok.Data;
 @Data
 public class FormVo {
 
-    private FormInfo formInfo;
+    private String uuid;
 
-    private FormMeta formMeta;
+    private FormInfo form;
+
+    private List<FormMeta> items;
 
 }
