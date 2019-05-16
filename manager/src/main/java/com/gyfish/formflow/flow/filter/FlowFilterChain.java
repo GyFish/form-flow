@@ -1,8 +1,11 @@
 package com.gyfish.formflow.flow.filter;
 
-import com.gyfish.formflow.domain.flow.definition.FlowAction;
+import com.gyfish.formflow.domain.flow.graph.FlowAction;
 import com.gyfish.formflow.flow.event.FlowEvent;
 
+/**
+ * @author geyu
+ */
 public class FlowFilterChain {
 
     private int n = 0;
@@ -17,8 +20,11 @@ public class FlowFilterChain {
 
     public FlowFilterChain addFilter(FlowFilter flowFilter) {
 
-        for (FlowFilter filter : filters)
-            if (filter == flowFilter) return this;
+        for (FlowFilter filter : filters) {
+            if (filter == flowFilter) {
+                return this;
+            }
+        }
 
         // 扩容
         if (n == filters.length) {
@@ -34,8 +40,10 @@ public class FlowFilterChain {
     public void doFilter(FlowEvent e) {
 
         int pos = 0;
-        if (pos >= n)
-            flowAction.start(e);
+        if (pos >= n) {
+
+//            flowAction.start(e);
+        }
 
         FlowFilter filter = filters[n++];
         filter.doFilter(e, this);

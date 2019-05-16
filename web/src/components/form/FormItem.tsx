@@ -22,6 +22,7 @@ export default class FormItem extends Vue {
   }
 
   renderByFactory(h: CreateElement): VNode {
+    console.log(this.data)
     return (
       <div class="dynamic-item">
         <el-form-item

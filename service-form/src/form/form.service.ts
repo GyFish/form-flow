@@ -27,7 +27,9 @@ export class FormService {
       .lean()
       .exec()
 
-    return meta.items
+    if (meta) {
+      return meta.items
+    }
   }
 
   saveFormMeta(formMeta: FormMeta) {

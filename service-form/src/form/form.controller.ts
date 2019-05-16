@@ -21,7 +21,7 @@ export class FormController {
 
   @Get('getFormMeta')
   async getFormMeta(@Query('uuid') uuid: string) {
-    return await this.formService.getFormMeta(uuid)
+    return AppResponse.ok(await this.formService.getFormMeta(uuid))
   }
 
   @Post('saveFormMeta')
