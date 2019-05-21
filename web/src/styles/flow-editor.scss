@@ -27,7 +27,11 @@
     .flow-page {
       .el-button {
         margin: 0;
-        width: 200px;
+        // width: 200px;
+      }
+      .addButton {
+        width: 28px;
+        padding: 7px 7px;
       }
     }
   }

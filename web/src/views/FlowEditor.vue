@@ -1,13 +1,8 @@
 <template>
   <div class="flow-editor">
     <el-container>
-      
-      <!-- 左侧类型节点面板 -->
-      <el-aside>
-        <flow-item @addNode="addNode"></flow-item>
-      </el-aside>
 
-      <!-- 中间画板 -->
+      <!-- 画板 -->
       <el-main>
         <div ref="page" class="flow-page"></div>
       </el-main>
@@ -29,15 +24,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import FlowItem from '@/components/flow/FlowItem.vue'
 import FlowConfig from '@/components/flow/FlowConfig.vue'
 import G6 from '@antv/g6'
 import G6Register from '@/components/flow/G6Register'
 import { FlowNode, NodeModel } from '@/components/flow/index'
 import FlowApi from '@/apis/FlowApi'
+import Maker from '@/components/flow/Maker'
 
 @Component({
-  components: { FlowItem, FlowConfig }
+  components: { FlowConfig }
 })
 export default class FlowEditor extends Vue {
   //== 图数据 =====================================
@@ -77,12 +72,119 @@ export default class FlowEditor extends Vue {
   mounted() {
     this.createEditor()
     this.handleRead()
-    this.handleClick()
-    this.handleDragStart()
-    this.handleDrag()
+
+    this.drawStartNode()
   }
 
   //== 绘图方法 =====================================
+
+  // 创建编辑器
+  createEditor() {
+    this.graph = new G6.Graph({
+      container: this.$refs.page,
+      height: window.innerHeight,
+      renderer: 'svg'
+    })
+  }
+
+  // 绘制开始节点
+  drawStartNode() {
+
+    G6.registerNode('startNode', {
+      draw(item: any){
+        const group = item.getGraphicGroup()
+        const model = item.getModel()
+        let keyShape = group.addShape('circle', {
+          attrs: {
+            x: 0,
+            y: 0,
+            r: 30,
+            fill: '#ECF5FF',
+            stroke: '#C6E2FF'
+          }
+        })
+        group.addShape('text', {
+          attrs: {
+            x: 0,
+            y: 0,
+            fill: '#333',
+            text: '点击开始',
+            textBaseline: 'middle',
+            textAlign: 'center'
+          }
+        })
+        return keyShape
+      }
+    })
+
+    this.graph.add('node', {
+      id: 'startNode',
+      shape: 'startNode',
+      x: 400,
+      y: 50,
+    })
+
+    this.graph.on('node:click', (ev: any) => {
+      let nodeId = ev.item.id
+      if (nodeId == 'startNode') {
+        this.drawAddButton()
+        this.mountStart()
+        this.startLine()
+      }
+    })
+
+  }
+
+  // 绘制增加节点
+  drawAddButton() {
+
+    G6.registerNode('addButton', {
+      draw(item: any){
+        const group = item.getGraphicGroup();
+        const html = G6.Util.createDOM(`<div id="add">`);
+        return group.addShape('dom', {
+          attrs: {
+            x: 0,
+            y: 0,
+            width: 28,
+            height: 28,
+            html
+          }
+        })
+      }
+    })
+
+    let addButton = {
+      id: 'addButton',
+      shape: 'addButton',
+      x: 400 - 28 / 2,
+      y: 100,
+    }
+    this.graph.add('node', addButton)
+  
+  }
+
+  startLine() {
+    this.graph.add('edge', {
+      id: 'edge1',
+      target: 'addButton',
+      source: 'startNode'
+    })
+  }
+
+  mountStart() {
+    let vueNode = Vue.extend({
+      render: () => { return new Maker().render(this.$createElement) }
+      // render: h => h('el-button', {
+      //   props: {
+      //     type: 'success',
+      //     icon: 'el-icon-plus',
+      //     circle: true,
+      //   }
+      // })
+    })
+    new vueNode().$mount('#add')
+  }
 
   // 获取节点
   getNode(ev: any) {
@@ -159,19 +261,6 @@ export default class FlowEditor extends Vue {
     })
   }
 
-  // 创建编辑器，点击、拖动事件
-  createEditor() {
-    console.log('创建编辑器')
-    // 注册节点
-    new G6Register().register()
-    // 创建图实例
-    this.graph = new G6.Graph({
-      container: this.$refs.page,
-      height: 500,
-      renderer: 'svg'
-    })
-  }
-
   // 渲染数据
   handleRead(graphData: any = {}) {
     this.graph.read(graphData)
@@ -245,3 +334,6 @@ export default class FlowEditor extends Vue {
   }
 }
 </script>
+
+<style>
+</style>

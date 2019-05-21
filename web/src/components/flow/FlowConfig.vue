@@ -109,7 +109,7 @@ export default class FlowConfig extends Vue {
   //== methods =====================================
 
   async mounted() {
-    await this.getUserList()
+    // await this.getUserList()
   }
 
   // 与下一节点连线
