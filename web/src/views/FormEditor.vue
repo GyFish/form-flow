@@ -8,7 +8,7 @@
           :clone="clone"
           :options="{group:{name:'people',pull:'clone',put:false},sort:false}"
         >
-          <div v-for="metas in meta.items">
+          <div v-for="metas in meta.items" :key="metas.id">
             <metas :icon="metas.icon" :label="metas.label"></metas>
           </div>
         </draggable>
@@ -18,7 +18,7 @@
       <el-main>
         <el-form v-model="result" label-position="left" label-width="100px">
           <draggable class="pad" v-model="computedFormItems" :options="{group:'people'}">
-            <div v-for="(item, idx) of computedFormItems">
+            <div v-for="(item, idx) of computedFormItems" :key="idx">
               <el-row type="flex" align="middle">
                 <el-col :span="22">
                   <form-item :data="{...item, idx}" :mode="`EDIT`"></form-item>

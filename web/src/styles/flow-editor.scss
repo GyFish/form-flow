@@ -27,13 +27,18 @@
     .flow-page {
       .el-button {
         margin: 0;
-        // width: 200px;
       }
-      .addButton {
-        width: 25px;
-        height: 25px;
-        padding-left: 6px;
-        padding-top: 6px;
+      .el-card__header {
+        padding: 5px 10px;
+        font-size: 12px;
+        .el-dropdown {
+          height: 12px;
+          font-size: 6px;
+          .el-button {
+            padding: 1px 1px;
+            vertical-align: middle;
+          }
+        }
       }
     }
   }
