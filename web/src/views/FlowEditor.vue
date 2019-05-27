@@ -20,13 +20,12 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
+import G6 from '@antv/g6'
+
 import FlowConfig from '@/components/flow/FlowConfig.vue'
 import Maker from '@/components/flow/Maker'
 import { FlowNode, NodeModel } from '@/components/flow/index'
 import FlowApi from '@/apis/FlowApi'
-
-import G6 from '@antv/g6'
-import G6Register from '@/components/flow/G6Register'
 
 @Component({
   components: { FlowConfig }
@@ -48,6 +47,7 @@ export default class FlowEditor extends Vue {
 
   // 当前节点
   nodeData: NodeModel = {
+    activeTab: 'flowConfig',
     model: {},
     node: {
       id: 0,
@@ -62,16 +62,19 @@ export default class FlowEditor extends Vue {
       handlerName: '',
       handlerGroupId: 0,
       handlerGroupName: ''
-    },
-    dataMap: {},
-    nodeMap: {}
+    }
   }
+  // 节点列表
+  nodeList: Array<FlowNode> = []
   // id - g6Node map
   idG6Map: any = {}
 
+  idNodeMap: any = {}
+
+  idHtmlMap: any = {}
+
   // starter 索引
   starterIndex = 0
-  starterY = 50
 
   // 节点 索引
   nodeIndex = 0
@@ -86,7 +89,7 @@ export default class FlowEditor extends Vue {
     this.drawStartNode()
 
     // 延迟加载 vnode，需要等到 G6 渲染完毕
-    setTimeout(this.handleAddNode, 100)
+    setTimeout(this.handleAddNode, 200)
   }
 
   //== 绘图方法 =====================================
@@ -105,9 +108,12 @@ export default class FlowEditor extends Vue {
     this.graph.read(graphData)
   }
 
+  // 点击事件
   handleNodeClick() {
     this.graph.on('node:click', (ev: any) => {
       let nodeId = ev.item.id
+      console.log('=== 点击节点', nodeId, ev.item)
+      this.nodeData.activeTab = 'nodeConfig'
     })
   }
 
@@ -155,19 +161,24 @@ export default class FlowEditor extends Vue {
       x: this.axisX,
       y: this.axisY
     })
+
+    this.nodeList.push({
+      id: 'startNode',
+      nodeName: 'startNode'
+    })
   }
 
   // 绘制节点卡片
-  drawNodeCard(x = this.axisX - 200 / 2, y = 150): string {
+  drawNodeCard(node: FlowNode, x: any, y: any) {
     let maker = new Maker()
     let width = 200
     let height = 69
-    let id = 'node-' + this.nodeIndex++
 
-    console.log(`=== draw NodeCard, id = ${id}, x = ${x}, y = ${y}`)
+    console.log(`=== draw NodeCard, id = ${node.id}, x = ${x}, y = ${y}`)
 
     // 注册 shape
-    maker.register({
+    let html = maker.register({
+      id: node.id,
       width,
       height
     })
@@ -175,53 +186,59 @@ export default class FlowEditor extends Vue {
     // 创建 dom
     maker.createDom(
       {
-        id,
+        id: node.id,
         x,
         y
       },
       this.graph
     )
 
-    maker.mountNode(this.$createElement, this.handleAddNode)
+    maker.mountNode(this.$createElement, html, node, {
+      add: this.handleAddNode,
+      delete: this.handleDeleteNode,
+      edit: this.handleEditNode
+    })
 
-    this.starterY += 80
-    return id
+    this.nodeList.push(node)
+    this.idHtmlMap[node.id] = html
+    this.idNodeMap[node.id] = node
   }
 
+  // 增加节点
   handleAddNode(type: string) {
-    this.graphData = this.graph.save()
-    console.log(this.graphData)
+    console.log(`=== handle add node`)
 
-    let { nodes } = this.graphData
+    let { nodes } = this.graph.save()
     let last = nodes[nodes.length - 1]
 
-    let source = last.id
     let y = this.axisY + (2 * nodes.length - 1) * this.axisYStep
 
-    console.log(
-      `=== handle add node, type = ${type}, source = ${source}, y = ${y}`
-    )
+    let node = new FlowNode()
+    node.id = 'node-' + this.nodeIndex++
+    node.nodeName = 'task'
 
-    let nodeId = this.drawNodeCard(this.axisX - 200 / 2, y)
-    console.log(nodeId)
+    this.drawNodeCard(node, this.axisX - 200 / 2, y)
 
-    this.drawEdge(last.id, nodeId)
+    this.drawEdge(last.id, node.id)
   }
 
-  // 点击事件
-  handleClick() {
-    this.graph.on('node:click', (ev: any) => {
-      let nodeId = ev.item.id
-      console.log('>> 点击节点', nodeId, ev.item)
-      this.nodeData.node = this.nodeData.nodeMap[ev.item.id]
-    })
+  // 编辑节点
+  handleEditNode(node: FlowNode) {
+    console.log('=== 编辑节点，node =', node)
+    this.nodeData.node = node
   }
+
+  // 删除节点
+  handleDeleteNode() {
+    alert('handleDeleteNode')
+  }
+
+  //== node =====================================
 
   //== api =====================================
 
   // 保存流程定义
   async saveDefinition() {
-    console.log(this.nodeData.dataMap)
     await new FlowApi().saveDefinition(this.idG6Map)
   }
 }

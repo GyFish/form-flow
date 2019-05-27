@@ -1,11 +1,11 @@
 <template>
   <el-container>
     <el-main style="border:0">
-      <el-tabs stretch value="flowConfig">
+      <el-tabs stretch :value="activeTab" @tab-click="setActiveTab">
         <el-tab-pane label="节点属性" name="nodeConfig">
           <el-form label-position="top">
             <el-form-item label="节点名称">
-              <el-input v-model="node.nodeName" @change="$emit('updateVueModel')"></el-input>
+              <el-input v-model="node.nodeName" @change="value => nodeData.node.nodeName = value"></el-input>
             </el-form-item>
             <el-form-item label="处理人">
               <el-select v-model="node.handlerId">
@@ -36,24 +36,10 @@
                 <el-option label="审核节点" value="check"></el-option>
               </el-select>
             </el-form-item>
-            <!-- 列举所有节点 -->
-            <el-form-item label="下一节点">
-              <el-select v-model="node.nextNode" @change="handleNextNode">
-                <el-option
-                  v-for="n of Object.values(nodeData.nodeMap)"
-                  :key="n.id"
-                  :label="n.nodeName"
-                  :value="n.id"
-                ></el-option>
-              </el-select>
-            </el-form-item>
           </el-form>
           <el-form label-position="left">
             <el-form-item label="允许流回">
               <el-switch v-model="node.canFlowBack"></el-switch>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="danger" @click="deleteNode">删除</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -89,6 +75,15 @@ export default class FlowConfig extends Vue {
   nodeData!: NodeModel
 
   //== data =====================================
+
+  get activeTab() {
+    return this.nodeData.activeTab
+  }
+  setActiveTab(tab: any) {
+    console.log('set tab.name = ', tab.name)
+    this.nodeData.activeTab = tab.name
+  }
+
   // 节点绘图属性
   get node() {
     return this.nodeData.node
@@ -112,18 +107,8 @@ export default class FlowConfig extends Vue {
     // await this.getUserList()
   }
 
-  // 与下一节点连线
-  handleNextNode(nextNodeId: any) {
-    this.$emit('addLine', {
-      source: this.nodeData.model.id,
-      target: nextNodeId
-    })
-  }
-
-  // 删除节点
-  deleteNode() {}
-
   //== api =====================================
+
   // 获取处理人列表
   async getUserList() {
     this.userList = await new UserApi().userList({})

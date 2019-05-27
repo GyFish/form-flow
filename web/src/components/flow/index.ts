@@ -1,18 +1,15 @@
-
 // G6 node，前两个是 g6 属性
 export interface NodeModel {
   // 当前节点 g6 model
   model: any
   // 节点流程属性
   node: FlowNode
-  // g6 所有节点、连线 map
-  dataMap: any
-  // id - vue map
-  nodeMap: any
+  // 当前配置栏标签页
+  activeTab: string
 }
 
 // 节点
-export interface FlowNode {
+export class FlowNode {
   // 节点 id
   id: any
   // 所属流程 id
@@ -39,7 +36,7 @@ export interface FlowNode {
   nextNodeId?: number
   // 是否可流回
   canFlowBack?: Boolean
-  // 
+  //
 }
 
 // 流程动作，即流程图中的连线

@@ -1,10 +1,9 @@
-import Vue, { CreateElement, VNode } from 'vue'
+import Vue, { CreateElement, VNode, RenderContext } from 'vue'
 import G6 from '@antv/g6'
 import NodeCard from '@/components/flow/NodeCard'
+import { FlowNode } from '.'
 
 export default class Maker {
-  html: any
-
   shape = 'shape'
 
   register(option: any) {
@@ -24,7 +23,7 @@ export default class Maker {
       },
       anchor: [[0.5, 0], [0.5, 1]]
     })
-    this.html = html
+    return html
   }
 
   createDom(model: any, graph: any) {
@@ -36,12 +35,23 @@ export default class Maker {
     })
   }
 
-  mountNode(h: CreateElement, commandHandler: any) {
+  /**
+   * 渲染 vnode 到创建好的 dom 上
+   *
+   * @param h 渲染函数
+   * @param handler 回调函数集合
+   */
+  mountNode(h: CreateElement, html: any, node: FlowNode, handler: any) {
     let vueNode = Vue.extend({
+      props: ['node'],
       render: () => {
-        return new NodeCard().render(h, commandHandler)
+        return new NodeCard().render(h, node, handler)
       }
     })
-    new vueNode().$mount(this.html)
+    new vueNode({
+      propsData: {
+        node
+      }
+    }).$mount(html)
   }
 }
