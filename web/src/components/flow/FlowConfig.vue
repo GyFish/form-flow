@@ -5,7 +5,7 @@
         <el-tab-pane label="节点属性" name="nodeConfig">
           <el-form label-position="top">
             <el-form-item label="节点名称">
-              <el-input v-model="node.nodeName" @change="value => nodeData.node.nodeName = value"></el-input>
+              <el-input v-model="node.nodeName" @change="value => configModel.node.nodeName = value"></el-input>
             </el-form-item>
             <el-form-item label="处理人">
               <el-select v-model="node.handlerId">
@@ -65,31 +65,31 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import UserApi from '@/apis/UserApi'
-import { NodeModel, FlowNode } from '@/components/flow/index'
+import { ConfigModel, FlowNode } from '@/components/flow/index'
 import FormApi from '../../apis/FormApi'
 
 @Component
 export default class FlowConfig extends Vue {
   // 属性
   @Prop()
-  nodeData!: NodeModel
+  configModel!: ConfigModel
 
   //== data =====================================
 
   get activeTab() {
-    return this.nodeData.activeTab
+    return this.configModel.activeTab
   }
   setActiveTab(tab: any) {
     console.log('set tab.name = ', tab.name)
-    this.nodeData.activeTab = tab.name
+    this.configModel.activeTab = tab.name
   }
 
   // 节点绘图属性
   get node() {
-    return this.nodeData.node
+    return this.configModel.node
   }
-  set node(nodeData: any) {
-    this.nodeData = nodeData
+  set node(configModel: any) {
+    this.configModel = configModel
   }
 
   // 处理人列表

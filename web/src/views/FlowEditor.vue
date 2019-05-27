@@ -9,7 +9,7 @@
       <!-- 右侧配置面板 -->
       <el-aside>
         <div class="flow-config">
-          <flow-config :nodeData="nodeData" @saveDefinition="saveDefinition"></flow-config>
+          <flow-config :configModel="configModel" @saveDefinition="saveDefinition"></flow-config>
         </div>
       </el-aside>
     </el-container>
@@ -24,7 +24,7 @@ import G6 from '@antv/g6'
 
 import FlowConfig from '@/components/flow/FlowConfig.vue'
 import Maker from '@/components/flow/Maker'
-import { FlowNode, NodeModel } from '@/components/flow/index'
+import { FlowNode, ConfigModel } from '@/components/flow/index'
 import FlowApi from '@/apis/FlowApi'
 
 @Component({
@@ -46,7 +46,7 @@ export default class FlowEditor extends Vue {
   axisYStep = 50
 
   // 当前节点
-  nodeData: NodeModel = {
+  configModel: ConfigModel = {
     activeTab: 'flowConfig',
     model: {},
     node: {
@@ -70,8 +70,6 @@ export default class FlowEditor extends Vue {
   idG6Map: any = {}
 
   idNodeMap: any = {}
-
-  idHtmlMap: any = {}
 
   // starter 索引
   starterIndex = 0
@@ -98,7 +96,8 @@ export default class FlowEditor extends Vue {
   createEditor() {
     this.graph = new G6.Graph({
       container: this.$refs.page,
-      height: window.innerHeight,
+      height: 1000,
+      // height: window.innerHeight,
       renderer: 'svg'
     })
   }
@@ -113,7 +112,7 @@ export default class FlowEditor extends Vue {
     this.graph.on('node:click', (ev: any) => {
       let nodeId = ev.item.id
       console.log('=== 点击节点', nodeId, ev.item)
-      this.nodeData.activeTab = 'nodeConfig'
+      this.configModel.activeTab = 'nodeConfig'
     })
   }
 
@@ -184,7 +183,7 @@ export default class FlowEditor extends Vue {
     })
 
     // 创建 dom
-    maker.createDom(
+    let g6Node = maker.createDom(
       {
         id: node.id,
         x,
@@ -200,32 +199,40 @@ export default class FlowEditor extends Vue {
     })
 
     this.nodeList.push(node)
-    this.idHtmlMap[node.id] = html
+    this.idG6Map[node.id] = g6Node
     this.idNodeMap[node.id] = node
   }
 
   // 增加节点
-  handleAddNode(type: string) {
+  handleAddNode(curNode: FlowNode) {
     console.log(`=== handle add node`)
 
     let { nodes } = this.graph.save()
-    let last = nodes[nodes.length - 1]
 
-    let y = this.axisY + (2 * nodes.length - 1) * this.axisYStep
+    console.log('nodes', nodes)
+    console.log('curNode', curNode)
+
+    let last = nodes[nodes.length - 1]
+    let lastAxixY = this.axisY + (2 * nodes.length - 1) * this.axisYStep
 
     let node = new FlowNode()
-    node.id = 'node-' + this.nodeIndex++
+    node.id = 'node-' + new Date().getTime()
     node.nodeName = 'task'
 
-    this.drawNodeCard(node, this.axisX - 200 / 2, y)
-
-    this.drawEdge(last.id, node.id)
+    // 是否中间节点
+    if (this.isLast(nodes, curNode)) {
+      this.drawNodeCard(node, this.axisX - 200 / 2, lastAxixY)
+      this.drawEdge(last.id, node.id)
+    } else {
+      this.drawNodeCard(node, this.axisX - 200 / 2, this.idG6Map[curNode.id].model.y + 2 * this.axisYStep)
+      this.slide(nodes, curNode)
+    }
   }
 
   // 编辑节点
   handleEditNode(node: FlowNode) {
     console.log('=== 编辑节点，node =', node)
-    this.nodeData.node = node
+    this.configModel.node = node
   }
 
   // 删除节点
@@ -234,6 +241,33 @@ export default class FlowEditor extends Vue {
   }
 
   //== node =====================================
+
+  isLast(nodes: any, curNode: FlowNode) {
+    if (!curNode) {
+      return true
+    }
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i]
+      if (node.id == curNode.id) {
+        return i == nodes.length - 1
+      }
+    }
+  }
+
+  slide(nodes: any, curNode: FlowNode) {
+    console.log('向后滑动节点')
+
+    let slideFlag = false
+
+    for (const node of nodes) {
+      if (slideFlag) {
+        this.graph.update(node.id, { y: node.y += 2 * this.axisYStep })
+      }
+      if (slideFlag || node.id == curNode.id) {
+        slideFlag = true
+      }
+    }
+  }
 
   //== api =====================================
 

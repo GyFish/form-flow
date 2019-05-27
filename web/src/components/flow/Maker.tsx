@@ -27,12 +27,14 @@ export default class Maker {
   }
 
   createDom(model: any, graph: any) {
-    graph.add('node', {
+    let g6Node = graph.add('node', {
       id: model.id,
       x: model.x,
       y: model.y,
       shape: this.shape
     })
+    console.log('创建 g6 节点，node =', g6Node)
+    return g6Node
   }
 
   /**

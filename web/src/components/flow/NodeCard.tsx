@@ -7,7 +7,7 @@ export default class NodeCard {
       <el-card shadow="never">
         <div slot="header">
           <span>{node.nodeName}</span>
-          <el-dropdown onCommand={handler.add} trigger="click" style="float: right;">
+          <el-dropdown onCommand={() => handler.add(node)} trigger="click" style="float: right;">
             <el-button type="primary" icon="el-icon-plus" />
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="task">任务节点</el-dropdown-item>

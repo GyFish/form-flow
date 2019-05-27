@@ -1,5 +1,5 @@
 // G6 node，前两个是 g6 属性
-export interface NodeModel {
+export interface ConfigModel {
   // 当前节点 g6 model
   model: any
   // 节点流程属性
