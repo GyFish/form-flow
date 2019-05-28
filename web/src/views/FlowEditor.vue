@@ -39,7 +39,7 @@ export default class FlowEditor extends Vue {
     edges: []
   }
   // 中轴线 x 坐标
-  axisX = 400
+  axisX = 450
   // 中轴线上节点位置
   axisY = 50
   // 节点间距
@@ -68,7 +68,7 @@ export default class FlowEditor extends Vue {
   nodeList: Array<FlowNode> = []
   // id - g6Node map
   idG6Map: any = {}
-
+  // id - vueNode map
   idNodeMap: any = {}
 
   // starter 索引
@@ -87,7 +87,11 @@ export default class FlowEditor extends Vue {
     this.drawStartNode()
 
     // 延迟加载 vnode，需要等到 G6 渲染完毕
-    setTimeout(this.handleAddNode, 200)
+    let startNode = this.idNodeMap['startNode']
+    console.log('this.idNodeMap', this.idNodeMap)
+    console.log('this.idG6Map', this.idG6Map)
+    console.log(startNode)
+    setTimeout(() => this.handleAddNode(startNode), 200)
   }
 
   //== 绘图方法 =====================================
@@ -111,8 +115,9 @@ export default class FlowEditor extends Vue {
   handleNodeClick() {
     this.graph.on('node:click', (ev: any) => {
       let nodeId = ev.item.id
-      console.log('=== 点击节点', nodeId, ev.item)
+      console.debug('=== 点击节点', nodeId, ev.item)
       this.configModel.activeTab = 'nodeConfig'
+      this.configModel.node = this.idNodeMap[nodeId]
     })
   }
 
@@ -126,6 +131,17 @@ export default class FlowEditor extends Vue {
 
   // 绘制开始节点
   drawStartNode() {
+    let startNode = new FlowNode()
+    startNode.id = 'startNode'
+    startNode.nodeName = 'startNode'
+
+    this.nodeList.push({
+      id: 'startNode',
+      nodeName: 'startNode'
+    })
+
+    this.idNodeMap['startNode'] = startNode
+
     G6.registerNode('startNode', {
       draw(item: any) {
         const group = item.getGraphicGroup()
@@ -154,17 +170,14 @@ export default class FlowEditor extends Vue {
       }
     })
 
-    this.graph.add('node', {
+    let startG6Node = this.graph.add('node', {
       id: 'startNode',
       shape: 'startNode',
       x: this.axisX,
       y: this.axisY
     })
 
-    this.nodeList.push({
-      id: 'startNode',
-      nodeName: 'startNode'
-    })
+    this.idG6Map['startNode'] = startG6Node
   }
 
   // 绘制节点卡片
@@ -192,13 +205,13 @@ export default class FlowEditor extends Vue {
       this.graph
     )
 
+    // 挂载 vue 组件
     maker.mountNode(this.$createElement, html, node, {
       add: this.handleAddNode,
       delete: this.handleDeleteNode,
       edit: this.handleEditNode
     })
 
-    this.nodeList.push(node)
     this.idG6Map[node.id] = g6Node
     this.idNodeMap[node.id] = node
   }
@@ -206,27 +219,34 @@ export default class FlowEditor extends Vue {
   // 增加节点
   handleAddNode(curNode: FlowNode) {
     console.log(`=== handle add node`)
-
-    let { nodes } = this.graph.save()
-
-    console.log('nodes', nodes)
-    console.log('curNode', curNode)
-
-    let last = nodes[nodes.length - 1]
-    let lastAxixY = this.axisY + (2 * nodes.length - 1) * this.axisYStep
+    console.log('  this.nodeList', this.nodeList)
+    console.log('  curNode', curNode)
 
     let node = new FlowNode()
     node.id = 'node-' + new Date().getTime()
     node.nodeName = 'task'
 
-    // 是否中间节点
-    if (this.isLast(nodes, curNode)) {
-      this.drawNodeCard(node, this.axisX - 200 / 2, lastAxixY)
-      this.drawEdge(last.id, node.id)
-    } else {
-      this.drawNodeCard(node, this.axisX - 200 / 2, this.idG6Map[curNode.id].model.y + 2 * this.axisYStep)
-      this.slide(nodes, curNode)
+    // 插入点的索引
+    let insertPoint = this.getIndex(this.nodeList, curNode)
+    console.log('  插入点的索引值 =', insertPoint)
+
+    // 插入点纵坐标，如果是第一个节点，间距小一些
+    let step = insertPoint == 0 ? this.axisYStep : 2 * this.axisYStep
+    let axisY = this.idG6Map[curNode.id].model.y + step
+
+    // 追加节点
+    this.drawNodeCard(node, this.axisX - 200 / 2, axisY)
+
+    // 绘制连线
+    this.drawEdge(curNode.id, node.id)
+
+    // 如果是中间节点，则需要移动后面的位置
+    if (!this.isLast(this.nodeList, curNode)) {
+      this.slideDown(this.nodeList, curNode)
     }
+
+    // 插入元素，维护列表
+    this.nodeList.splice(insertPoint + 1, 0, node)
   }
 
   // 编辑节点
@@ -236,8 +256,34 @@ export default class FlowEditor extends Vue {
   }
 
   // 删除节点
-  handleDeleteNode() {
-    alert('handleDeleteNode')
+  handleDeleteNode(node: FlowNode) {
+    console.log('=== 删除节点，node =', node)
+
+    // 删除节点的索引
+    let deletePoint = this.getIndex(this.nodeList, node)
+    console.log('  删除节点的索引值 =', deletePoint)
+
+    // 初始节点不允许删除
+    if (deletePoint <= 1) {
+      return
+    }
+
+    if (!this.isLast(this.nodeList, node)) {
+      // 上移节点
+      this.slideUp(this.nodeList, node)
+      // 在断点连线
+      this.drawEdge(this.nodeList[deletePoint - 1].id, this.nodeList[deletePoint + 1].id)
+    }
+
+    // 从 map 中移除
+    delete this.idNodeMap[node.id]
+    delete this.idG6Map[node.id]
+
+    // 删除 vue 节点
+    this.nodeList.splice(deletePoint, 1)
+
+    // 删除 g6 节点
+    this.graph.remove(node.id)
   }
 
   //== node =====================================
@@ -254,19 +300,45 @@ export default class FlowEditor extends Vue {
     }
   }
 
-  slide(nodes: any, curNode: FlowNode) {
-    console.log('向后滑动节点')
-
+  // 插入节点时，数组向后移动
+  slideDown(nodeList: any, curNode: FlowNode) {
     let slideFlag = false
 
-    for (const node of nodes) {
+    for (const node of nodeList) {
       if (slideFlag) {
-        this.graph.update(node.id, { y: node.y += 2 * this.axisYStep })
+        console.log(`  下推节点, nodeName = ${curNode.nodeName}`)
+        this.graph.update(node.id, { y: this.idG6Map[node.id].model.y += 2 * this.axisYStep })
       }
       if (slideFlag || node.id == curNode.id) {
         slideFlag = true
       }
     }
+  }
+
+  // 删除节点时，数组向前移动
+  slideUp(nodeList: any, curNode: FlowNode) {
+    let slideFlag = false
+
+    for (const node of nodeList) {
+      if (slideFlag) {
+        console.log(`  上移节点, nodeName = ${curNode.nodeName}`)
+        this.graph.update(node.id, { y: this.idG6Map[node.id].model.y -= 2 * this.axisYStep })
+      }
+      if (slideFlag || node.id == curNode.id) {
+        slideFlag = true
+      }
+    }
+  }
+
+  // 获取索引
+  getIndex(nodeList: any, curNode: FlowNode) {
+    for (let i = 0; i < nodeList.length; i++) {
+      let node = nodeList[i]
+      if (node.id == curNode.id) {
+        return i
+      }
+    }
+    return -1
   }
 
   //== api =====================================

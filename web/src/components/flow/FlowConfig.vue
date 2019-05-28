@@ -5,10 +5,16 @@
         <el-tab-pane label="节点属性" name="nodeConfig">
           <el-form label-position="top">
             <el-form-item label="节点名称">
-              <el-input v-model="node.nodeName" @change="value => configModel.node.nodeName = value"></el-input>
+              <el-input
+                v-model="node.nodeName"
+                @change="value => configModel.node.nodeName = value"
+              ></el-input>
             </el-form-item>
             <el-form-item label="处理人">
-              <el-select v-model="node.handlerId">
+              <el-select
+                v-model="node.handlerId"
+                @change="value => configModel.node.handlerId = value"
+              >
                 <el-option
                   v-for="user in userList"
                   :key="user.id"
@@ -93,7 +99,16 @@ export default class FlowConfig extends Vue {
   }
 
   // 处理人列表
-  userList = []
+  userList = [
+    {
+      id: '1',
+      userName: 'Tom'
+    },
+    {
+      id: '2',
+      userName: 'Jerry'
+    }
+  ]
 
   // 表单列表
   formList = []

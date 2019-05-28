@@ -28,7 +28,9 @@ export default class NodeCard {
             onClick={() => handler.edit(node)}
           />
         </div>
-        <div>{/* card body */}</div>
+        <div>
+          <span>{node.handlerId}</span>
+        </div>
       </el-card>
     )
   }
