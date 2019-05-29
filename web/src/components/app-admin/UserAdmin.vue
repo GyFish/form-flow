@@ -5,6 +5,7 @@
         <div class="search-box">
           <el-input width="100px" placeholder="code / name"></el-input>
           <el-button @click="search" type="success" icon="el-icon-search">查询</el-button>
+          <el-button type="warning" icon="el-icon-plus">导入</el-button>
           <el-button @click="addUserFlag = true" type="primary" icon="el-icon-plus">新建</el-button>
         </div>
         <div class="list-box">

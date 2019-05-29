@@ -25,24 +25,29 @@
     border-left: 1px solid #e6e6e6;
     border-right: 1px solid #e6e6e6;
     .flow-page {
-      .el-button {
-        margin: 0;
-      }
-      .el-card__header {
-        padding: 5px 10px;
-        font-size: 12px;
-        .el-dropdown {
-          height: 12px;
-          font-size: 6px;
-          .el-button {
-            padding: 1px 1px;
-            vertical-align: middle;
+      .card-container {
+        height: 67px;
+        width: 196px;
+        .el-button {
+          margin: 0;
+        }
+        .el-card__header {
+          padding: 5px 10px;
+          font-size: 12px;
+          .el-dropdown {
+            height: 12px;
+            font-size: 6px;
+            .el-button {
+              padding: 1px 1px;
+              vertical-align: middle;
+            }
           }
         }
-      }
-      .el-card__body {
-        height: 40px;
-        padding: 0;
+        .el-card__body {
+          font-size: 12px;
+          height: 40px;
+          padding: 10px;
+        }
       }
     }
   }

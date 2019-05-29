@@ -4,7 +4,7 @@ import { FlowNode } from '.'
 export default class NodeCard {
   render(h: CreateElement, node: FlowNode, handler: any): VNode {
     return (
-      <el-card shadow="never">
+      <el-card shadow="never" class="card-container">
         <div slot="header">
           <span>{node.nodeName}</span>
           <el-dropdown onCommand={() => handler.add(node)} trigger="click" style="float: right;">
@@ -29,7 +29,7 @@ export default class NodeCard {
           />
         </div>
         <div>
-          <span>{node.handlerId}</span>
+          <span>处理人：{node.handlerName}</span>
         </div>
       </el-card>
     )

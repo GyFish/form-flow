@@ -13,7 +13,10 @@
             <el-form-item label="处理人">
               <el-select
                 v-model="node.handlerId"
-                @change="value => configModel.node.handlerId = value"
+                @change="value => {
+                  configModel.node.handlerId = value;
+                  configModel.node.handlerName = userMap[value]
+                }"
               >
                 <el-option
                   v-for="user in userList"
@@ -109,6 +112,10 @@ export default class FlowConfig extends Vue {
       userName: 'Jerry'
     }
   ]
+  userMap = {
+    '1': 'Tom',
+    '2': 'Jerry'
+  }
 
   // 表单列表
   formList = []

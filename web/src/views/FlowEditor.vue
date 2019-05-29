@@ -225,6 +225,7 @@ export default class FlowEditor extends Vue {
     let node = new FlowNode()
     node.id = 'node-' + new Date().getTime()
     node.nodeName = 'task'
+    node.handlerName = ''
 
     // 插入点的索引
     let insertPoint = this.getIndex(this.nodeList, curNode)
@@ -345,10 +346,14 @@ export default class FlowEditor extends Vue {
 
   // 保存流程定义
   async saveDefinition() {
-    await new FlowApi().saveDefinition(this.idG6Map)
+    console.log('=== 保存流程定义')
+
+    let data = {
+      graphData: this.graph.save(),
+      nodeData: this.nodeList
+    }
+
+    await new FlowApi().saveDefinition(data)
   }
 }
 </script>
-
-<style>
-</style>
