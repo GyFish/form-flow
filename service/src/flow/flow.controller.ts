@@ -1,13 +1,12 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common'
-import { FormService } from './form.service'
+import { FlowService } from './flow.service'
 import { FormMeta } from './vo/FormMeta'
 import { AppResponse } from 'src/util/AppResponse'
-import { async } from 'rxjs/internal/scheduler/async'
 
-@Controller('form')
-export class FormController {
+@Controller('/service/flow')
+export class FlowController {
   //
-  constructor(private readonly formService: FormService) {}
+  constructor(private readonly formService: FlowService) {}
 
   @Get()
   index(): string {

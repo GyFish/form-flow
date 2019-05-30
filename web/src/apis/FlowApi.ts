@@ -9,17 +9,17 @@ export default class FlowApi extends Api {
 
   //~ ------------------------------------------------------
   // 保存流程结构数据
-  async saveDefinition(flowDefinition: any) {
+  async saveFlow(flowData: any) {
     const res: any = await this.http.post(
-      "/flow/saveDefinition",
-      flowDefinition
+      "/api/saveFlow",
+      flowData
     )
     return super.extractData(res)
   }
 
   // 查询表单列表
   async getFlowList() {
-    const res: any = await this.http.get("/flow/getFlowList")
+    const res: any = await this.http.get("/manager/flow/getFlowList")
     return super.extractData(res)
   }
 }

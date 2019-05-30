@@ -15,12 +15,10 @@ public class LocalRouter {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 
         return builder.routes()
-                .route("manager_route", r -> r.path("/manager/**")
+                .route("manager", r -> r.path("/manager/**")
                         .uri("http://localhost:7001"))
-                .route("form_route", r -> r.path("/form/**")
+                .route("service", r -> r.path("/service/**")
                         .uri("http://localhost:7002"))
-                .route("flow_route", r -> r.path("/flow/**")
-                        .uri("http://localhost:7003"))
                 .build();
     }
 

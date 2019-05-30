@@ -1,5 +1,6 @@
 package com.gyfish.api.client;
 
+import com.gyfish.api.controller.vo.FlowVo;
 import com.gyfish.api.controller.vo.FormVo;
 
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
-public class FormClient {
+public class ServiceClient {
 
     private WebClient client = WebClient.builder()
             .baseUrl("http://localhost:7002")
@@ -28,6 +29,11 @@ public class FormClient {
                 .retrieve()
                 .bodyToMono(String.class)
                 .subscribe(log::info);
+    }
+
+    public void saveFlowMeta(FlowVo flowVo) {
+
+        log.info(">> saveFlowMeta");
     }
 
 }

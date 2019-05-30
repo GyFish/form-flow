@@ -1,9 +1,9 @@
 package com.gyfish.api.controller;
 
-import com.gyfish.api.client.ServiceClient;
 import com.gyfish.api.client.ManagerClient;
-import com.gyfish.api.client.vo.FormInfo;
-import com.gyfish.api.controller.vo.FormVo;
+import com.gyfish.api.client.ServiceClient;
+import com.gyfish.api.client.vo.FlowInfo;
+import com.gyfish.api.controller.vo.FlowVo;
 import com.gyfish.api.util.AppResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api")
 @Slf4j
-public class FormController {
+public class FlowController {
 
     private final ManagerClient managerClient;
 
     private final ServiceClient serviceClient;
 
     @Autowired
-    public FormController(ManagerClient managerClient, ServiceClient serviceClient) {
+    public FlowController(ManagerClient managerClient, ServiceClient serviceClient) {
         this.managerClient = managerClient;
         this.serviceClient = serviceClient;
     }
@@ -37,25 +37,29 @@ public class FormController {
     /**
      * 代理 service-form，同时维护管理端
      */
-    @PostMapping("/saveForm")
-    public Object saveForm(@RequestBody FormVo formVo) {
+    @PostMapping("/saveFlow")
+    public Object saveForm(@RequestBody FlowVo flowVo) {
 
-        log.info("\n>> /saveForm");
+        log.info("\n>> /saveFlow");
+
+        FlowInfo info = new FlowInfo();
 
         String uuid = UUID.randomUUID().toString();
-
         log.info("set uuid = {}", uuid);
-        formVo.setUuid(uuid);
-        formVo.getForm().setUuid(uuid);
 
-        // manager 添加记录，生成 uuid
-        FormInfo info = formVo.getForm();
-        managerClient.saveFormInfo(info);
+        flowVo.setUuid(uuid);
+        flowVo.getGraphData().put("uuid", uuid);
 
-        // service-form 带着 uuid，保存数据
-        serviceClient.saveFormMeta(formVo);
+        info.setUuid(uuid);
+        info.setNodes(flowVo.getNodeData());
 
-        return new AppResponse<>().ok("save form ok!");
+        // manager 保存流程节点等结构数据
+        managerClient.saveFlowInfo(info);
+
+        // service 保存图数据
+        serviceClient.saveFlowMeta(flowVo);
+
+        return new AppResponse<>().ok("save flow ok!");
     }
 
 }

@@ -353,7 +353,7 @@ export default class FlowEditor extends Vue {
       nodeData: this.nodeList
     }
 
-    await new FlowApi().saveDefinition(data)
+    await new FlowApi().saveFlow(data)
   }
 }
 </script>
