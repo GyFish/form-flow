@@ -15,8 +15,10 @@ public class FlowVo {
 
     private String uuid;
 
-    private JSONObject graphData;
+    private String title;
 
-    private List<FlowNode> nodeData;
+    private JSONObject graph;
+
+    private List<FlowNode> nodes;
 
 }

@@ -1,6 +1,6 @@
 package com.gyfish.formflow.service;
 
-import com.gyfish.formflow.dao.FormInfoMapper;
+import com.gyfish.formflow.dao.FormDao;
 import com.gyfish.formflow.domain.form.FormInfo;
 
 import org.springframework.stereotype.Service;
@@ -14,25 +14,24 @@ import javax.annotation.Resource;
  * @author geyu
  */
 @Service
-public class FormInfoService {
+public class FormService {
 
     @Resource
-    private FormInfoMapper formInfoMapper;
+    private FormDao formDao;
 
 
     public List<FormInfo> getFormList() {
 
-        return formInfoMapper.findAll();
+        return formDao.findAll();
     }
 
-    public Integer insert(FormInfo formInfo) {
+    public void save(FormInfo formInfo) {
 
-        formInfo.setCreateTime(new Date());
-        return formInfoMapper.insert(formInfo);
+        formDao.insert(formInfo);
     }
 
     public FormInfo findById(Integer id) {
 
-        return formInfoMapper.findById(id);
+        return formDao.findById(id);
     }
 }

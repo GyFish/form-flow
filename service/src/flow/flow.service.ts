@@ -1,28 +1,28 @@
 import { Injectable, Inject } from '@nestjs/common'
 import { Model } from 'mongoose'
-import { FormMeta } from './vo/FormMeta'
+import { FlowMeta } from './vo/FlowMeta'
 
 @Injectable()
 export class FlowService {
   //
   constructor(
-    @Inject('FormMetaModelToken')
-    private readonly formMetaModel: Model<FormMeta>,
+    @Inject('FlowMetaModelToken')
+    private readonly flowMetaModel: Model<FlowMeta>,
   ) {}
 
   index(): string {
-    return 'hello, i am form-service'
+    return 'hello, i am flow-service'
   }
 
-  async findAll(): Promise<FormMeta[]> {
+  async findAll(): Promise<FlowMeta[]> {
     console.log('form service find all...')
-    return await this.formMetaModel.find().exec()
+    return await this.flowMetaModel.find().exec()
   }
 
-  async getFormMeta(uuid: string): Promise<FormMeta> {
+  async getFormMeta(uuid: string): Promise<FlowMeta> {
     console.log('getFormMeta uuid = ', uuid)
 
-    let meta = await this.formMetaModel
+    let meta = await this.flowMetaModel
       .findOne({ uuid })
       .lean()
       .exec()
@@ -32,7 +32,10 @@ export class FlowService {
     }
   }
 
-  saveFormMeta(formMeta: FormMeta) {
-    this.formMetaModel.create(formMeta)
+  saveFormMeta(flowMeta: FlowMeta) {
+
+    console.log('save form meta...')
+    
+    // this.formMetaModel.create(formMeta)
   }
 }

@@ -6,6 +6,7 @@ import com.gyfish.api.client.vo.FlowInfo;
 import com.gyfish.api.controller.vo.FlowVo;
 import com.gyfish.api.util.AppResponse;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,14 +45,9 @@ public class FlowController {
 
         FlowInfo info = new FlowInfo();
 
-        String uuid = UUID.randomUUID().toString();
-        log.info("set uuid = {}", uuid);
+        flowVo.setUuid(UUID.randomUUID().toString());
 
-        flowVo.setUuid(uuid);
-        flowVo.getGraphData().put("uuid", uuid);
-
-        info.setUuid(uuid);
-        info.setNodes(flowVo.getNodeData());
+        BeanUtils.copyProperties(flowVo, info);
 
         // manager 保存流程节点等结构数据
         managerClient.saveFlowInfo(info);

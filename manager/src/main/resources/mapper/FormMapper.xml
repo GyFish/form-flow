@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gyfish.formflow.dao.FormDao">
+
+    <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.form.FormInfo">
+        <id column="id" property="id"/>
+        <result column="uuid" property="uuid"/>
+        <result column="title" property="title"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, uuid, title, create_time, update_time
+    </sql>
+
+    <!-- 插入一条记录，返回自增主键 -->
+    <insert
+            id="insert"
+            parameterType="com.gyfish.formflow.domain.form.FormInfo"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        
+        insert into `form_info`
+            (uuid, title, create_time, update_time)
+        values
+            (#{uuid}, #{title}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!-- 根据 id 查找记录 -->
+    <select id="findById" resultMap="BaseResultMap" parameterType="Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from `form_info`
+        where id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `form_info`
+        order by create_time desc
+    </select>
+
+
+</mapper>

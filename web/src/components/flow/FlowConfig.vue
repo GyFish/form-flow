@@ -55,7 +55,7 @@
         <el-tab-pane label="流程属性" name="flowConfig">
           <el-form>
             <el-form-item label="流程名称">
-              <el-input></el-input>
+              <el-input v-model="title"></el-input>
             </el-form-item>
             <el-form-item>
               <el-switch v-model="node.canFlowBack" active-text="分配模式" inactive-text="领取模式"></el-switch>
@@ -99,6 +99,13 @@ export default class FlowConfig extends Vue {
   }
   set node(configModel: any) {
     this.configModel = configModel
+  }
+
+  get title() {
+    return this.configModel.title
+  }
+  set title(value: any) {
+    this.configModel.title = value
   }
 
   // 处理人列表

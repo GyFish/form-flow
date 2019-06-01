@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * @author geyu
+ */
 @Service
-public class AppStoreService {
+public class AppService {
 
     @Resource
     private AppDao appDao;

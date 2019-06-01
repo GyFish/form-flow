@@ -6,6 +6,8 @@ export interface ConfigModel {
   node: FlowNode
   // 当前配置栏标签页
   activeTab: string
+  // 流程名称
+  title: any
 }
 
 // 节点

@@ -12,6 +12,8 @@ public class FlowInfo {
 
     private String uuid;
 
+    private String title;
+
     private List<FlowNode> nodes;
 
 }

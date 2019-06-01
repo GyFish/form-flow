@@ -2,7 +2,7 @@ package com.gyfish.formflow.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.gyfish.formflow.domain.form.FormInfo;
-import com.gyfish.formflow.service.FormInfoService;
+import com.gyfish.formflow.service.FormService;
 import com.gyfish.formflow.util.AppResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FormController {
 
-    private final FormInfoService formInfoService;
+    private final FormService formService;
 
     @Autowired
-    public FormController(FormInfoService formInfoService) {
-        this.formInfoService = formInfoService;
+    public FormController(FormService formService) {
+        this.formService = formService;
     }
 
     /**
@@ -39,7 +39,9 @@ public class FormController {
 
         log.info("\n>> 保存表单信息，formInfo = {}", JSON.toJSONString(formInfo, true));
 
-        formInfoService.insert(formInfo);
+        formService.save(formInfo);
+
+        log.info("保存表单信息成功，id = {}", formInfo.getId());
 
         return new AppResponse<>().ok("保存表单结构数据成功！", formInfo);
     }
@@ -52,7 +54,7 @@ public class FormController {
 
         log.info("=== 获取表单列表 ===");
 
-        return new AppResponse<>().ok(formInfoService.getFormList());
+        return new AppResponse<>().ok(formService.getFormList());
     }
 
     /**

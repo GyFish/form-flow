@@ -15,7 +15,7 @@ export const FlowMetaSchema = new mongoose.Schema(
     ],
   },
   {
-    collection: 'form_meta',
+    collection: 'flow_meta',
     timestamps: true,
   },
 )

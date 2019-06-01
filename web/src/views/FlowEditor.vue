@@ -49,6 +49,7 @@ export default class FlowEditor extends Vue {
   configModel: ConfigModel = {
     activeTab: 'flowConfig',
     model: {},
+    title: '',
     node: {
       id: 0,
       processId: 0,
@@ -347,13 +348,35 @@ export default class FlowEditor extends Vue {
   // 保存流程定义
   async saveDefinition() {
     console.log('=== 保存流程定义')
+    
+    // check
+    if (!this.saveCheck()) return
 
     let data = {
-      graphData: this.graph.save(),
-      nodeData: this.nodeList
+      graph: this.graph.save(),
+      nodes: this.nodeList,
+      title: this.configModel.title
     }
 
-    await new FlowApi().saveFlow(data)
+    let res = await new FlowApi().saveFlow(data)
+
+    this.$notify.success(res)
+  }
+
+  // 保存表单时的各种检查
+  saveCheck() {
+    // 提醒内容
+    let alertMsg = ''
+
+    // 表单标题
+    if (this.configModel.title == '') {
+      alertMsg = '请给流程取个名字~'
+    }
+
+    // 消息提醒
+    if (alertMsg) this.$notify.warning(alertMsg)
+
+    return alertMsg == ''
   }
 }
 </script>

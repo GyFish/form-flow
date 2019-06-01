@@ -1,7 +1,7 @@
 package com.gyfish.formflow.controller;
 
 import com.gyfish.formflow.util.AppResponse;
-import com.gyfish.formflow.service.AppStoreService;
+import com.gyfish.formflow.service.AppService;
 import com.gyfish.formflow.vo.AppInfoVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +19,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/app-store")
 public class AppStoreController {
 
-    private final AppStoreService appStoreService;
+    private final AppService appService;
 
     @Autowired
-    public AppStoreController(AppStoreService appStoreService) {
-        this.appStoreService = appStoreService;
+    public AppStoreController(AppService appService) {
+        this.appService = appService;
     }
 
     @GetMapping("/appList")
     public Object appList() {
 
-        return new AppResponse<>().ok(appStoreService.findAll());
+        return new AppResponse<>().ok(appService.findAll());
     }
 
     @PostMapping("/saveApp")
     public AppResponse saveApp(@RequestBody AppInfoVo infoVo) {
 
-        appStoreService.saveApp(infoVo);
+        appService.saveApp(infoVo);
         return new AppResponse<>().ok("save appInfo ok!");
     }
 
@@ -43,7 +43,7 @@ public class AppStoreController {
     @DeleteMapping("/deleteApp")
     public AppResponse deleteApp(Integer appId) {
 
-        appStoreService.deleteApp(appId);
+        appService.deleteApp(appId);
         return new AppResponse<>().ok("delete appInfo ok!");
     }
 

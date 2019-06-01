@@ -5,6 +5,9 @@ import com.gyfish.formflow.vo.AppInfoVo;
 
 import java.util.List;
 
+/**
+ * @author geyu
+ */
 public interface AppDao {
 
     List<AppInfo> findAll();

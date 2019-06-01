@@ -6,11 +6,9 @@ import com.gyfish.formflow.vo.UserQuery;
 import java.util.List;
 
 /**
- * 用户
- *
  * @author geyu
  */
-public interface AppUserMapper {
+public interface UserDao {
 
 
     /**

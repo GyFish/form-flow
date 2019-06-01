@@ -1,32 +1,32 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common'
 import { FlowService } from './flow.service'
-import { FormMeta } from './vo/FormMeta'
+import { FlowMeta } from './vo/FlowMeta'
 import { AppResponse } from 'src/util/AppResponse'
 
 @Controller('/service/flow')
 export class FlowController {
   //
-  constructor(private readonly formService: FlowService) {}
+  constructor(private readonly flowService: FlowService) {}
 
   @Get()
   index(): string {
-    return this.formService.index()
+    return this.flowService.index()
   }
 
-  @Get('findAll')
-  async findAll(): Promise<FormMeta[]> {
-    return await this.formService.findAll()
+  @Get('/findAll')
+  async findAll(): Promise<FlowMeta[]> {
+    return await this.flowService.findAll()
   }
 
-  @Get('getFormMeta')
+  @Get('/getFormMeta')
   async getFormMeta(@Query('uuid') uuid: string) {
-    return AppResponse.ok(await this.formService.getFormMeta(uuid))
+    return AppResponse.ok(await this.flowService.getFormMeta(uuid))
   }
 
-  @Post('saveFormMeta')
-  async saveFormMeta(@Body() formMeta: FormMeta) {
-    console.log('>> saveFormMeta, formMeta = ', formMeta)
-    await this.formService.saveFormMeta(formMeta)
-    return AppResponse.ok('hello')
+  @Post('/saveFlowMeta')
+  async saveFormMeta(@Body() flowMeta: FlowMeta) {
+    console.log('>> saveFlowMeta, flowMeta = ', flowMeta)
+    await this.flowService.saveFormMeta(flowMeta)
+    return AppResponse.ok('save flow meta ok!')
   }
 }
