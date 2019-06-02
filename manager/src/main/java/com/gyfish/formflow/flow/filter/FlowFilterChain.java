@@ -1,6 +1,6 @@
 package com.gyfish.formflow.flow.filter;
 
-import com.gyfish.formflow.domain.flow.graph.FlowAction;
+import com.gyfish.formflow.domain.flow.FlowAction;
 import com.gyfish.formflow.flow.event.FlowEvent;
 
 /**

@@ -6,8 +6,8 @@ import com.gyfish.formflow.flow.filter.FlowFilterChain;
 import com.gyfish.formflow.flow.filter.GlobalFlowFilter;
 import com.gyfish.formflow.flow.listener.FlowListener;
 import com.gyfish.formflow.domain.flow.Process;
-import com.gyfish.formflow.domain.flow.graph.FlowAction;
-import com.gyfish.formflow.domain.flow.graph.FlowNode;
+import com.gyfish.formflow.domain.flow.FlowAction;
+import com.gyfish.formflow.domain.flow.FlowNode;
 import com.gyfish.formflow.flow.event.FlowEvent;
 
 import org.springframework.stereotype.Service;

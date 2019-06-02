@@ -1,4 +1,4 @@
-package com.gyfish.formflow.domain.flow.graph;
+package com.gyfish.formflow.domain.flow;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

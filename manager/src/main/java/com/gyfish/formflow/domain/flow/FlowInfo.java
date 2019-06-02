@@ -1,7 +1,5 @@
 package com.gyfish.formflow.domain.flow;
 
-import com.gyfish.formflow.domain.flow.graph.FlowNode;
-
 import java.util.Date;
 import java.util.List;
 

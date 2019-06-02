@@ -1,7 +1,5 @@
 package com.gyfish.formflow.domain.flow;
 
-import com.gyfish.formflow.domain.flow.graph.FlowNode;
-
 import lombok.Data;
 
 /**

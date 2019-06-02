@@ -1,7 +1,7 @@
 package com.gyfish.formflow.flow;
 
 import com.gyfish.formflow.domain.AppUser;
-import com.gyfish.formflow.domain.flow.graph.FlowNode;
+import com.gyfish.formflow.domain.flow.FlowNode;
 
 import org.springframework.stereotype.Component;
 

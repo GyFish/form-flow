@@ -21,7 +21,10 @@ public class FlowService {
 
     public void save(FlowInfo flowInfo) {
 
-        flowDao.insert(flowInfo);
+        flowDao.insertFlowInfo(flowInfo);
+
+        flowDao.insertFlowNodeBatch(flowInfo.getNodes());
+
     }
 
 }
