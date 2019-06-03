@@ -12,9 +12,11 @@ public class FlowNode {
 
     private String id;
 
-    private Integer formId;
+    private String nextNodeId;
 
-    private Integer nextNodeId;
+    private String uuid;
+
+    private Integer formId;
 
     private Integer processId;
 

@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author geyu
  */
-public interface FormDao {
+public interface FormMapper {
 
     Integer insert(FormInfo formInfo);
 

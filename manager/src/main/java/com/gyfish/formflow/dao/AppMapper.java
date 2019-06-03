@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author geyu
  */
-public interface AppDao {
+public interface AppMapper {
 
     List<AppInfo> findAll();
 

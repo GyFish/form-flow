@@ -1,6 +1,6 @@
 package com.gyfish.formflow.service;
 
-import com.gyfish.formflow.dao.UserDao;
+import com.gyfish.formflow.dao.UserMapper;
 import com.gyfish.formflow.domain.AppUser;
 import com.gyfish.formflow.util.BeanUtil;
 import com.gyfish.formflow.vo.UserQuery;
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 
     @Resource
-    private UserDao userMapper;
+    private UserMapper userMapper;
 
     public Object addUser(UserVo userVo) {
 

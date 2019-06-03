@@ -2,6 +2,7 @@ package com.gyfish.formflow.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.gyfish.formflow.domain.flow.FlowInfo;
+import com.gyfish.formflow.domain.flow.FlowNode;
 import com.gyfish.formflow.service.FlowService;
 import com.gyfish.formflow.util.AppResponse;
 
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,6 +47,15 @@ public class FlowController {
         log.info("保存流程信息成功，id = {}", flowInfo.getId());
 
         return new AppResponse<>().ok("save flow info ok！");
+    }
+
+    /**
+     * 获取
+     */
+    @GetMapping("/getNodeList")
+    public Object getNodeList(String uuid) {
+
+        return new AppResponse<>().ok("ok", flowService.getNodeList(uuid));
     }
 
 }

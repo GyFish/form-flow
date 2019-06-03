@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.gyfish.formflow.dao.FlowDao">
+<mapper namespace="com.gyfish.formflow.dao.FlowNodeMapper">
 
-    <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.flow.FlowInfo">
+    <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.flow.FlowNode">
         <id column="id" property="id"/>
         <result column="uuid" property="uuid"/>
-        <result column="title" property="title"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
+        <result column="form_id" property="formId"/>
+        <result column="process_id" property="processId"/>
+        <result column="node_name" property="nodeName"/>
+        <result column="node_type" property="nodeType"/>
+        <result column="status" property="status"/>
+        <result column="handler_id" property="handlerId"/>
+        <result column="handler_name" property="handlerName"/>
+        <result column="handler_group_id" property="handlerGroupId"/>
+        <result column="handler_group_name" property="handlerGroupName"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, uuid, title, create_time, update_time
+        id, uuid, next_node_id, form_id, process_id, node_name, node_type, status,
+        handler_id, handler_name, handler_group_id, handler_group_name
     </sql>
 
-    <!-- 插入一条记录，返回自增主键 -->
-    <insert id="insertFlowInfo"
-            keyProperty="id"
-            useGeneratedKeys="true"
-            parameterType="com.gyfish.formflow.domain.flow.FlowInfo">
-
-        insert into `flow_info`
-            (uuid, title)
-        values
-            (#{uuid}, #{title})
-    </insert>
 
     <!-- 插入一条记录，返回自增主键 -->
     <insert id="insertFlowNodeBatch"
@@ -44,23 +40,14 @@
         </foreach>
     </insert>
 
-    <!-- 根据 id 查找记录 -->
-    <select id="findById" resultMap="BaseResultMap" parameterType="Integer">
-        select
-            <include refid="Base_Column_List"/>
-        from
-            `form_info`
-        where
-            id = #{id}
-    </select>
 
-    <select id="findAll" resultMap="BaseResultMap">
+    <select id="getNodeList" resultMap="BaseResultMap">
         select
             <include refid="Base_Column_List"/>
         from
-            `form_info`
-        order by
-            create_time desc
+            `flow_node`
+        where
+            uuid = #{uuid}
     </select>
 
 

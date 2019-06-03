@@ -1,6 +1,6 @@
 package com.gyfish.formflow.service;
 
-import com.gyfish.formflow.dao.AppDao;
+import com.gyfish.formflow.dao.AppMapper;
 import com.gyfish.formflow.vo.AppInfoVo;
 
 import org.springframework.stereotype.Service;
@@ -14,21 +14,21 @@ import javax.annotation.Resource;
 public class AppService {
 
     @Resource
-    private AppDao appDao;
+    private AppMapper appMapper;
 
 
     public Object findAll() {
 
-        return appDao.findAll();
+        return appMapper.findAll();
     }
 
     public void saveApp(AppInfoVo infoVo) {
 
-        appDao.saveApp(infoVo);
+        appMapper.saveApp(infoVo);
     }
 
     public void deleteApp(Integer appId) {
 
-        appDao.deleteApp(appId);
+        appMapper.deleteApp(appId);
     }
 }

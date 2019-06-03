@@ -1,9 +1,13 @@
 package com.gyfish.formflow.service;
 
-import com.gyfish.formflow.dao.FlowDao;
+import com.gyfish.formflow.dao.FlowInfoMapper;
+import com.gyfish.formflow.dao.FlowNodeMapper;
 import com.gyfish.formflow.domain.flow.FlowInfo;
+import com.gyfish.formflow.domain.flow.FlowNode;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -17,14 +21,34 @@ import lombok.extern.slf4j.Slf4j;
 public class FlowService {
 
     @Resource
-    private FlowDao flowDao;
+    private FlowInfoMapper infoMapper;
+
+    @Resource
+    private FlowNodeMapper nodeMapper;
 
     public void save(FlowInfo flowInfo) {
 
-        flowDao.insertFlowInfo(flowInfo);
+        infoMapper.insertFlowInfo(flowInfo);
 
-        flowDao.insertFlowNodeBatch(flowInfo.getNodes());
+        List<FlowNode> nodes = flowInfo.getNodes();
 
+        // 设置链表
+        for (int i = 0; i < nodes.size(); i++) {
+            FlowNode node = nodes.get(i);
+            node.setUuid(flowInfo.getUuid());
+            if (i < nodes.size() - 1) {
+                FlowNode nextNode = nodes.get(i + 1);
+                node.setNextNodeId(nextNode.getId());
+            }
+        }
+
+        nodeMapper.insertFlowNodeBatch(flowInfo.getNodes());
+
+    }
+
+    public List<FlowNode> getNodeList(String uuid) {
+
+        return nodeMapper.getNodeList(uuid);
     }
 
 }
