@@ -348,7 +348,7 @@ export default class FlowEditor extends Vue {
   // 保存流程定义
   async saveDefinition() {
     console.log('=== 保存流程定义')
-    
+
     // check
     if (!this.saveCheck()) return
 
@@ -361,6 +361,8 @@ export default class FlowEditor extends Vue {
     let res = await new FlowApi().saveFlow(data)
 
     this.$notify.success(res)
+
+    this.$router.push('/appAdmin/flowAdmin')
   }
 
   // 保存表单时的各种检查

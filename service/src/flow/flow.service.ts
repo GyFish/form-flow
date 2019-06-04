@@ -19,23 +19,26 @@ export class FlowService {
     return await this.flowMetaModel.find().exec()
   }
 
-  async getFormMeta(uuid: string): Promise<FlowMeta> {
-    console.log('getFormMeta uuid = ', uuid)
+  async getFlowMeta(uuid: string): Promise<FlowMeta> {
+    console.log('getFlowMeta uuid = ', uuid)
 
     let meta = await this.flowMetaModel
       .findOne({ uuid })
       .lean()
       .exec()
 
-    if (meta) {
-      return meta.items
-    }
+    return meta
   }
 
-  saveFormMeta(flowMeta: FlowMeta) {
+  saveFlowMeta(flowMeta: FlowMeta) {
+    console.log('save flow meta...')
 
-    console.log('save form meta...')
-    
-    // this.formMetaModel.create(formMeta)
+    let meta = {
+      uuid: flowMeta.uuid,
+      edges: flowMeta.graph.edges,
+      nodes: flowMeta.graph.nodes,
+    }
+
+    this.flowMetaModel.create(meta)
   }
 }

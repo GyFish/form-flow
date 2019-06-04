@@ -8,7 +8,7 @@
           <el-button @click="toFlowEditor" type="primary" icon="el-icon-plus">新建</el-button>
         </div>
         <div class="list-box">
-          <el-table :show-header="true" :data="formList">
+          <el-table :show-header="true" :data="flowInfoList">
             <el-table-column label="title" fit prop="title"></el-table-column>
             <el-table-column label="createTime" fit prop="createTime"></el-table-column>
             <el-table-column fit align="right">
@@ -46,15 +46,34 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { Mutation } from 'vuex-class'
+import FlowApi from '@/apis/FlowApi'
 
 @Component
 export default class AppInfo extends Vue {
   //~ ------------------------------------------------------
   // 表单列表
-  formList: any = []
+  flowInfoList: any = []
+
+  nodes: any = []
 
   // 是否显示预览
   showViewFlag = false
+
+  mounted() {
+    this.getFlowInfoList()
+  }
+
+  // 查询表单列表
+  async getFlowInfoList() {
+    this.flowInfoList = await new FlowApi().getFlowInfoList()
+  }
+
+  // 查询表单元素列表
+  async getFlowNodeList(uuid: string) {
+    this.nodes = await new FlowApi().getFlowNodeList(uuid)
+  }
+
+
 
   // 搜索
   search() {

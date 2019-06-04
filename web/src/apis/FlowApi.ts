@@ -17,9 +17,17 @@ export default class FlowApi extends Api {
     return super.extractData(res)
   }
 
-  // 查询表单列表
-  async getFlowList() {
-    const res: any = await this.http.get("/manager/flow/getFlowList")
+  // 查询流程列表
+  async getFlowInfoList() {
+    const res: any = await this.http.get("/manager/flow/getFlowInfoList")
     return super.extractData(res)
   }
+
+  // 查询流程节点列表
+  async getFlowNodeList(uuid: string) {
+    const res: any = await this.http.get("/manager/flow/getFlowNodeList")
+    return super.extractData(res)
+  }
+
+  
 }

@@ -10,11 +10,13 @@ import lombok.Data;
 @Data
 public class FlowNode {
 
+    private Integer pk;
+
     private String id;
 
-    private String nextNodeId;
-
     private String uuid;
+
+    private String nextNodeId;
 
     private Integer formId;
 

@@ -49,6 +49,14 @@ public class FlowController {
         return new AppResponse<>().ok("save flow info ok！");
     }
 
+    @GetMapping("/getFlowInfoList")
+    public Object getFlowInfoList() {
+
+        log.info("=== 获取流程列表 ===");
+
+        return new AppResponse<>().ok(flowService.getFlowInfoList());
+    }
+
     /**
      * 获取
      */

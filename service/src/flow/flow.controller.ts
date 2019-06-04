@@ -8,7 +8,7 @@ export class FlowController {
   //
   constructor(private readonly flowService: FlowService) {}
 
-  @Get()
+  @Get('/')
   index(): string {
     return this.flowService.index()
   }
@@ -18,15 +18,15 @@ export class FlowController {
     return await this.flowService.findAll()
   }
 
-  @Get('/getFormMeta')
-  async getFormMeta(@Query('uuid') uuid: string) {
-    return AppResponse.ok(await this.flowService.getFormMeta(uuid))
+  @Get('/getFlowMeta')
+  async getFlowMeta(@Query('uuid') uuid: string) {
+    return AppResponse.ok(await this.flowService.getFlowMeta(uuid))
   }
 
   @Post('/saveFlowMeta')
-  async saveFormMeta(@Body() flowMeta: FlowMeta) {
+  async saveFlowMeta(@Body() flowMeta: FlowMeta) {
     console.log('>> saveFlowMeta, flowMeta = ', flowMeta)
-    await this.flowService.saveFormMeta(flowMeta)
+    await this.flowService.saveFlowMeta(flowMeta)
     return AppResponse.ok('save flow meta ok!')
   }
 }

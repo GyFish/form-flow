@@ -6,6 +6,7 @@ import com.gyfish.formflow.domain.flow.FlowInfo;
 import com.gyfish.formflow.domain.flow.FlowNode;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class FlowService {
     @Resource
     private FlowNodeMapper nodeMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     public void save(FlowInfo flowInfo) {
 
         infoMapper.insertFlowInfo(flowInfo);
@@ -39,6 +41,8 @@ public class FlowService {
             if (i < nodes.size() - 1) {
                 FlowNode nextNode = nodes.get(i + 1);
                 node.setNextNodeId(nextNode.getId());
+            } else {
+                node.setNextNodeId("end");
             }
         }
 
@@ -51,4 +55,8 @@ public class FlowService {
         return nodeMapper.getNodeList(uuid);
     }
 
+    public List<FlowInfo> getFlowInfoList() {
+
+        return infoMapper.findAll();
+    }
 }

@@ -3,8 +3,10 @@
 <mapper namespace="com.gyfish.formflow.dao.FlowNodeMapper">
 
     <resultMap id="BaseResultMap" type="com.gyfish.formflow.domain.flow.FlowNode">
-        <id column="id" property="id"/>
+        <id column="pk" property="pk"/>
+        <result column="id" property="id"/>
         <result column="uuid" property="uuid"/>
+        <result column="next_node_id" property="nextNodeId"/>
         <result column="form_id" property="formId"/>
         <result column="process_id" property="processId"/>
         <result column="node_name" property="nodeName"/>
@@ -17,24 +19,24 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, uuid, next_node_id, form_id, process_id, node_name, node_type, status,
+        pk, id, uuid, next_node_id, form_id, process_id, node_name, node_type, status,
         handler_id, handler_name, handler_group_id, handler_group_name
     </sql>
 
 
     <!-- 插入一条记录，返回自增主键 -->
     <insert id="insertFlowNodeBatch"
-            keyProperty="id"
+            keyProperty="uuid"
             useGeneratedKeys="true"
             parameterType="java.util.List">
 
         insert into `flow_node` (
-            id, next_node_id, form_id, process_id, node_name, node_type, status,
+            uuid, id, next_node_id, form_id, process_id, node_name, node_type, status,
             handler_id, handler_name, handler_group_id, handler_group_name
         )
         <foreach collection="nodes" item="node" index="index" open="values" separator="," close=";">
             (
-                #{node.id}, #{node.nextNodeId}, #{node.formId}, #{node.processId}, #{node.nodeName}, #{node.nodeType}, #{node.status},
+                #{node.uuid}, #{node.id}, #{node.nextNodeId}, #{node.formId}, #{node.processId}, #{node.nodeName}, #{node.nodeType}, #{node.status},
                 #{node.handlerId}, #{node.handlerName}, #{node.handlerGroupId}, #{node.handlerGroupName}
             )
         </foreach>
