@@ -13,18 +13,8 @@
             <el-table-column label="createTime" fit prop="createTime"></el-table-column>
             <el-table-column fit align="right">
               <template slot-scope="scope">
-                <el-button
-                  circle
-                  type="text"
-                  icon="el-icon-view"
-                  @click="handleView(scope.row)"
-                />
-                <el-button
-                  circle
-                  type="text"
-                  icon="el-icon-edit"
-                  @click="handleEdit(scope.row)"
-                />
+                <el-button circle type="text" icon="el-icon-view" @click="handleView(scope.row)"/>
+                <el-button circle type="text" icon="el-icon-edit" @click="handleEdit(scope.row)"/>
                 <el-button
                   circle
                   type="text"
@@ -37,8 +27,7 @@
         </div>
       </el-main>
       <!-- 预览弹出框 -->
-      <el-dialog fullscreen title="预览" :visible.sync="showViewFlag">
-      </el-dialog>
+      <el-dialog fullscreen title="预览" :visible.sync="showViewFlag"></el-dialog>
     </el-container>
   </div>
 </template>
@@ -73,21 +62,23 @@ export default class AppInfo extends Vue {
     this.nodes = await new FlowApi().getFlowNodeList(uuid)
   }
 
-
-
   // 搜索
   search() {
-    alert('search')
+    this.getFlowInfoList()
   }
 
   // 新建，跳转流程图编辑器
-  toFlowEditor() {
-    this.$router.push('/flowEditor')
-  }
+  toFlowEditor() {}
 
   // 编辑
   handleEdit() {
-    this.$router.push('/flowEditor')
+    this.$router.push({
+      name: 'flowEditor',
+      params: {
+        nodes: 'node123',
+        edges: 'edges'
+      }
+    })
   }
 
   // 预览

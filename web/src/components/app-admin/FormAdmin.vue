@@ -39,7 +39,7 @@
       <!-- 预览弹出框 -->
       <el-dialog fullscreen :title="showViewTitle" :visible.sync="showViewFlag">
         <el-form label-position="top">
-          <div v-for="(item, idx) of formItems">
+          <div v-for="(item, idx) of formItems" :key="idx">
             <el-row type="flex" align="middle">
               <el-col :span="22">
                 <form-item :data="{...item, idx}" :mode="`VIEW`"></form-item>

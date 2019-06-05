@@ -26,18 +26,25 @@ import FlowConfig from '@/components/flow/FlowConfig.vue'
 import Maker from '@/components/flow/Maker'
 import { FlowNode, ConfigModel } from '@/components/flow/index'
 import FlowApi from '@/apis/FlowApi'
+import { Prop } from 'vue-property-decorator'
 
 @Component({
   components: { FlowConfig }
 })
 export default class FlowEditor extends Vue {
   //== 图数据 =====================================
+
+  @Prop()
+  nodes: any
+
   // 图实例
   graph: any = {}
+
   graphData: any = {
     nodes: [],
     edges: []
   }
+
   // 中轴线 x 坐标
   axisX = 450
   // 中轴线上节点位置
@@ -86,6 +93,11 @@ export default class FlowEditor extends Vue {
     this.handleNodeClick()
 
     this.drawStartNode()
+
+    // 判断路由参数，有的话，从参数创建
+    let graphData = this.$route.params.nodes
+    console.log('router params =', graphData)
+    console.log(this.nodes)
 
     // 延迟加载 vnode，需要等到 G6 渲染完毕
     let startNode = this.idNodeMap['startNode']

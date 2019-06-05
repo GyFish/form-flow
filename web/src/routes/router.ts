@@ -21,6 +21,7 @@ const routes = [
   {
     path: "/flowEditor",
     name: "flowEditor",
+    props: true,
     component: () => import("@/views/FlowEditor.vue")
   },
   {
