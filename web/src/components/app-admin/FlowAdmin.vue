@@ -8,8 +8,9 @@
           <el-button @click="toFlowEditor" type="primary" icon="el-icon-plus">新建</el-button>
         </div>
         <div class="list-box">
-          <el-table :show-header="true" :data="flowInfoList">
+          <el-table fit :show-header="true" :data="flowInfoList">
             <el-table-column label="title" fit prop="title"></el-table-column>
+            <el-table-column label="uuid" fit prop="uuid"></el-table-column>
             <el-table-column label="createTime" fit prop="createTime"></el-table-column>
             <el-table-column fit align="right">
               <template slot-scope="scope">
@@ -43,7 +44,7 @@ export default class AppInfo extends Vue {
   // 表单列表
   flowInfoList: any = []
 
-  nodes: any = []
+  graphData: any = []
 
   // 是否显示预览
   showViewFlag = false
@@ -57,9 +58,9 @@ export default class AppInfo extends Vue {
     this.flowInfoList = await new FlowApi().getFlowInfoList()
   }
 
-  // 查询表单元素列表
-  async getFlowNodeList(uuid: string) {
-    this.nodes = await new FlowApi().getFlowNodeList(uuid)
+  // 查询流程图元数据
+  async getFlowMeta(uuid: string) {
+    this.graphData = await new FlowApi().getFlowMeta(uuid)
   }
 
   // 搜索
@@ -71,12 +72,13 @@ export default class AppInfo extends Vue {
   toFlowEditor() {}
 
   // 编辑
-  handleEdit() {
+  async handleEdit(row: any) {
+    console.log('编辑流程，row =', row)
+    await this.getFlowMeta(row.uuid)
     this.$router.push({
       name: 'flowEditor',
       params: {
-        nodes: 'node123',
-        edges: 'edges'
+        graphDataProp: JSON.stringify(this.graphData)
       }
     })
   }

@@ -35,7 +35,7 @@ export default class FlowEditor extends Vue {
   //== 图数据 =====================================
 
   @Prop()
-  nodes: any
+  graphDataProp: any
 
   // 图实例
   graph: any = {}
@@ -95,9 +95,10 @@ export default class FlowEditor extends Vue {
     this.drawStartNode()
 
     // 判断路由参数，有的话，从参数创建
-    let graphData = this.$route.params.nodes
-    console.log('router params =', graphData)
-    console.log(this.nodes)
+    if (this.graphDataProp) {
+      this.replay()
+      return
+    }
 
     // 延迟加载 vnode，需要等到 G6 渲染完毕
     let startNode = this.idNodeMap['startNode']
@@ -105,6 +106,11 @@ export default class FlowEditor extends Vue {
     console.log('this.idG6Map', this.idG6Map)
     console.log(startNode)
     setTimeout(() => this.handleAddNode(startNode), 200)
+  }
+
+  replay() {
+    console.log('开始恢复流程图，replay')
+    let data = JSON.parse(this.graphDataProp)
   }
 
   //== 绘图方法 =====================================

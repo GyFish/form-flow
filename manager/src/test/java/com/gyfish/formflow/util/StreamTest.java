@@ -24,4 +24,11 @@ public class StreamTest {
         System.out.println(l2);
     }
 
+    @Test
+    public void test() {
+        String s = "";
+        String[] a = s.split("-");
+        System.out.println(a);
+    }
+
 }

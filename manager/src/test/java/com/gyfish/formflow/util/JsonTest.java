@@ -17,4 +17,33 @@ public class JsonTest {
 
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T getByQuery(Object v, Class<T> type) {
+
+
+        if (v == null) {
+            return null;
+        }
+
+        if (type.equals(String.class)) {
+            return (T) String.valueOf(v);
+        }
+
+        if (type.equals(Integer.class)) {
+            return (T) Integer.valueOf(String.valueOf(v));
+        }
+
+        if (type.equals(Long.class)) {
+            return (T) Long.valueOf(String.valueOf(v));
+        }
+
+        return JSON.parseObject(JSON.toJSONString(v), type);
+    }
+
+    @Test
+    public void testType() {
+        int v = getByQuery(null, Integer.class);
+        System.out.println(v);
+    }
+
 }
