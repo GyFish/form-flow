@@ -21,8 +21,12 @@ export default class FlowApi extends Api {
   }
 
   // 查询流程节点列表
-  async getFlowNodeList(uuid: string) {
-    const res: any = await this.http.get('/manager/flow/getFlowNodeList')
+  async getNodeList(uuid: string) {
+    const res: any = await this.http.get('/manager/flow/getNodeList', {
+      params: {
+        uuid
+      }
+    })
     return super.extractData(res)
   }
 

@@ -44,7 +44,7 @@ export default class AppInfo extends Vue {
   // 表单列表
   flowInfoList: any = []
 
-  graphData: any = []
+  nodeList: any = []
 
   // 是否显示预览
   showViewFlag = false
@@ -59,8 +59,8 @@ export default class AppInfo extends Vue {
   }
 
   // 查询流程图元数据
-  async getFlowMeta(uuid: string) {
-    this.graphData = await new FlowApi().getFlowMeta(uuid)
+  async getNodeList(uuid: string) {
+    this.nodeList = await new FlowApi().getNodeList(uuid)
   }
 
   // 搜索
@@ -74,11 +74,11 @@ export default class AppInfo extends Vue {
   // 编辑
   async handleEdit(row: any) {
     console.log('编辑流程，row =', row)
-    await this.getFlowMeta(row.uuid)
+    await this.getNodeList(row.uuid)
     this.$router.push({
       name: 'flowEditor',
       params: {
-        graphDataProp: JSON.stringify(this.graphData)
+        nodeListProp: JSON.stringify(this.nodeList)
       }
     })
   }

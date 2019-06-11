@@ -35,7 +35,7 @@ export default class FlowEditor extends Vue {
   //== 图数据 =====================================
 
   @Prop()
-  graphDataProp: any
+  nodeListProp: any
 
   // 图实例
   graph: any = {}
@@ -88,29 +88,37 @@ export default class FlowEditor extends Vue {
   //== vue 狗子 =====================================
 
   mounted() {
+    console.log('=== mounted ===')
+
     this.createEditor()
     this.handleRead()
     this.handleNodeClick()
 
     this.drawStartNode()
 
-    // 判断路由参数，有的话，从参数创建
-    if (this.graphDataProp) {
-      this.replay()
-      return
-    }
-
     // 延迟加载 vnode，需要等到 G6 渲染完毕
     let startNode = this.idNodeMap['startNode']
-    console.log('this.idNodeMap', this.idNodeMap)
-    console.log('this.idG6Map', this.idG6Map)
-    console.log(startNode)
-    setTimeout(() => this.handleAddNode(startNode), 200)
+    console.log('  this.idNodeMap =', this.idNodeMap)
+    console.log('  this.idG6Map   =', this.idG6Map)
+    console.log('  startNode      =', startNode)
+
+    // 判断路由参数，有的话，从参数创建
+    if (this.nodeListProp) {
+      setTimeout(() => this.replay(startNode), 200)
+    } else {
+      setTimeout(() => this.handleAddNode(startNode), 200)
+    }
   }
 
-  replay() {
-    console.log('开始恢复流程图，replay')
-    let data = JSON.parse(this.graphDataProp)
+  replay(startNode: any) {
+    let nodeList = JSON.parse(this.nodeListProp)
+
+    console.log('  开始恢复流程图 data =', nodeList)
+
+    for (let i = 0; i < nodeList.length - 1; i++) {
+      let curNode = i == 0 ? startNode : nodeList[i]
+      this.handleAddNode(curNode, nodeList[i + 1])
+    }
   }
 
   //== 绘图方法 =====================================
@@ -236,15 +244,23 @@ export default class FlowEditor extends Vue {
   }
 
   // 增加节点
-  handleAddNode(curNode: FlowNode) {
+  handleAddNode(curNode?: FlowNode, newNode?: FlowNode) {
     console.log(`=== handle add node`)
-    console.log('  this.nodeList', this.nodeList)
-    console.log('  curNode', curNode)
 
-    let node = new FlowNode()
-    node.id = 'node-' + new Date().getTime()
-    node.nodeName = 'task'
-    node.handlerName = ''
+    console.log('  this.nodeList =', this.nodeList)
+    console.log('  curNode       =', curNode)
+
+    if (!curNode) {
+      curNode = new FlowNode()
+      curNode.id = 'startNode'
+    }
+
+    if (!newNode) {
+      newNode = new FlowNode()
+      newNode.id = 'node-' + new Date().getTime()
+      newNode.nodeName = 'task'
+      newNode.handlerName = ''
+    }
 
     // 插入点的索引
     let insertPoint = this.getIndex(this.nodeList, curNode)
@@ -255,10 +271,10 @@ export default class FlowEditor extends Vue {
     let axisY = this.idG6Map[curNode.id].model.y + step
 
     // 追加节点
-    this.drawNodeCard(node, this.axisX - 200 / 2, axisY)
+    this.drawNodeCard(newNode, this.axisX - 200 / 2, axisY)
 
     // 绘制连线
-    this.drawEdge(curNode.id, node.id)
+    this.drawEdge(curNode.id, newNode.id)
 
     // 如果是中间节点，则需要移动后面的位置
     if (!this.isLast(this.nodeList, curNode)) {
@@ -266,7 +282,7 @@ export default class FlowEditor extends Vue {
     }
 
     // 插入元素，维护列表
-    this.nodeList.splice(insertPoint + 1, 0, node)
+    this.nodeList.splice(insertPoint + 1, 0, newNode)
   }
 
   // 编辑节点
