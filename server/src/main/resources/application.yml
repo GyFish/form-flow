@@ -1,0 +1,26 @@
+server:
+  port: 7000
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://formflow.gyfish.com:3306/form_flow?serverTimezone=UTC
+    username: root
+    password: Root@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: formflow.gyfish.com
+    port: 6379
+    password: 123456
+  data:
+    mongodb:
+      uri: mongodb://form_flow:form_flow@formflow.gyfish.com:27017/form_flow
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.gyfish.formflow.dao: debug

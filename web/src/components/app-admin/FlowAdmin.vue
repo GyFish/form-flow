@@ -50,47 +50,45 @@ export default class AppInfo extends Vue {
   showViewFlag = false
 
   mounted() {
-    this.getFlowInfoList()
+    this.getFlowList()
   }
 
   // 查询表单列表
-  async getFlowInfoList() {
-    this.flowInfoList = await new FlowApi().getFlowInfoList()
-  }
-
-  // 查询流程图元数据
-  async getNodeList(uuid: string) {
-    this.nodeList = await new FlowApi().getNodeList(uuid)
+  async getFlowList() {
+    this.flowInfoList = await new FlowApi().getFlowList()
   }
 
   // 搜索
   search() {
-    this.getFlowInfoList()
+    this.getFlowList()
   }
 
   // 新建，跳转流程图编辑器
-  toFlowEditor() {}
+  toFlowEditor() {
+    this.$router.push('/flowEditor')
+  }
 
   // 编辑
   async handleEdit(row: any) {
     console.log('编辑流程，row =', row)
-    await this.getNodeList(row.uuid)
     this.$router.push({
       name: 'flowEditor',
       params: {
-        nodeListProp: JSON.stringify(this.nodeList)
+        metaProp: JSON.stringify(row)
       }
     })
   }
 
   // 预览
   handleView(row: any) {
-    this.showViewFlag = true
+    // this.showViewFlag = true
   }
 
   // 删除
-  handleDelete() {
-    alert('delete')
+  async handleDelete(row: any) {
+    let msg = await new FlowApi().deleteFlow(row.id)
+    this.$notify.success(msg)
+    this.getFlowList()
   }
 }
 </script>

@@ -13,18 +13,8 @@
             <el-table-column label="createTime" fit prop="createTime"></el-table-column>
             <el-table-column fit align="right">
               <template slot-scope="scope">
-                <el-button
-                  circle
-                  type="text"
-                  icon="el-icon-view"
-                  @click="handleView(scope.row)"
-                />
-                <el-button
-                  circle
-                  type="text"
-                  icon="el-icon-edit"
-                  @click="handleEdit(scope.row)"
-                />
+                <el-button circle type="text" icon="el-icon-view" @click="handleView(scope.row)"/>
+                <el-button circle type="text" icon="el-icon-edit" @click="handleEdit(scope.row)"/>
                 <el-button
                   circle
                   type="text"
@@ -37,7 +27,7 @@
         </div>
       </el-main>
       <!-- 预览弹出框 -->
-      <el-dialog fullscreen :title="showViewTitle" :visible.sync="showViewFlag">
+      <el-dialog :title="showViewTitle" :visible.sync="showViewFlag">
         <el-form label-position="top">
           <div v-for="(item, idx) of formItems" :key="idx">
             <el-row type="flex" align="middle">
@@ -87,11 +77,6 @@ export default class AppInfo extends Vue {
     this.formList = await new FormApi().getFormList()
   }
 
-  // 查询表单元素列表
-  async getFormItems(uuid: any) {
-    this.formItems = await new FormApi().getFormItems(uuid)
-  }
-
   // 获取表单列表
   search() {
     this.getFormList()
@@ -104,21 +89,23 @@ export default class AppInfo extends Vue {
 
   // 编辑
   async handleEdit(row: any) {
-    await this.getFormItems(row.uuid)
+    this.formItems = row.items
     this.updateFormItems(this.formItems)
     this.$router.push('/formEditor')
   }
 
   // 预览
   handleView(row: any) {
-    this.getFormItems(row.uuid)
+    this.formItems = row.items
     this.showViewFlag = true
     this.showViewTitle = row.title
   }
 
   // 删除
-  handleDelete() {
-    alert('delete')
+  async handleDelete(row: any) {
+    let msg = await new FormApi().deleteForm(row.id)
+    this.$notify.success(msg)
+    this.getFormList()
   }
 }
 </script>

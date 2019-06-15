@@ -142,7 +142,7 @@ export default class FormEditor extends Vue {
     if (!this.saveCheck()) return
     // data
     let formEditorVo = {
-      form: this.data.form,
+      ...this.data.form,
       items: this.data.formItems
     }
     console.log('formEditorVo = ', formEditorVo)

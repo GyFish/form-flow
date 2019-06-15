@@ -35,7 +35,9 @@ export default class FlowEditor extends Vue {
   //== 图数据 =====================================
 
   @Prop()
-  nodeListProp: any
+  metaProp: any
+
+  dbid = ''
 
   // 图实例
   graph: any = {}
@@ -103,21 +105,24 @@ export default class FlowEditor extends Vue {
     console.log('  startNode      =', startNode)
 
     // 判断路由参数，有的话，从参数创建
-    if (this.nodeListProp) {
-      setTimeout(() => this.replay(startNode), 200)
+    if (this.metaProp) {
+      this.replay(startNode)
     } else {
       setTimeout(() => this.handleAddNode(startNode), 200)
     }
   }
 
   replay(startNode: any) {
-    let nodeList = JSON.parse(this.nodeListProp)
+    console.log('  开始恢复流程图')
 
-    console.log('  开始恢复流程图 data =', nodeList)
+    let { id, title, nodes } = JSON.parse(this.metaProp)
 
-    for (let i = 0; i < nodeList.length - 1; i++) {
-      let curNode = i == 0 ? startNode : nodeList[i]
-      this.handleAddNode(curNode, nodeList[i + 1])
+    this.dbid = id
+    this.configModel.title = title
+
+    for (let i = 0; i < nodes.length - 1; i++) {
+      let curNode = i == 0 ? startNode : nodes[i]
+      setTimeout(() => this.handleAddNode(curNode, nodes[i + 1]), 100 * (i + 1))
     }
   }
 
@@ -387,9 +392,10 @@ export default class FlowEditor extends Vue {
     if (!this.saveCheck()) return
 
     let data = {
-      graph: this.graph.save(),
+      id: this.dbid,
+      title: this.configModel.title,
       nodes: this.nodeList,
-      title: this.configModel.title
+      graph: this.graph.save()
     }
 
     let res = await new FlowApi().saveFlow(data)

@@ -6,9 +6,7 @@
 
 项目结构
 ```
-|-- api             // 后端入口
-|-- manager         // 管理端及流程控制节点
-|-- service         // rest服务，通过 MongoDB 保存非结构数据
-|-- web             // 前端
+|-- server         // 后台
+|-- web            // 前端
 ```
 

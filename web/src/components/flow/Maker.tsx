@@ -34,7 +34,7 @@ export default class Maker {
       y: model.y,
       shape: this.shape
     })
-    console.log('  创建 g6 节点，g6Node =', g6Node)
+    console.log('  创建 dom，添加 g6节点，g6Node =', g6Node)
     return g6Node
   }
 
@@ -45,6 +45,7 @@ export default class Maker {
    * @param handler 回调函数集合
    */
   mountNode(h: CreateElement, html: any, node: FlowNode, handler: any) {
+    console.log('  渲染 vnode 到创建好的 dom 上，node =', node)
     let vueNode = Vue.extend({
       props: ['node'],
       render: () => {

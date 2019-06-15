@@ -1,4 +1,4 @@
-import Api from "./Api"
+import Api from './Api'
 
 export default class FormApi extends Api {
   //~ ------------------------------------------------------
@@ -10,26 +10,19 @@ export default class FormApi extends Api {
   //~ ------------------------------------------------------
   // 保存表单结构数据
   async saveForm(formDefinition: any) {
-    const res: any = await this.http.post(
-      "/api/saveForm",
-      formDefinition
-    )
+    const res: any = await this.http.post('/api/form/saveForm', formDefinition)
+    return super.extractData(res)
+  }
+
+  // 保存表单结构数据
+  async deleteForm(id: any) {
+    const res: any = await this.http.delete('/api/form/deleteForm?id=' + id)
     return super.extractData(res)
   }
 
   // 查询表单列表
   async getFormList() {
-    const res: any = await this.http.get("/manager/form/getFormList")
-    return super.extractData(res)
-  }
-
-  // 查询表单元素列表
-  async getFormItems(uuid: any) {
-    const res: any = await this.http.get("/service/form/getFormMeta", {
-      params: {
-        uuid
-      }
-    })
+    const res: any = await this.http.get('/api/form/getFormList')
     return super.extractData(res)
   }
 }
