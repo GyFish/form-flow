@@ -18,9 +18,9 @@ public class FlowNode {
 
     private String nextNodeId;
 
-    private Integer formId;
+    private String formId;
 
-    private Integer processId;
+    private String processId;
 
     //--------------------------------
 

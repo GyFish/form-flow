@@ -109,20 +109,8 @@ export default class FlowConfig extends Vue {
   }
 
   // 处理人列表
-  userList = [
-    {
-      id: '1',
-      userName: 'Tom'
-    },
-    {
-      id: '2',
-      userName: 'Jerry'
-    }
-  ]
-  userMap = {
-    '1': 'Tom',
-    '2': 'Jerry'
-  }
+  userList = []
+  userMap: any = {}
 
   // 表单列表
   formList = []
@@ -133,7 +121,8 @@ export default class FlowConfig extends Vue {
   //== methods =====================================
 
   async mounted() {
-    // await this.getUserList()
+    await this.getUserList()
+    await this.getFormList()
   }
 
   //== api =====================================
@@ -141,6 +130,7 @@ export default class FlowConfig extends Vue {
   // 获取处理人列表
   async getUserList() {
     this.userList = await new UserApi().userList({})
+    this.userList.forEach((u: any) => (this.userMap[u.id] = u.userName))
   }
 
   // 获取表单列表

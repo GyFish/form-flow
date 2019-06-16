@@ -67,16 +67,16 @@ const routes = [
         component: () => import("@/components/app-client/Start.vue")
       },
       {
-        path: "createdList",
-        component: () => import("@/components/app-client/CreatedList.vue")
+        path: "created",
+        component: () => import("@/components/app-client/Created.vue")
       },
       {
-        path: "todoList",
-        component: () => import("@/components/app-client/TodoList.vue")
+        path: "todo",
+        component: () => import("@/components/app-client/Todo.vue")
       },
       {
-        path: "doneList",
-        component: () => import("@/components/app-client/DoneList.vue")
+        path: "done",
+        component: () => import("@/components/app-client/Done.vue")
       }
     ]
   }

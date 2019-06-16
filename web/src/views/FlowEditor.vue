@@ -412,6 +412,7 @@ export default class FlowEditor extends Vue {
 
     // 表单标题
     if (this.configModel.title == '') {
+      this.configModel.activeTab = 'flowConfig'
       alertMsg = '请给流程取个名字~'
     }
 

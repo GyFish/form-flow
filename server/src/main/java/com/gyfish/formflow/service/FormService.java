@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -42,6 +43,14 @@ public class FormService {
 
         log.info("save form in mongo...");
 
+        if (vo.getId() != null) {
+            mongoTemplate.remove(vo);
+        } else {
+            vo.setCreateTime(new Date());
+        }
+
+        vo.setUpdateTime(new Date());
+
         mongoTemplate.save(vo);
     }
 
@@ -56,5 +65,10 @@ public class FormService {
         meta.setId(id);
 
         mongoTemplate.remove(meta);
+    }
+
+    public FormMeta getFormById(String id) {
+
+        return mongoTemplate.findById(id, FormMeta.class);
     }
 }

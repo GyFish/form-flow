@@ -10,8 +10,8 @@
         </div>
         <!-- 任务列表 -->
         <div class="task-list">
-          <el-table highlight-current-row :data="flowList" :show-header="false" height="100%">
-            <el-table-column prop="flowName" label="名称"></el-table-column>
+          <el-table @current-change="handleFlowChange" :data="flowList" :show-header="false" height="100%" highlight-current-row>
+            <el-table-column prop="title"></el-table-column>
           </el-table>
         </div>
       </el-aside>
@@ -20,7 +20,7 @@
     <div class="main-box">
       <el-main>
         <el-form label-position="top">
-          <div v-for="(item, idx) of formItems">
+          <div v-for="(item, idx) of formItems" :key="idx">
             <el-row type="flex" align="middle">
               <el-col :span="22">
                 <form-item :data="{...item, idx}" :mode="`VIEW`" @onViewInput="onViewInput"></form-item>
@@ -40,6 +40,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import FormItem from '@/components/form/FormItem.tsx'
 import { Mutation } from 'vuex-class'
+import FlowApi from '@/apis/FlowApi'
+import FormApi from '../../apis/FormApi';
 
 @Component({
   components: { FormItem }
@@ -49,24 +51,7 @@ export default class AppStart extends Vue {
   @Mutation updateFormItems: any
 
   // 流程列表
-  flowList: any = [
-    {
-      id: 123,
-      flowName: '日常请假流程'
-    },
-    {
-      id: 123,
-      flowName: '报销交通费流程'
-    },
-    {
-      id: 123,
-      flowName: '投诉流程'
-    },
-    {
-      id: 123,
-      flowName: '客户反馈流程'
-    }
-  ]
+  flowList: any = []
   formItems: any = [
     {
       id: null,
@@ -95,21 +80,36 @@ export default class AppStart extends Vue {
       value: '',
       label: '下拉框',
       icon: 'el-icon-arrow-down',
-      options: [
-        { value: 'k1', label: '选项一' },
-        { value: 'k2', label: '选项二' }
-      ]
+      options: [{ value: 'k1', label: '选项一' }, { value: 'k2', label: '选项二' }]
     }
   ]
 
   // mounted
   mounted() {
     this.updateFormItems(this.formItems)
+    this.getFlowList()
+  }
+
+  // 查询流程列表
+  async getFlowList() {
+    this.flowList = await new FlowApi().getFlowList()
+  }
+
+  async getFormById(id: string) {
+    let form = await new FormApi().getFormById(id)
+    this.formItems = form.items
+  }
+
+  // 选中流程
+  handleFlowChange(row: any) {
+    console.log(row)
+    let id = row.nodes[1].formId
+    this.getFormById(id)
   }
 
   // 提交表单
   commit() {
-    console.log('commit...')
+    console.log(this.formItems)
   }
 
   // 响应输入值

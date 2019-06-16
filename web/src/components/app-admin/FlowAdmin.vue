@@ -10,8 +10,7 @@
         <div class="list-box">
           <el-table fit :show-header="true" :data="flowInfoList">
             <el-table-column label="title" fit prop="title"></el-table-column>
-            <el-table-column label="uuid" fit prop="uuid"></el-table-column>
-            <el-table-column label="createTime" fit prop="createTime"></el-table-column>
+            <el-table-column label="createTime" fit prop="createTime" :formatter="timeFormater"></el-table-column>
             <el-table-column fit align="right">
               <template slot-scope="scope">
                 <el-button circle type="text" icon="el-icon-view" @click="handleView(scope.row)"/>
@@ -37,6 +36,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { Mutation } from 'vuex-class'
 import FlowApi from '@/apis/FlowApi'
+import DateUtil from '@/util/DateUtil'
 
 @Component
 export default class AppInfo extends Vue {
@@ -49,11 +49,13 @@ export default class AppInfo extends Vue {
   // 是否显示预览
   showViewFlag = false
 
+  timeFormater = DateUtil.format
+
   mounted() {
     this.getFlowList()
   }
 
-  // 查询表单列表
+  // 查询流程列表
   async getFlowList() {
     this.flowInfoList = await new FlowApi().getFlowList()
   }
@@ -82,6 +84,7 @@ export default class AppInfo extends Vue {
   // 预览
   handleView(row: any) {
     // this.showViewFlag = true
+    this.$notify.warning('这个功能暂未开放')
   }
 
   // 删除

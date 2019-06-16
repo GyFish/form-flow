@@ -10,7 +10,7 @@
         <div class="list-box">
           <el-table :show-header="true" :data="formList">
             <el-table-column label="title" fit prop="title"></el-table-column>
-            <el-table-column label="createTime" fit prop="createTime"></el-table-column>
+            <el-table-column label="createTime" fit prop="createTime" :formatter="timeFormater"></el-table-column>
             <el-table-column fit align="right">
               <template slot-scope="scope">
                 <el-button circle type="text" icon="el-icon-view" @click="handleView(scope.row)"/>
@@ -47,12 +47,15 @@ import { Component, Vue } from 'vue-property-decorator'
 import FormApi from '@/apis/FormApi'
 import FormItem from '@/components/form/FormItem.tsx'
 import { Mutation } from 'vuex-class'
+import DateUtil from '@/util/DateUtil'
 
 @Component({ components: { FormItem } })
 export default class AppInfo extends Vue {
   //~ ------------------------------------------------------
   // 表单列表
   formList: any = []
+
+  timeFormater = DateUtil.format
 
   // 是否显示预览
   showViewFlag = false

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 表单接口
- *
  * @author geyu
  */
 @RestController
@@ -32,9 +30,6 @@ public class FormController {
         this.formService = formService;
     }
 
-    /**
-     * 保存表单设计
-     */
     @PostMapping("/saveForm")
     public Object saveForm(@RequestBody FormMeta vo) {
 
@@ -57,9 +52,14 @@ public class FormController {
         return new AppResponse<>().ok("ok！");
     }
 
-    /**
-     * 获取表单列表
-     */
+    @DeleteMapping("/getFormById")
+    public Object getFormById(String id) {
+
+        log.info("\n>> 获取表单设计，id = {}", id);
+
+        return new AppResponse<>().ok("ok！", formService.getFormById(id));
+    }
+
     @GetMapping("/getFormList")
     public Object getFormList() {
 
