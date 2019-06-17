@@ -1,9 +1,10 @@
-import Vue, { CreateElement, VNode } from "vue"
-import { Prop, Component } from "vue-property-decorator"
-import { State, Mutation } from "vuex-class"
-import ItemFactory from "./items/ItemFactory"
+import Vue, { CreateElement, VNode } from 'vue'
+import { Prop, Component } from 'vue-property-decorator'
+import { State, Mutation } from 'vuex-class'
+import ItemFactory from './items/ItemFactory'
+import Input from './items/Input'
 
-@Component
+@Component({ components: { Input } })
 export default class FormItem extends Vue {
   // prop
   @Prop() data!: any
@@ -18,10 +19,6 @@ export default class FormItem extends Vue {
   @Mutation updateResult: any
 
   render() {
-    return this.renderByFactory(this.$createElement)
-  }
-
-  renderByFactory(h: CreateElement): VNode {
     console.log(this.data)
     return (
       <div class="dynamic-item">
@@ -31,24 +28,27 @@ export default class FormItem extends Vue {
           // 是否选中的样式
           class={{ active: this.data.idx == this.activeIdx }}
           // 点击时设置选中
-          nativeOn={{
-            click: () => {
-              this.active(this.data.idx)
-            }
-          }}
+          nativeOnClick={() => this.active(this.data.idx)}
         >
-          {ItemFactory.getItem({
+          {/* {ItemFactory.getItem({
             h,
             item: this.data,
             mutations: {
               updateResult: this.updateResult,
-              updateByIdx: this.updateByIdx,
+              updateByIdx: this.updateByIdx
             },
             mode: this.mode,
             emit: this.$emit
-          })}
+          })} */}
+          {this.getItem()}
         </el-form-item>
       </div>
     )
+  }
+
+  getItem() {
+    if (this.data.itemType == 'el-input') {
+      return <Input data={this.data} />
+    }
   }
 }

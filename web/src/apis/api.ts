@@ -6,7 +6,8 @@ export default class Api {
 
   constructor() {
     this.http = axios.create({
-      baseURL: "http://localhost:7000",
+      baseURL: "http://47.94.198.39:7000",
+      // baseURL: "http://localhost:7000",
       // timeout: 3000
     })
     // this.http.

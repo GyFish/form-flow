@@ -1,5 +1,5 @@
-import { VNode, CreateElement, VNodeData } from "vue"
-import { ItemOption } from "./ItemFactory"
+import { VNode, CreateElement, VNodeData } from 'vue'
+import { ItemOption } from './ItemFactory'
 
 export default abstract class AbstractItem {
   //~ 属性 -------------------------
@@ -33,18 +33,19 @@ export default abstract class AbstractItem {
       on: {
         input: (value: string) => {
           // 更新表单结构值
-          console.log(this.item)
-          this.item.value = value
+          console.log('on input', this.item)
+          // this.item.value = value
+          Object.assign(option.item, { value })
           // debugger
-          this.mutations.updateByIdx({
-            idx: this.item.idx,
-            item: this.item
-          })
+          // this.mutations.updateByIdx({
+          //   idx: this.item.idx,
+          //   item: this.item
+          // })
           // 更新结果
-          this.mutations.updateResult({
-            field: this.item.prop,
-            value: value
-          })
+          // this.mutations.updateResult({
+          //   field: this.item.prop,
+          //   value: value
+          // })
         }
       }
     }

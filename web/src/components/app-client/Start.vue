@@ -10,7 +10,13 @@
         </div>
         <!-- 任务列表 -->
         <div class="task-list">
-          <el-table @current-change="handleFlowChange" :data="flowList" :show-header="false" height="100%" highlight-current-row>
+          <el-table
+            @current-change="handleFlowChange"
+            :data="flowList"
+            :show-header="false"
+            height="100%"
+            highlight-current-row
+          >
             <el-table-column prop="title"></el-table-column>
           </el-table>
         </div>
@@ -41,7 +47,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import FormItem from '@/components/form/FormItem.tsx'
 import { Mutation } from 'vuex-class'
 import FlowApi from '@/apis/FlowApi'
-import FormApi from '../../apis/FormApi';
+import FormApi from '../../apis/FormApi'
 
 @Component({
   components: { FormItem }
@@ -52,37 +58,7 @@ export default class AppStart extends Vue {
 
   // 流程列表
   flowList: any = []
-  formItems: any = [
-    {
-      id: null,
-      itemType: 'el-input',
-      prop: 'input',
-      value: '',
-      label: '输入框',
-      placeholder: '请输入...',
-      icon: 'el-icon-edit',
-      prefixIcon: '',
-      inputType: 'text'
-    },
-    {
-      id: null,
-      itemType: 'el-input',
-      prop: 'text',
-      value: '',
-      label: '文本域',
-      icon: 'el-icon-tickets',
-      inputType: 'textarea'
-    },
-    {
-      id: null,
-      itemType: 'el-select',
-      prop: 'select',
-      value: '',
-      label: '下拉框',
-      icon: 'el-icon-arrow-down',
-      options: [{ value: 'k1', label: '选项一' }, { value: 'k2', label: '选项二' }]
-    }
-  ]
+  formItems: any = []
 
   // mounted
   mounted() {
@@ -95,6 +71,7 @@ export default class AppStart extends Vue {
     this.flowList = await new FlowApi().getFlowList()
   }
 
+  // 获取表单元素
   async getFormById(id: string) {
     let form = await new FormApi().getFormById(id)
     this.formItems = form.items

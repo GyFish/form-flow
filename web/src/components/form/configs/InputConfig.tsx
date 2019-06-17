@@ -18,7 +18,7 @@ export default class InputConfig extends AbstractConfig {
           on: {
             input: (value: string) => {
               this.item.placeholder = value
-              this.mutations.update()
+              // this.mutations.update()
             }
           }
         })}
