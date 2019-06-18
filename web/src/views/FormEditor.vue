@@ -47,7 +47,10 @@
           <el-main style="border:0">
             <el-tabs stretch :value="activeConfigTab">
               <el-tab-pane label="字段属性" name="itemConfig">
-                <form-config :item="{...computedFormItems[activeIdx], idx: activeIdx}"></form-config>
+                <form-config
+                  :item="{...computedFormItems[activeIdx], idx: activeIdx}"
+                  @updateItem="updateItem"
+                ></form-config>
               </el-tab-pane>
               <el-tab-pane label="表单属性" name="formConfig" style="text-align:center">
                 <el-form>
@@ -75,7 +78,7 @@ import { State, Mutation } from 'vuex-class'
 import { Provide, Component } from 'vue-property-decorator'
 import metas from '@/components/form/Metas.vue'
 import FormItem from '@/components/form/FormItem.tsx'
-import FormConfig from '@/components/form/FormConfig.tsx'
+import FormConfig from '@/components/form/FormConfig'
 import draggable from 'vuedraggable'
 import FormApi from '@/apis/FormApi'
 
@@ -133,6 +136,10 @@ export default class FormEditor extends Vue {
 
   commit() {
     this.commitTable()
+  }
+
+  updateItem(value: any) {
+    console.log('update item =', value)
   }
 
   // 保存表单

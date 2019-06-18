@@ -19,7 +19,7 @@ export default class FormItem extends Vue {
   @Mutation updateResult: any
 
   render() {
-    console.log(this.data)
+    console.log('=== 渲染表单元素，item =', this.data)
     return (
       <div class="dynamic-item">
         <el-form-item
