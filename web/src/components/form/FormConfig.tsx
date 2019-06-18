@@ -1,26 +1,33 @@
-import Vue, { CreateElement, VNode } from 'vue'
+import Vue from 'vue'
 import { Prop, Component } from 'vue-property-decorator'
-// import { Mutation, State } from 'vuex-class'
-// import ConfigFactory from './configs/ConfigFactory'
 import InputConfig from './items/InputConfig.vue'
 
 @Component({ components: { InputConfig } })
 export default class FormConfig extends Vue {
-  // store
-  @Prop() item!: any
-  // @Mutation updateByIdx: any
-
-  // update() {
-  //   this.updateByIdx({
-  //     idx: this.item.idx,
-  //     item: this.item
-  //   })
-  // }
+  @Prop()
+  item!: any
 
   render() {
     console.log('=== 渲染表单配置，item =', this.item)
+
+    let config = this.getConfig()
+    console.log('  get config =', config)
+
     if (this.item.itemType == 'el-input') {
-      return <InputConfig data={this.item} {...{ on: { updateItem: this.updateItem } }} />
+      return (
+        <config
+          // 绑定 prop
+          data={this.item}
+          // 绑定自定义事件
+          {...{ on: { updateItem: this.updateItem } }}
+        />
+      )
+    }
+  }
+
+  getConfig() {
+    if (this.item.itemType == 'el-input') {
+      return InputConfig
     }
   }
 
