@@ -27,8 +27,9 @@ export default class FormConfig extends Vue {
 
   // 获取组件
   getConfig() {
-    if (this.item.itemType == 'el-input') {
-      return InputConfig
+    switch (this.item.itemType) {
+      case 'el-input':
+        return InputConfig
     }
   }
 

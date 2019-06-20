@@ -25,15 +25,18 @@ export default class FormItem extends Vue {
           // 点击时设置选中
           nativeOnClick={() => this.$emit('setActiveItem', this.item.uuid)}
         >
-          {this.getItem()}
+          <component data={this.item} />
         </el-form-item>
       </div>
     )
   }
 
   getItem() {
-    if (this.item.itemType == 'el-input') {
-      return <Input data={this.item} />
+    switch (this.item.itemType) {
+      case 'el-input':
+        return Input
+      default:
+        break
     }
   }
 }

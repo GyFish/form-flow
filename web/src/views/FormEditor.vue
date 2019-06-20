@@ -101,12 +101,14 @@ export default class FormEditor extends Vue {
   // 当前激活的配置栏
   activeConfigTab = 'formConfigTab'
 
+  // 拖动到主面板，copy 数据
   clone(el: any) {
     let item = JSON.parse(JSON.stringify(el))
     item.uuid = UuidUtil.uuid()
     return item
   }
 
+  // 删除
   removeItem(idx: any) {
     this.formItems.splice(idx, 1)
     if (this.formItems.length < 1) {
@@ -114,6 +116,7 @@ export default class FormEditor extends Vue {
     }
   }
 
+  // 设置当前激活
   setActiveItem(uuid: any) {
     console.log('setActiveItem, uuid =', uuid)
     this.formItems.forEach((item: Item) => {
@@ -124,6 +127,7 @@ export default class FormEditor extends Vue {
     this.activeConfigTab = 'itemConfigTab'
   }
 
+  // 更新
   updateItem(value: any) {
     console.log('update item =', value)
   }
