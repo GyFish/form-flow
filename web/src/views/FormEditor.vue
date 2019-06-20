@@ -4,12 +4,12 @@
       <!-- 左侧组件栏 -->
       <el-aside class="metas-panel">
         <draggable
-          v-model="meta.items"
+          v-model="baseItems"
           :clone="clone"
           :options="{group:{name:'people',pull:'clone',put:false},sort:false}"
         >
-          <div v-for="metas in meta.items" :key="metas.id">
-            <metas :icon="metas.icon" :label="metas.label"></metas>
+          <div v-for="item in baseItems" :key="item.label">
+            <el-button autofocus :icon="item.icon">{{item.label}}</el-button>
           </div>
         </draggable>
       </el-aside>
@@ -17,11 +17,11 @@
       <!-- 主面板 -->
       <el-main>
         <el-form v-model="result" label-position="left" label-width="100px">
-          <draggable class="pad" v-model="computedFormItems" :options="{group:'people'}">
-            <div v-for="(item, idx) of computedFormItems" :key="idx">
+          <draggable class="pad" v-model="formItems" :options="{group:'people'}">
+            <div v-for="(item, idx) of formItems" :key="idx">
               <el-row type="flex" align="middle">
                 <el-col :span="22">
-                  <form-item :data="{...item, idx}" :mode="`EDIT`"></form-item>
+                  <form-item :item="item" :curItem="curItem" @setActiveItem="setActiveItem"></form-item>
                 </el-col>
                 <el-col :span="2">
                   <el-button
@@ -34,9 +34,6 @@
                 </el-col>
               </el-row>
             </div>
-            <el-form-item v-if="computedFormItems.length > 0">
-              <!-- <el-button type="success" @click="commit">提交</el-button> -->
-            </el-form-item>
           </draggable>
         </el-form>
       </el-main>
@@ -46,16 +43,13 @@
         <el-container>
           <el-main style="border:0">
             <el-tabs stretch :value="activeConfigTab">
-              <el-tab-pane label="字段属性" name="itemConfig">
-                <form-config
-                  :item="{...computedFormItems[activeIdx], idx: activeIdx}"
-                  @updateItem="updateItem"
-                ></form-config>
+              <el-tab-pane label="字段属性" name="itemConfigTab">
+                <form-config :item="curItem" @updateItem="updateItem"></form-config>
               </el-tab-pane>
-              <el-tab-pane label="表单属性" name="formConfig" style="text-align:center">
+              <el-tab-pane label="表单属性" name="formConfigTab" style="text-align:center">
                 <el-form>
                   <el-form-item label="标题">
-                    <el-input v-model="data.form.title"></el-input>
+                    <el-input v-model="formConfigData.title"></el-input>
                   </el-form-item>
                 </el-form>
                 <img src="@/assets/yayi2.jpg" width="95%">
@@ -74,68 +68,60 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { State, Mutation } from 'vuex-class'
 import { Provide, Component } from 'vue-property-decorator'
-import metas from '@/components/form/Metas.vue'
-import FormItem from '@/components/form/FormItem.tsx'
+import FormItem from '@/components/form/FormItem'
 import FormConfig from '@/components/form/FormConfig'
 import draggable from 'vuedraggable'
 import FormApi from '@/apis/FormApi'
+import UuidUtil from '@/util/UuidUtil'
+import { Item, BaseItem, FormConfigData } from '@/components/form/index'
 
 @Component({
   components: {
     draggable,
-    metas,
     FormItem,
     FormConfig
   }
 })
 export default class FormEditor extends Vue {
-  // store
-  @State meta: any
-  @State data: any
-  @State activeIdx: any
-  @Mutation active: any
-  @Mutation updateFormItems: any
-  @Mutation updateByIdx: any
-  @Mutation removeByIdx: any
-  @Mutation commitTable: any
+  // 基础元素
+  baseItems = BaseItem.items
 
-  // 表单结构
+  // 表单元素列表
+  formItems = []
 
-  // 是否显示配置栏数据
-  // showdata: number = 0
+  // 表单全局配置
+  formConfigData = new FormConfigData()
 
-  get computedFormItems() {
-    return this.data.formItems
-  }
+  // 当前元素
+  curItem = new Item()
 
-  set computedFormItems(updatedFormItems) {
-    this.updateFormItems(updatedFormItems)
-  }
+  result = {}
 
-  get activeConfigTab() {
-    return this.activeIdx < 0 ? 'formConfig' : 'itemConfig'
-  }
-
-  set activeConfigTab(tab) {
-    this.active(tab)
-  }
-
-  get result() {
-    return this.data.result
-  }
+  // 当前激活的配置栏
+  activeConfigTab = 'formConfigTab'
 
   clone(el: any) {
-    return JSON.parse(JSON.stringify(el))
+    let item = JSON.parse(JSON.stringify(el))
+    item.uuid = UuidUtil.uuid()
+    return item
   }
 
-  removeItem(idx: string) {
-    this.removeByIdx(idx)
+  removeItem(idx: any) {
+    this.formItems.splice(idx, 1)
+    if (this.formItems.length < 1) {
+      this.curItem = new Item()
+    }
   }
 
-  commit() {
-    this.commitTable()
+  setActiveItem(uuid: any) {
+    console.log('setActiveItem, uuid =', uuid)
+    this.formItems.forEach((item: Item) => {
+      if (item.uuid == uuid) {
+        this.curItem = item
+      }
+    })
+    this.activeConfigTab = 'itemConfigTab'
   }
 
   updateItem(value: any) {
@@ -149,10 +135,9 @@ export default class FormEditor extends Vue {
     if (!this.saveCheck()) return
     // data
     let formEditorVo = {
-      ...this.data.form,
-      items: this.data.formItems
+      ...this.formConfigData,
+      items: this.formItems
     }
-    console.log('formEditorVo = ', formEditorVo)
     let res = await new FormApi().saveForm(formEditorVo)
     this.$notify.success(res)
     this.backToFormAdmin()
@@ -164,10 +149,10 @@ export default class FormEditor extends Vue {
     let alertMsg = ''
 
     // 表单标题
-    if (!this.data.form.title) {
+    if (!this.formConfigData.title) {
       alertMsg = '请给表单取个名字~'
       // 右侧标签页跳到表单配置
-      this.active(-1)
+      this.activeConfigTab = 'formConfigTab'
     }
 
     // 消息提醒

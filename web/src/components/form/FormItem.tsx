@@ -1,45 +1,30 @@
-import Vue, { CreateElement, VNode } from 'vue'
+import Vue from 'vue'
 import { Prop, Component } from 'vue-property-decorator'
-import { State, Mutation } from 'vuex-class'
-import ItemFactory from './items/ItemFactory'
-import Input from './items/Input'
+import Input from './items/Input.vue'
+import { Item } from '.'
 
 @Component({ components: { Input } })
 export default class FormItem extends Vue {
   // prop
-  @Prop() data!: any
-  @Prop() mode!: any
-
-  // store
-  @State(state => state.data.items) items: any
-  @State activeIdx: any
-  @Mutation active: any
-  @Mutation updateFormItems: any
-  @Mutation updateByIdx: any
-  @Mutation updateResult: any
+  @Prop() item!: Item
+  @Prop() curItem!: any
 
   render() {
-    console.log('=== 渲染表单元素，item =', this.data)
+    console.log('=== 渲染表单元素，item =', this.item)
+
+    let component = this.getItem()
+    console.debug('  get item =', component)
+
     return (
       <div class="dynamic-item">
         <el-form-item
           // 字段的名称
-          label={this.data.label}
+          label={this.item.label}
           // 是否选中的样式
-          class={{ active: this.data.idx == this.activeIdx }}
+          class={{ active: this.item.uuid == this.curItem.uuid }}
           // 点击时设置选中
-          nativeOnClick={() => this.active(this.data.idx)}
+          nativeOnClick={() => this.$emit('setActiveItem', this.item.uuid)}
         >
-          {/* {ItemFactory.getItem({
-            h,
-            item: this.data,
-            mutations: {
-              updateResult: this.updateResult,
-              updateByIdx: this.updateByIdx
-            },
-            mode: this.mode,
-            emit: this.$emit
-          })} */}
           {this.getItem()}
         </el-form-item>
       </div>
@@ -47,8 +32,8 @@ export default class FormItem extends Vue {
   }
 
   getItem() {
-    if (this.data.itemType == 'el-input') {
-      return <Input data={this.data} />
+    if (this.item.itemType == 'el-input') {
+      return <Input data={this.item} />
     }
   }
 }

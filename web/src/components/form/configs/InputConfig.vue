@@ -1,6 +1,12 @@
 <template>
   <div>
     <el-form>
+      <el-form-item label="key">
+        <el-input v-model="input.prop"></el-input>
+      </el-form-item>
+      <el-form-item label="名称">
+        <el-input v-model="input.label"></el-input>
+      </el-form-item>
       <el-form-item label="占位文本">
         <el-input v-model="input.placeholder"></el-input>
       </el-form-item>
@@ -16,19 +22,14 @@ import { Prop, Component, Watch } from 'vue-property-decorator'
 @Component
 export default class InputConfig extends Vue {
   @Prop()
-  data!: Item
+  item!: Item
 
-  input = {}
-
-  @Watch('data')
-  onDataChange(value: any) {
-    console.log('  on data change, value =', value)
-    this.input = value
+  get input() {
+    return this.item
   }
 
   @Watch('input', { deep: true })
   onInputChange(value: any) {
-    console.log('  on input change, value =', value)
     this.$emit('updateItem', value)
   }
 }
