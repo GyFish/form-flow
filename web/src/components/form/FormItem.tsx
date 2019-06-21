@@ -21,7 +21,7 @@ export default class FormItem extends Vue {
           // 字段的名称
           label={this.item.label}
           // 是否选中的样式
-          class={{ active: this.item.uuid == this.curItem.uuid }}
+          class={this.isActive()}
           // 点击时设置选中
           nativeOnClick={() => this.$emit('setActiveItem', this.item.uuid)}
         >
@@ -29,6 +29,11 @@ export default class FormItem extends Vue {
         </el-form-item>
       </div>
     )
+  }
+
+  isActive() {
+    let active = this.curItem ? this.item.uuid == this.curItem.uuid : false
+    return { active }
   }
 
   getItem() {

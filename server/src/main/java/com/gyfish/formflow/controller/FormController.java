@@ -33,11 +33,11 @@ public class FormController {
     @PostMapping("/saveForm")
     public Object saveForm(@RequestBody FormMeta vo) {
 
-        log.info("\n>> 保存表单设计，vo = {}", JSON.toJSONString(vo, true));
+        log.info("|保存表单设计| vo = {}", JSON.toJSONString(vo, true));
 
         formService.saveForm(vo);
 
-        log.info("保存表单设计成功，id = {}");
+        log.info("|保存表单设计成功|id = {}");
 
         return new AppResponse<>().ok("ok！", vo);
     }
@@ -45,7 +45,7 @@ public class FormController {
     @DeleteMapping("/deleteForm")
     public Object deleteForm(String id) {
 
-        log.info("\n>> 删除表单设计，id = {}", id);
+        log.info("|删除表单设计| id = {}", id);
 
         formService.deleteForm(id);
 
@@ -55,7 +55,7 @@ public class FormController {
     @DeleteMapping("/getFormById")
     public Object getFormById(String id) {
 
-        log.info("\n>> 获取表单设计，id = {}", id);
+        log.info("|获取表单设计| id = {}", id);
 
         return new AppResponse<>().ok("ok！", formService.getFormById(id));
     }
@@ -63,7 +63,7 @@ public class FormController {
     @GetMapping("/getFormList")
     public Object getFormList() {
 
-        log.info("=== 获取表单列表 ===");
+        log.info("|获取表单列表|");
 
         return new AppResponse<>().ok(formService.getFormList());
     }

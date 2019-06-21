@@ -8,7 +8,7 @@
           :clone="clone"
           :options="{group:{name:'people',pull:'clone',put:false},sort:false}"
         >
-          <div v-for="item in baseItems" :key="item.label">
+          <div v-for="(item, idx) of baseItems" :key="idx">
             <el-button autofocus :icon="item.icon">{{item.label}}</el-button>
           </div>
         </draggable>
@@ -100,6 +100,17 @@ export default class FormEditor extends Vue {
 
   // 当前激活的配置栏
   activeConfigTab = 'formConfigTab'
+
+  mounted() {
+    let { routerData } = this.$route.params
+    if (!routerData) return
+
+    let formVo = JSON.parse(routerData)
+    console.log('formVo =', formVo)
+
+    this.formItems = formVo.items
+    this.formConfigData = formVo
+  }
 
   // 拖动到主面板，copy 数据
   clone(el: any) {

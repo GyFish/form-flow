@@ -9,8 +9,8 @@
         </div>
         <div class="list-box">
           <el-table fit :show-header="true" :data="flowInfoList">
-            <el-table-column label="title" fit prop="title"></el-table-column>
-            <el-table-column label="createTime" fit prop="createTime" :formatter="timeFormater"></el-table-column>
+            <el-table-column label="标题" fit prop="title"></el-table-column>
+            <el-table-column label="创建时间" fit prop="createTime" :formatter="timeFormater"></el-table-column>
             <el-table-column fit align="right">
               <template slot-scope="scope">
                 <el-button circle type="text" icon="el-icon-view" @click="handleView(scope.row)"/>

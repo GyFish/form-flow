@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios"
+import axios, { AxiosInstance } from 'axios'
 
 export default class Api {
   // axios 实例
@@ -6,11 +6,18 @@ export default class Api {
 
   constructor() {
     this.http = axios.create({
-      baseURL: "http://47.94.198.39:7000",
-      // baseURL: "http://localhost:7000",
+      baseURL: this.getBaseURL()
       // timeout: 3000
     })
-    // this.http.
+  }
+
+  getBaseURL() {
+    switch (process.env.NODE_ENV) {
+      case 'development':
+        return 'http://localhost:7000/'
+      case 'production':
+        return 'http://47.94.198.39:7000/'
+    }
   }
 
   extractData(res: any) {

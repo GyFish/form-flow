@@ -7,10 +7,11 @@
           <el-button @click="search" type="success" icon="el-icon-search">查询</el-button>
           <el-button @click="newForm" type="primary" icon="el-icon-plus">新建</el-button>
         </div>
+
         <div class="list-box">
           <el-table :show-header="true" :data="formList">
-            <el-table-column label="title" fit prop="title"></el-table-column>
-            <el-table-column label="createTime" fit prop="createTime" :formatter="timeFormater"></el-table-column>
+            <el-table-column label="标题" fit prop="title"></el-table-column>
+            <el-table-column label="创建时间" fit prop="createTime" :formatter="timeFormater"></el-table-column>
             <el-table-column fit align="right">
               <template slot-scope="scope">
                 <el-button circle type="text" icon="el-icon-view" @click="handleView(scope.row)"/>
@@ -26,13 +27,14 @@
           </el-table>
         </div>
       </el-main>
+
       <!-- 预览弹出框 -->
-      <el-dialog :title="showViewTitle" :visible.sync="showViewFlag">
+      <el-dialog :title="showViewTitle" :visible.sync="showViewVisable">
         <el-form label-position="top">
           <div v-for="(item, idx) of formItems" :key="idx">
             <el-row type="flex" align="middle">
               <el-col :span="22">
-                <form-item :data="{...item, idx}" :mode="`VIEW`"></form-item>
+                <form-item :item="item"></form-item>
               </el-col>
             </el-row>
           </div>
@@ -58,7 +60,8 @@ export default class AppInfo extends Vue {
   timeFormater = DateUtil.format
 
   // 是否显示预览
-  showViewFlag = false
+  showViewVisable = false
+
   // 预览弹窗标题
   showViewTitle = '预览'
 
@@ -92,15 +95,18 @@ export default class AppInfo extends Vue {
 
   // 编辑
   async handleEdit(row: any) {
-    this.formItems = row.items
-    this.updateFormItems(this.formItems)
-    this.$router.push('/formEditor')
+    this.$router.push({
+      name: 'formEditor',
+      params: {
+        routerData: JSON.stringify(row)
+      }
+    })
   }
 
   // 预览
   handleView(row: any) {
     this.formItems = row.items
-    this.showViewFlag = true
+    this.showViewVisable = true
     this.showViewTitle = row.title
   }
 
