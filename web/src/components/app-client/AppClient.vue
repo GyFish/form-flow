@@ -6,7 +6,10 @@
         <el-aside width="100%">
           <!-- 头像 -->
           <div class="avatar-box">
-            <img src="@/assets/avatar1.jpg" alt="avatar">
+            <img :src="`/${user.userName}.jpg`" alt="avatar">
+          </div>
+          <div class="name-box">
+            <span>{{user.userName}}</span>
           </div>
           <!-- 导航 -->
           <el-menu router collapse width="100%">
@@ -41,23 +44,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class AppClient extends Vue {
-  taskList = [
-    {
-      date: 1,
-      name: 'a'
-    },
-    {
-      date: 1,
-      name: 'a'
-    },
-    {
-      date: 1,
-      name: 'a'
-    }
-  ]
+  avatar = 'Tom'
+
+  @Prop()
+  user: any
+
+  mounted() {
+    console.log(this.user)
+  }
 }
 </script>

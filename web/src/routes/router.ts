@@ -41,14 +41,17 @@ const routes = [
       },
       {
         path: 'userAdmin',
+        name: 'UserAdmin',
         component: () => import('@/components/app-admin/UserAdmin.vue')
       },
       {
         path: 'formAdmin',
+        name: 'FormAdmin',
         component: () => import('@/components/app-admin/FormAdmin.vue')
       },
       {
         path: 'flowAdmin',
+        name: 'FlowAdmin',
         component: () => import('@/components/app-admin/FlowAdmin.vue')
       }
     ]
@@ -61,6 +64,7 @@ const routes = [
   {
     path: '/appClient',
     name: 'AppClient',
+    props: true,
     component: () => import('@/components/app-client/AppClient.vue'),
     children: [
       {

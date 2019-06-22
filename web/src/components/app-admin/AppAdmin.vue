@@ -12,15 +12,15 @@
               <i class="el-icon-edit"></i>
               <span slot="title">基础设置</span>
             </el-menu-item>
-            <el-menu-item index="/appAdmin/userAdmin">
+            <el-menu-item index="UserAdmin">
               <i class="el-icon-edit"></i>
               <span slot="title">用户管理</span>
             </el-menu-item>
-            <el-menu-item index="/appAdmin/formAdmin">
+            <el-menu-item index="FormAdmin">
               <i class="el-icon-edit"></i>
               <span slot="title">表单管理</span>
             </el-menu-item>
-            <el-menu-item index="/appAdmin/flowAdmin">
+            <el-menu-item index="FlowAdmin">
               <i class="el-icon-edit"></i>
               <span slot="title">流程管理</span>
             </el-menu-item>
