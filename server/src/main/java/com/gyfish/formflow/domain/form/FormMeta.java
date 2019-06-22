@@ -24,6 +24,8 @@ public class FormMeta {
 
     private String title;
 
+    private String value;
+
     private Date createTime;
 
     private Date updateTime;

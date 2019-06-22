@@ -1,5 +1,5 @@
 <template>
-  <el-input :placeholder="data.placeholder"/>
+  <el-input :placeholder="data.placeholder" v-model="data.value"/>
 </template>
 
 <script lang="ts">

@@ -28,7 +28,7 @@ export default class FormApi extends Api {
 
   // 根据 id 查询
   async getFormById(id: string) {
-    const res: any = await this.http.delete('/api/form/getFormById?id=' + id)
+    const res: any = await this.http.get('/api/form/getFormById?id=' + id)
     return super.extractData(res)
   }
 }

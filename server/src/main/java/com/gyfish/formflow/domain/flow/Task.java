@@ -1,5 +1,9 @@
 package com.gyfish.formflow.domain.flow;
 
+import org.springframework.data.annotation.Id;
+
+import java.util.Map;
+
 import lombok.Data;
 
 /**
@@ -10,16 +14,19 @@ import lombok.Data;
 @Data
 public class Task {
 
-    private int id;
+    @Id
+    private String id;
 
-    private int processId;
+    private String processId;
 
-    private String handlerId;
+    private String formId;
 
-    private String handlerName;
+    private String userId;
 
-    private String handlerGroupId;
+    private String userGroupId;
 
-    private String handlerGroupName;
+    private String taskName;
+
+    private Map formData;
 
 }

@@ -3,12 +3,12 @@
     <el-col :span="8">
       <el-card shadow="hover">
         <div slot="header">
-          <span>{{computedAppInfo.title}}</span>
+          <span>{{appInfo.title}}</span>
           <el-button type="text" icon="el-icon-d-arrow-right" @click="toAppClient">进入</el-button>
           <el-button type="success" icon="el-icon-tickets" @click="toAppReport">报表</el-button>
           <el-button type="primary" icon="el-icon-setting" @click="toAppAdmin">管理</el-button>
         </div>
-        <div>{{computedAppInfo.description}}</div>
+        <div>{{appInfo.description}}</div>
       </el-card>
     </el-col>
   </div>
@@ -23,10 +23,6 @@ export default class AppCard extends Vue {
   @Prop()
   appInfo: any
 
-  get computedAppInfo() {
-    return this.appInfo
-  }
-
   toAppClient() {
     this.$router.push('/appClient')
   }
@@ -36,7 +32,13 @@ export default class AppCard extends Vue {
   }
 
   toAppAdmin() {
-    this.$router.push('/appAdmin')
+    console.log('push appId =', this.appInfo)
+    this.$router.push({
+      name: 'AppAdmin',
+      params: {
+        appId: this.appInfo.id
+      }
+    })
   }
 
   newApp() {

@@ -1,21 +1,34 @@
 package com.gyfish.formflow.domain.flow;
 
+import org.springframework.data.annotation.Id;
+
+import java.util.Date;
+
 import lombok.Data;
 
 /**
- * 流程，由 点、线 组成，即节点和动作，比如一个工单的创建，就代表一个 process 的启动
+ * 流程，运营管理
  *
  * @author geyu
  */
 @Data
 public class Process {
 
-    private int id;
+    @Id
+    private String id;
 
-    private int type;
+    private String flowId;
 
-    private FlowNode curNode;
+    private String status;
 
+    private String creator;
 
+    private String handler;
+
+    private String closer;
+
+    private Date createTime;
+
+    private Date closeTime;
 
 }

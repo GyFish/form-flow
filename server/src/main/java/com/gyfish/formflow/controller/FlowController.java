@@ -57,7 +57,7 @@ public class FlowController {
     @GetMapping("/getFlowList")
     public Object getFlowInfoList() {
 
-        log.info("=== 获取流程列表 ===");
+        log.info("|获取流程列表|");
 
         return new AppResponse<>().ok(flowService.getFlowList());
     }

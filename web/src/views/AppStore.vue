@@ -3,7 +3,7 @@
     <el-container>
       <el-main class="app">
         <app-card :appInfo="appInfoDemo"/>
-        <app-card v-for="item of appInfoList" :appInfo="item"/>
+        <app-card v-for="(item, index) of appInfoList" :key="index" :appInfo="item"/>
         <new-card @newApp="showDialog = true"/>
       </el-main>
     </el-container>
@@ -51,6 +51,7 @@ export default class AppStore extends Vue {
 
   // app demo
   appInfoDemo: any = {
+    id: 'demo',
     title: 'Demo App',
     description: '使用设计好的表单收集数据，点击进入开始吧！',
     useForm: true,
@@ -77,34 +78,12 @@ export default class AppStore extends Vue {
   // 查询应用列表
   async showAppList() {
     let res = await new AppStoreApi().appList()
-    console.log(res)
     this.appInfoList = res
-  }
-
-  // 删除应用
-  async deleteApp(appId: any) {
-    console.log('app id = ', appId)
-    // 确认是否删除
-    try {
-      let confirmDelete = await this.$confirm('是否删除该应用?', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-    } catch (error) {
-      // 如果有异常代表点了取消
-      return
-    }
-    let res = await new AppStoreApi().deleteApp(appId)
-    this.$notify.success(res)
-    this.showAppList()
   }
 
   // 保存应用
   async saveApp() {
-    console.log(this.appInfo)
     let res = await new AppStoreApi().saveApp(this.appInfo)
-    console.log(res)
     this.showDialog = false
     this.showAppList()
   }

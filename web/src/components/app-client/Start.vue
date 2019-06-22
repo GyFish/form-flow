@@ -6,7 +6,7 @@
         <!-- 搜索框 -->
         <div class="search-box">
           <el-input></el-input>
-          <el-button type="primary" icon="el-icon-search"></el-button>
+          <el-button type="primary" icon="el-icon-search" @click="handleSearch"></el-button>
         </div>
         <!-- 任务列表 -->
         <div class="task-list">
@@ -29,7 +29,7 @@
           <div v-for="(item, idx) of formItems" :key="idx">
             <el-row type="flex" align="middle">
               <el-col :span="22">
-                <form-item :data="{...item, idx}" :mode="`VIEW`" @onViewInput="onViewInput"></form-item>
+                <form-item :item="item"></form-item>
               </el-col>
             </el-row>
           </div>
@@ -48,6 +48,7 @@ import FormItem from '@/components/form/FormItem.tsx'
 import { Mutation } from 'vuex-class'
 import FlowApi from '@/apis/FlowApi'
 import FormApi from '../../apis/FormApi'
+import TaskApi from '../../apis/TaskApi'
 
 @Component({
   components: { FormItem }
@@ -66,6 +67,10 @@ export default class AppStart extends Vue {
     this.getFlowList()
   }
 
+  handleSearch() {
+    this.getFlowList()
+  }
+
   // 查询流程列表
   async getFlowList() {
     this.flowList = await new FlowApi().getFlowList()
@@ -79,9 +84,9 @@ export default class AppStart extends Vue {
 
   // 选中流程
   handleFlowChange(row: any) {
-    console.log(row)
-    let id = row.nodes[1].formId
-    this.getFormById(id)
+    if (!row) return
+    let { formId } = row.nodes[1]
+    this.getFormById(formId)
   }
 
   // 提交表单
@@ -89,9 +94,5 @@ export default class AppStart extends Vue {
     console.log(this.formItems)
   }
 
-  // 响应输入值
-  onViewInput(value: any) {
-    console.log(value)
-  }
 }
 </script>

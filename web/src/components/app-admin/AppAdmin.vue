@@ -7,8 +7,8 @@
           <el-header height="50px" class="logo-box">
             <img src="@/assets/form-flow.png" height="100%">
           </el-header>
-          <el-menu router>
-            <el-menu-item index="/appAdmin/appInfo">
+          <el-menu @select="handleSelect">
+            <el-menu-item index="AppInfo">
               <i class="el-icon-edit"></i>
               <span slot="title">基础设置</span>
             </el-menu-item>
@@ -36,5 +36,21 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component
-export default class AppAdmin extends Vue {}
+export default class AppAdmin extends Vue {
+
+  appId = ''
+
+  mounted() {
+    this.appId = this.$route.params.appId
+  }
+  
+  handleSelect(index: string) {
+    this.$router.push({
+      name: index,
+      params: {
+        appId: this.appId
+      }
+    })
+  }
+}
 </script>

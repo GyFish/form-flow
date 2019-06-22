@@ -16,7 +16,7 @@
 
       <!-- 主面板 -->
       <el-main>
-        <el-form v-model="result" label-position="left" label-width="100px">
+        <el-form label-position="left" label-width="100px">
           <draggable class="pad" v-model="formItems" :options="{group:'people'}">
             <div v-for="(item, idx) of formItems" :key="idx">
               <el-row type="flex" align="middle">
@@ -95,8 +95,6 @@ export default class FormEditor extends Vue {
 
   // 当前元素
   curItem = new Item()
-
-  result = {}
 
   // 当前激活的配置栏
   activeConfigTab = 'formConfigTab'

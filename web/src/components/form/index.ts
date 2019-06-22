@@ -17,8 +17,8 @@ export class BaseItem {
   }
   static items = [
     {
-      prop: 'input',
       itemType: 'el-input',
+      prop: 'input',
       label: '文本框',
       icon: 'el-icon-edit'
     },

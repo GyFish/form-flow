@@ -37,7 +37,7 @@ public class FormController {
 
         formService.saveForm(vo);
 
-        log.info("|保存表单设计成功|id = {}");
+        log.info("|保存表单成功| id = {}");
 
         return new AppResponse<>().ok("ok！", vo);
     }
@@ -45,14 +45,14 @@ public class FormController {
     @DeleteMapping("/deleteForm")
     public Object deleteForm(String id) {
 
-        log.info("|删除表单设计| id = {}", id);
+        log.info("|删除表单| id = {}", id);
 
         formService.deleteForm(id);
 
         return new AppResponse<>().ok("ok！");
     }
 
-    @DeleteMapping("/getFormById")
+    @GetMapping("/getFormById")
     public Object getFormById(String id) {
 
         log.info("|获取表单设计| id = {}", id);
