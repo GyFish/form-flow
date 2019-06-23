@@ -5,7 +5,7 @@
       <el-aside width="100%">
         <!-- 搜索框 -->
         <div class="search-box">
-          <el-input></el-input>
+          <el-input placeholder="Start"></el-input>
           <el-button type="primary" icon="el-icon-search" @click="handleSearch"></el-button>
         </div>
         <!-- 任务列表 -->
@@ -26,7 +26,7 @@
     <div class="main-box">
       <el-main>
         <el-form label-position="top">
-          <div v-for="(item, idx) of formItems" :key="idx">
+          <div v-for="(item, idx) of startVo.formData" :key="idx">
             <el-row type="flex" align="middle">
               <el-col :span="22">
                 <form-item :item="item"></form-item>
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import FormItem from '@/components/form/FormItem.tsx'
 import { Mutation } from 'vuex-class'
 import FlowApi from '@/apis/FlowApi'
@@ -54,45 +54,49 @@ import TaskApi from '../../apis/TaskApi'
   components: { FormItem }
 })
 export default class AppStart extends Vue {
-  // 更新 state 中的表单数据
-  @Mutation updateFormItems: any
-
   // 流程列表
   flowList: any = []
-  formItems: any = []
 
-  // mounted
+  @Prop()
+  user: any
+
+  startVo = {
+    userId: this.user.userId,
+    flowId: '',
+    nodeId: '',
+    taskName: '',
+    formId: '',
+    formData: []
+  }
+
   mounted() {
-    this.updateFormItems(this.formItems)
-    this.getFlowList()
+    this.handleSearch()
   }
 
-  handleSearch() {
-    this.getFlowList()
+  async handleSearch() {
+    this.flowList = await new FlowApi().getByUser(this.user.userId)
   }
 
-  // 查询流程列表
-  async getFlowList() {
-    this.flowList = await new FlowApi().getFlowList()
-  }
-
-  // 获取表单元素
-  async getFormById(id: string) {
-    let form = await new FormApi().getFormById(id)
-    this.formItems = form.items
-  }
-
-  // 选中流程
-  handleFlowChange(row: any) {
+  async handleFlowChange(row: any) {
     if (!row) return
-    let { formId } = row.nodes[1]
-    this.getFormById(formId)
+
+    let { id, formId, nodeName } = row.nodes[1]
+
+    this.startVo.flowId = row.id
+    this.startVo.formId = formId
+    this.startVo.nodeId = id
+    this.startVo.taskName = nodeName
+
+    let form = await new FormApi().getFormById(formId)
+    this.startVo.formData = form.items
   }
 
   // 提交表单
-  commit() {
-    console.log(this.formItems)
+  async commit() {
+    let res = await new TaskApi().start(this.startVo)
+    this.$notify.success(res)
+    this.handleSearch()
+    this.startVo.formData = []
   }
-
 }
 </script>

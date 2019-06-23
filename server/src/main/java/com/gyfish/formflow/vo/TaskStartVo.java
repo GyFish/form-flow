@@ -1,5 +1,6 @@
 package com.gyfish.formflow.vo;
 
+import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
@@ -14,10 +15,12 @@ public class TaskStartVo {
 
     private String flowId;
 
-    private String flowName;
+    private String nodeId;
+
+    private String taskName;
 
     private String formId;
 
-    private Map formData;
+    private List<Map> formData;
 
 }

@@ -1,7 +1,10 @@
 package com.gyfish.formflow.domain.flow;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
@@ -12,12 +15,19 @@ import lombok.Data;
  * @author geyu
  */
 @Data
+@Document("task")
 public class Task {
 
     @Id
     private String id;
 
+    private String previousId;
+
+    private String nextId;
+
     private String processId;
+
+    private String nodeId;
 
     private String formId;
 
@@ -27,6 +37,15 @@ public class Task {
 
     private String taskName;
 
-    private Map formData;
+    private List<Map> formData;
+
+    /**
+     * TODO, DOING, DONE
+     */
+    private String status;
+
+    private Date createTime;
+
+    private Date updateTime;
 
 }

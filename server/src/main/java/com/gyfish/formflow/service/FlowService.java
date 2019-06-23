@@ -59,17 +59,37 @@ public class FlowService {
         mongoTemplate.save(meta);
     }
 
+    public void delete(String id) {
+
+        FlowMeta meta = new FlowMeta();
+        meta.setId(id);
+
+        mongoTemplate.remove(meta);
+    }
 
     public List<FlowMeta> getFlowList() {
 
         return mongoTemplate.findAll(FlowMeta.class);
     }
 
-    public void deleteFlow(String id) {
 
-        FlowMeta meta = new FlowMeta();
-        meta.setId(id);
+    FlowNode next(String flowId, String nodeId) {
 
-        mongoTemplate.remove(meta);
+        FlowMeta flow = mongoTemplate.findById(flowId, FlowMeta.class);
+
+        if (flow == null) {
+            log.error("没有这个流程！");
+            return null;
+        }
+
+        List<FlowNode> nodes = flow.getNodes();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            if (nodes.get(i).getId().equals(nodeId)) {
+                return nodes.get(i + 1);
+            }
+        }
+
+        return null;
     }
 }

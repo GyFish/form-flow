@@ -1,6 +1,7 @@
 package com.gyfish.formflow.domain.flow;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
@@ -12,6 +13,7 @@ import lombok.Data;
  * @author geyu
  */
 @Data
+@Document("process")
 public class Process {
 
     @Id
@@ -30,5 +32,7 @@ public class Process {
     private Date createTime;
 
     private Date closeTime;
+
+    private Date updateTime;
 
 }

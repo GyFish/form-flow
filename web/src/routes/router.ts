@@ -69,18 +69,26 @@ const routes = [
     children: [
       {
         path: 'start',
+        name: 'Start',
+        props: true,
         component: () => import('@/components/app-client/Start.vue')
       },
       {
         path: 'created',
+        name: 'Created',
+        props: true,
         component: () => import('@/components/app-client/Created.vue')
       },
       {
         path: 'todo',
+        name: 'Todo',
+        props: true,
         component: () => import('@/components/app-client/Todo.vue')
       },
       {
         path: 'done',
+        name: 'Done',
+        props: true,
         component: () => import('@/components/app-client/Done.vue')
       }
     ]

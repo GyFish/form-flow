@@ -14,4 +14,15 @@ export default class TaskApi extends Api {
     return super.extractData(res)
   }
 
+  // 查询
+  async query(taskQueryVo: any) {
+    const res: any = await this.http.post('/api/task/query', taskQueryVo)
+    return super.extractData(res)
+  }
+
+  // 前面的节点
+  async previous(taskId: string) {
+    const res: any = await this.http.get('/api/task/previous?taskId=' + taskId)
+    return super.extractData(res)
+  }
 }

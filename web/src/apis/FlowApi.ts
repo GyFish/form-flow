@@ -25,4 +25,10 @@ export default class FlowApi extends Api {
     const res: any = await this.http.get('/api/flow/getFlowList')
     return super.extractData(res)
   }
+
+  // 查询用户可以开始的流程
+  async getByUser(userId: string) {
+    const res: any = await this.http.get('/api/flow/getByUser?userId=' + userId)
+    return super.extractData(res)
+  }
 }

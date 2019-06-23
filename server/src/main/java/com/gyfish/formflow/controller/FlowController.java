@@ -44,12 +44,12 @@ public class FlowController {
         return new AppResponse<>().ok("save flow ok！");
     }
 
-    @DeleteMapping("/deleteFlow")
+    @DeleteMapping("/delete")
     public Object deleteFlow(String id) {
 
         log.info("\n>> 删除流程，id = {}", id);
 
-        flowService.deleteFlow(id);
+        flowService.delete(id);
 
         return new AppResponse<>().ok("delete flow ok！");
     }
@@ -57,7 +57,11 @@ public class FlowController {
     @GetMapping("/getFlowList")
     public Object getFlowInfoList() {
 
-        log.info("|获取流程列表|");
+        return new AppResponse<>().ok(flowService.getFlowList());
+    }
+
+    @GetMapping("/getByUser")
+    public Object getFlowByUser(String userId) {
 
         return new AppResponse<>().ok(flowService.getFlowList());
     }

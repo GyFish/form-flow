@@ -14,7 +14,7 @@ import lombok.Data;
  * @author geyu1
  */
 @Data
-@Document("form_meta")
+@Document("form")
 public class FormMeta {
 
     @Id

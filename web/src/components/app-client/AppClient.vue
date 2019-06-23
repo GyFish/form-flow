@@ -6,27 +6,27 @@
         <el-aside width="100%">
           <!-- 头像 -->
           <div class="avatar-box">
-            <img :src="`/${user.userName}.jpg`" alt="avatar">
+            <img :src="`/${computedUser.userName}.jpg`" alt="avatar">
           </div>
           <div class="name-box">
-            <span>{{user.userName}}</span>
+            <span>{{computedUser.userName}}</span>
           </div>
           <!-- 导航 -->
-          <el-menu router collapse width="100%">
-            <el-menu-item index="/appClient/start">
+          <el-menu collapse width="100%" @select="handleSelect">
+            <el-menu-item index="Start">
               <i class="el-icon-edit"></i>
               <span slot="title">新建一个任务，Go！</span>
             </el-menu-item>
-            <el-menu-item index="/appClient/createdList">
+            <el-menu-item index="Created">
               <i class="el-icon-time"></i>
               <span slot="title">我发起的，看看结束了没有？</span>
             </el-menu-item>
-            <el-menu-item index="/appClient/todoList">
+            <el-menu-item index="Todo">
               <i class="el-icon-document"></i>
               <span slot="title">待处理的，天啊噜，怎么这么多 Todo 啊~</span>
             </el-menu-item>
-            <el-menu-item index="/appClient/doneList">
-              <i class="el-icon-circle-check-outline"></i>
+            <el-menu-item index="Done">
+              <i class="el-icon-circle-check"></i>
               <span slot="title">处理过的，数数，这周没少干啊，加钱！</span>
             </el-menu-item>
           </el-menu>
@@ -53,8 +53,23 @@ export default class AppClient extends Vue {
   @Prop()
   user: any
 
-  mounted() {
-    console.log(this.user)
+  get computedUser() {
+    if (this.user) {
+      return this.user
+    } else {
+      return {
+        userName: 'unknown'
+      }
+    }
+  }
+
+  handleSelect(index: any) {
+    this.$router.push({
+      name: index,
+      params: {
+        user: this.user
+      }
+    })
   }
 }
 </script>

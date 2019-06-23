@@ -12,7 +12,7 @@ import lombok.Data;
  * @author geyu
  */
 @Data
-@Document("flow_meta")
+@Document("flow")
 public class FlowMeta {
 
     @Id
