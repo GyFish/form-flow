@@ -1,11 +1,12 @@
 package com.gyfish.formflow.service;
 
-import com.gyfish.formflow.dao.AppMapper;
+import com.gyfish.formflow.domain.App;
+import com.gyfish.formflow.util.BeanUtil;
 import com.gyfish.formflow.vo.AppInfoVo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * @author geyu
@@ -13,22 +14,31 @@ import javax.annotation.Resource;
 @Service
 public class AppService {
 
-    @Resource
-    private AppMapper appMapper;
+    private final MongoTemplate mongoTemplate;
+
+    @Autowired
+    public AppService(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
 
     public Object findAll() {
 
-        return appMapper.findAll();
+        return mongoTemplate.findAll(App.class);
     }
 
     public void saveApp(AppInfoVo infoVo) {
 
-        appMapper.saveApp(infoVo);
+        App app = BeanUtil.copy(infoVo, App.class);
+
+        mongoTemplate.save(app);
     }
 
-    public void deleteApp(Integer appId) {
+    public void deleteApp(String appId) {
 
-        appMapper.deleteApp(appId);
+        App app = new App();
+        app.setId(appId);
+
+        mongoTemplate.remove(app);
     }
 }

@@ -113,7 +113,7 @@ export default class AppInfo extends Vue {
   // 删除
   async handleDelete(row: any) {
     let msg = await new FormApi().deleteForm(row.id)
-    this.$notify.success(msg)
+    this.$message.success(msg)
     this.getFormList()
   }
 }

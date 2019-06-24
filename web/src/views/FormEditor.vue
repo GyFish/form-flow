@@ -152,7 +152,7 @@ export default class FormEditor extends Vue {
       items: this.formItems
     }
     let res = await new FormApi().saveForm(formEditorVo)
-    this.$notify.success(res)
+    this.$message.success(res)
     this.backToFormAdmin()
   }
 
@@ -169,7 +169,7 @@ export default class FormEditor extends Vue {
     }
 
     // 消息提醒
-    if (alertMsg) this.$notify.warning(alertMsg)
+    if (alertMsg) this.$message.warning(alertMsg)
 
     return alertMsg == ''
   }

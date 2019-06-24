@@ -9,8 +9,8 @@ export default class UserApi extends Api {
 
   //~ ------------------------------------------------------
   // 新增用户
-  async addUser(userVo: any) {
-    const res: any = await this.http.post("/api/user/addUser", userVo)
+  async saveUser(userVo: any) {
+    const res: any = await this.http.post("/api/user/save", userVo)
     return super.extractMsg(res)
   }
 

@@ -10,19 +10,19 @@ export default class FlowApi extends Api {
   //~ ------------------------------------------------------
   // 保存流程结构数据
   async saveFlow(flowData: any) {
-    const res: any = await this.http.post('/api/flow/saveFlow', flowData)
+    const res: any = await this.http.post('/api/flow/save', flowData)
     return super.extractData(res)
   }
 
   // 删除流程结构数据
   async deleteFlow(id: string) {
-    const res: any = await this.http.delete('/api/flow/deleteFlow?id=' + id)
+    const res: any = await this.http.delete('/api/flow/delete?id=' + id)
     return super.extractMsg(res)
   }
 
   // 查询流程列表
   async getFlowList() {
-    const res: any = await this.http.get('/api/flow/getFlowList')
+    const res: any = await this.http.get('/api/flow/getList')
     return super.extractData(res)
   }
 

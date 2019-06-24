@@ -37,8 +37,6 @@ export default class FlowEditor extends Vue {
   @Prop()
   metaProp: any
 
-  dbid = ''
-
   // 图实例
   graph: any = {}
 
@@ -113,16 +111,15 @@ export default class FlowEditor extends Vue {
   }
 
   replay(startNode: any) {
-    console.log('  开始恢复流程图')
+    console.log('  开始恢复流程图，metaProp =', this.metaProp)
 
-    let { id, title, nodes } = JSON.parse(this.metaProp)
+    let { title, nodes } = this.metaProp
 
-    this.dbid = id
     this.configModel.title = title
 
     for (let i = 0; i < nodes.length - 1; i++) {
       let curNode = i == 0 ? startNode : nodes[i]
-      setTimeout(() => this.handleAddNode(curNode, nodes[i + 1]), 100 * (i + 1))
+      setTimeout(() => this.handleAddNode(curNode, nodes[i + 1]), 200 * (i + 1))
     }
   }
 
@@ -391,16 +388,19 @@ export default class FlowEditor extends Vue {
     // check
     if (!this.saveCheck()) return
 
-    let data = {
-      id: this.dbid,
+    let data: any = {
       title: this.configModel.title,
       nodes: this.nodeList,
       graph: this.graph.save()
     }
 
+    if (this.metaProp) {
+      data.id = this.metaProp.id
+    }
+
     let res = await new FlowApi().saveFlow(data)
 
-    this.$notify.success(res)
+    this.$message.success(res)
 
     this.$router.push('/appAdmin/flowAdmin')
   }
@@ -417,7 +417,7 @@ export default class FlowEditor extends Vue {
     }
 
     // 消息提醒
-    if (alertMsg) this.$notify.warning(alertMsg)
+    if (alertMsg) this.$message.warning(alertMsg)
 
     return alertMsg == ''
   }

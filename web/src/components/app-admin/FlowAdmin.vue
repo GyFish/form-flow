@@ -76,7 +76,7 @@ export default class AppInfo extends Vue {
     this.$router.push({
       name: 'flowEditor',
       params: {
-        metaProp: JSON.stringify(row)
+        metaProp: row
       }
     })
   }
@@ -84,13 +84,13 @@ export default class AppInfo extends Vue {
   // 预览
   handleView(row: any) {
     // this.showViewFlag = true
-    this.$notify.warning('这个功能暂未开放')
+    this.$message.warning('这个功能暂未开放')
   }
 
   // 删除
   async handleDelete(row: any) {
     let msg = await new FlowApi().deleteFlow(row.id)
-    this.$notify.success(msg)
+    this.$message.success(msg)
     this.getFlowList()
   }
 }

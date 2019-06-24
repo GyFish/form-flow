@@ -11,7 +11,7 @@
         <div>{{appInfo.description}}</div>
       </el-card>
     </el-col>
-    <el-dialog title="选择用户" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="login as" :visible.sync="dialogVisible" width="30%">
       <el-link
         v-for="(user, i) of userList"
         :key="i"

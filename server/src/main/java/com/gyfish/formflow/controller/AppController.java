@@ -38,9 +38,8 @@ public class AppController {
         return new AppResponse<>().ok("save appInfo ok!");
     }
 
-
     @DeleteMapping("/app/deleteApp")
-    public AppResponse deleteApp(Integer appId) {
+    public AppResponse deleteApp(String appId) {
 
         appService.deleteApp(appId);
         return new AppResponse<>().ok("delete appInfo ok!");

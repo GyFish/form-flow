@@ -57,7 +57,7 @@ public class FormController {
 
         log.info("|获取表单设计| id = {}", id);
 
-        return new AppResponse<>().ok("ok！", formService.getFormById(id));
+        return new AppResponse<>().ok("ok！", formService.findById(id));
     }
 
     @GetMapping("/getFormList")

@@ -1,6 +1,5 @@
 package com.gyfish.formflow.service;
 
-import com.gyfish.formflow.dao.FormMapper;
 import com.gyfish.formflow.domain.form.FormInfo;
 import com.gyfish.formflow.domain.form.FormMeta;
 
@@ -12,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,9 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class FormService {
-
-    @Resource
-    private FormMapper formMapper;
 
     private final MongoTemplate mongoTemplate;
 
@@ -54,11 +48,6 @@ public class FormService {
         mongoTemplate.save(vo);
     }
 
-    public FormInfo findById(Integer id) {
-
-        return formMapper.findById(id);
-    }
-
     public void deleteForm(String id) {
 
         FormMeta meta = new FormMeta();
@@ -67,7 +56,7 @@ public class FormService {
         mongoTemplate.remove(meta);
     }
 
-    public FormMeta getFormById(String id) {
+    public FormMeta findById(String id) {
 
         return mongoTemplate.findById(id, FormMeta.class);
     }

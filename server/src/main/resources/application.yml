@@ -4,12 +4,6 @@ server:
     context-path: /api
 
 spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://formflow.gyfish.com:3306/form_flow?serverTimezone=UTC
-    username: root
-    password: Root@123
-    driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: formflow.gyfish.com
     port: 6379

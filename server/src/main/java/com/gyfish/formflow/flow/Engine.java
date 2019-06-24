@@ -1,6 +1,6 @@
 package com.gyfish.formflow.flow;
 
-import com.gyfish.formflow.domain.AppUser;
+import com.gyfish.formflow.domain.User;
 import com.gyfish.formflow.domain.flow.FlowNode;
 
 import org.springframework.stereotype.Component;
@@ -15,9 +15,9 @@ import java.util.List;
 @Component
 public interface Engine {
 
-    List<Process> todo(AppUser user);
+    List<Process> todo(User user);
 
-    List<Process> done(AppUser user);
+    List<Process> done(User user);
 
     FlowNode run(FlowNode node);
 

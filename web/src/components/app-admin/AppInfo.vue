@@ -70,7 +70,7 @@ export default class AppInfo extends Vue {
       return
     }
     let res = await new AppStoreApi().deleteApp(this.appId)
-    this.$notify.success(res)
+    this.$message.success(res)
     this.$router.push("/appStore")
   }
 

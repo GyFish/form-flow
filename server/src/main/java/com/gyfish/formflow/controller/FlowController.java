@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -32,7 +34,7 @@ public class FlowController {
         this.flowService = flowService;
     }
 
-    @PostMapping("/saveFlow")
+    @PostMapping("/save")
     public Object saveFLow(@RequestBody FlowMeta flowMeta) {
 
         log.info("\n>> 保存流程信息，flowMeta = {}", JSON.toJSONString(flowMeta, true));
@@ -54,16 +56,20 @@ public class FlowController {
         return new AppResponse<>().ok("delete flow ok！");
     }
 
-    @GetMapping("/getFlowList")
-    public Object getFlowInfoList() {
+    @GetMapping("/getList")
+    public Object getList() {
 
-        return new AppResponse<>().ok(flowService.getFlowList());
+        return new AppResponse<>().ok(flowService.getList());
     }
 
     @GetMapping("/getByUser")
     public Object getFlowByUser(String userId) {
 
-        return new AppResponse<>().ok(flowService.getFlowList());
+        List<FlowMeta> flows = flowService.getByUser(userId);
+
+        log.info("|getByUser| flows = {}", JSON.toJSONString(flows));
+
+        return new AppResponse<>().ok(flows);
     }
 
 }

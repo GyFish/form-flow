@@ -3,7 +3,6 @@ package com.gyfish.formflow.util;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,18 +26,10 @@ public class StreamTest {
 
     @Test
     public void test() {
-        String s = "";
-        String[] a = s.split("-");
+        String s = "1234567";
+        String a = s.substring(0, 5);
         System.out.println(a);
     }
 
-    @Test
-    public void testContain() {
-        String mobile = "1558***1111";
-        String encryptMark = "*";
-        if (!mobile.contains(encryptMark)) {
-            System.out.println(1);
-        }
-    }
 
 }

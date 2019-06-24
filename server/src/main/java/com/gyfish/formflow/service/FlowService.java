@@ -1,14 +1,19 @@
 package com.gyfish.formflow.service;
 
+import com.gyfish.formflow.domain.User;
 import com.gyfish.formflow.domain.flow.FlowMeta;
 import com.gyfish.formflow.domain.flow.FlowNode;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,9 +72,27 @@ public class FlowService {
         mongoTemplate.remove(meta);
     }
 
-    public List<FlowMeta> getFlowList() {
+    public List<FlowMeta> getList() {
 
         return mongoTemplate.findAll(FlowMeta.class);
+    }
+
+    public List<FlowMeta> getByUser(String userId) {
+
+        User user = mongoTemplate.findById(userId, User.class);
+        if (user == null) {
+            return null;
+        }
+
+        List flowIds = user.getFlowList();
+        if (CollectionUtils.isEmpty(flowIds)) {
+            return null;
+        }
+
+        Criteria criteria = Criteria.where("id").in(flowIds);
+        Query query = new Query(criteria);
+
+        return mongoTemplate.find(query, FlowMeta.class);
     }
 
 

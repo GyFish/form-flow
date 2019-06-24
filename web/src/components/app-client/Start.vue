@@ -14,7 +14,6 @@
             @current-change="handleFlowChange"
             :data="flowList"
             :show-header="false"
-            height="100%"
             highlight-current-row
           >
             <el-table-column prop="title"></el-table-column>
@@ -25,6 +24,7 @@
     <!-- 中间 main -->
     <div class="main-box">
       <el-main>
+        <el-tag v-if="startVo.taskName" style="margin-bottom:20px">{{startVo.taskName}}</el-tag>
         <el-form label-position="top">
           <div v-for="(item, idx) of startVo.formData" :key="idx">
             <el-row type="flex" align="middle">
@@ -34,7 +34,7 @@
             </el-row>
           </div>
           <el-form-item>
-            <el-button type="success" @click="commit">提交</el-button>
+            <el-button v-if="startVo.taskName" type="success" @click="commit">提交</el-button>
           </el-form-item>
         </el-form>
       </el-main>
@@ -74,7 +74,7 @@ export default class AppStart extends Vue {
   }
 
   async handleSearch() {
-    this.flowList = await new FlowApi().getByUser(this.user.userId)
+    this.flowList = await new FlowApi().getByUser(this.user.id)
   }
 
   async handleFlowChange(row: any) {
@@ -94,7 +94,7 @@ export default class AppStart extends Vue {
   // 提交表单
   async commit() {
     let res = await new TaskApi().start(this.startVo)
-    this.$notify.success(res)
+    this.$message.success(res)
     this.handleSearch()
     this.startVo.formData = []
   }

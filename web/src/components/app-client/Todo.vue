@@ -14,7 +14,6 @@
             @current-change="handleFlowChange"
             :data="taskList"
             :show-header="false"
-            height="100%"
             highlight-current-row
           >
             <el-table-column prop="taskName"></el-table-column>
@@ -25,7 +24,7 @@
     <!-- 中间 main -->
     <div class="todo-box">
       <el-main class="content">
-        <card-view :list="itemList"/>
+        <card-view :list="itemList" :cardName="cardName"/>
       </el-main>
     </div>
   </el-container>
@@ -44,6 +43,8 @@ import '@/styles/app-todo.scss'
 export default class AppTodo extends Vue {
   // 流程列表
   taskList: any = []
+
+  cardName: any = ''
 
   itemList: any = []
 
@@ -65,7 +66,7 @@ export default class AppTodo extends Vue {
 
   async handleSearch() {
     this.taskList = await new TaskApi().query({
-      userId: this.user.userId,
+      userId: this.user.id,
       status: 'TODO'
     })
   }
@@ -75,6 +76,7 @@ export default class AppTodo extends Vue {
 
     let previousTask = await new TaskApi().previous(row.id)
 
+    this.cardName = previousTask.taskName
     this.itemList = previousTask.formData
   }
 
