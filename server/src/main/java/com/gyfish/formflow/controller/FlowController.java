@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.gyfish.formflow.domain.flow.FlowMeta;
 import com.gyfish.formflow.service.FlowService;
 import com.gyfish.formflow.util.AppResponse;
+import com.gyfish.formflow.vo.FlowQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,14 +57,14 @@ public class FlowController {
         return new AppResponse<>().ok("delete flow ok！");
     }
 
-    @GetMapping("/getList")
-    public Object getList() {
+    @PostMapping("/getList")
+    public Object getList(@RequestBody FlowQuery flowQuery) {
 
-        return new AppResponse<>().ok(flowService.getList());
+        return new AppResponse<>().ok(flowService.getList(flowQuery));
     }
 
     @GetMapping("/getByUser")
-    public Object getFlowByUser(String userId) {
+    public Object getByUser(String userId) {
 
         List<FlowMeta> flows = flowService.getByUser(userId);
 

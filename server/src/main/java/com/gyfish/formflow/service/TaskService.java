@@ -75,7 +75,7 @@ public class TaskService {
 
         JSONObject criteria = new JSONObject();
 
-        criteria.put("userId", userId);
+        criteria.put("userNo", userId);
         criteria.put("status", status);
 
         Query query = new BasicQuery(criteria.toJSONString());

@@ -21,8 +21,8 @@ export default class FlowApi extends Api {
   }
 
   // 查询流程列表
-  async getFlowList() {
-    const res: any = await this.http.get('/api/flow/getList')
+  async getFlowList(flowQuery: any) {
+    const res: any = await this.http.post('/api/flow/getList', flowQuery)
     return super.extractData(res)
   }
 

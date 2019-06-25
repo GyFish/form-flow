@@ -24,9 +24,9 @@
     <!-- 中间 main -->
     <div class="main-box">
       <el-main>
-        <el-tag v-if="startVo.taskName" style="margin-bottom:20px">{{startVo.taskName}}</el-tag>
+        <el-tag v-if="taskVo.taskName" style="margin-bottom:20px">{{taskVo.taskName}}</el-tag>
         <el-form label-position="top">
-          <div v-for="(item, idx) of startVo.formData" :key="idx">
+          <div v-for="(item, idx) of taskVo.formData" :key="idx">
             <el-row type="flex" align="middle">
               <el-col :span="22">
                 <form-item :item="item"></form-item>
@@ -34,7 +34,7 @@
             </el-row>
           </div>
           <el-form-item>
-            <el-button v-if="startVo.taskName" type="success" @click="commit">提交</el-button>
+            <el-button v-if="taskVo.taskName" type="success" @click="commit">提交</el-button>
           </el-form-item>
         </el-form>
       </el-main>
@@ -57,10 +57,10 @@ export default class AppStart extends Vue {
   // 流程列表
   flowList: any = []
 
-  @Prop()
-  user: any
+  user: any = {}
+  appInfo: any = {}
 
-  startVo = {
+  taskVo = {
     userId: this.user.userId,
     flowId: '',
     nodeId: '',
@@ -70,6 +70,7 @@ export default class AppStart extends Vue {
   }
 
   mounted() {
+    this.user = JSON.parse(localStorage.user)
     this.handleSearch()
   }
 
@@ -82,21 +83,21 @@ export default class AppStart extends Vue {
 
     let { id, formId, nodeName } = row.nodes[1]
 
-    this.startVo.flowId = row.id
-    this.startVo.formId = formId
-    this.startVo.nodeId = id
-    this.startVo.taskName = nodeName
+    this.taskVo.flowId = row.id
+    this.taskVo.formId = formId
+    this.taskVo.nodeId = id
+    this.taskVo.taskName = nodeName
 
     let form = await new FormApi().getFormById(formId)
-    this.startVo.formData = form.items
+    this.taskVo.formData = form.items
   }
 
   // 提交表单
   async commit() {
-    let res = await new TaskApi().start(this.startVo)
+    let res = await new TaskApi().start(this.taskVo)
     this.$message.success(res)
     this.handleSearch()
-    this.startVo.formData = []
+    this.taskVo.formData = []
   }
 }
 </script>

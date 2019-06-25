@@ -20,6 +20,8 @@ public class FormMeta {
     @Id
     private String id;
 
+    private String appId;
+
     private String uuid;
 
     private String title;

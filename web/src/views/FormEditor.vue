@@ -99,7 +99,11 @@ export default class FormEditor extends Vue {
   // 当前激活的配置栏
   activeConfigTab = 'formConfigTab'
 
+  appId: any = ''
+
   mounted() {
+    this.appId = JSON.parse(localStorage.appInfo).id
+    
     let { routerData } = this.$route.params
     if (!routerData) return
 
@@ -149,7 +153,8 @@ export default class FormEditor extends Vue {
     // data
     let formEditorVo = {
       ...this.formConfigData,
-      items: this.formItems
+      items: this.formItems,
+      appId: this.appId
     }
     let res = await new FormApi().saveForm(formEditorVo)
     this.$message.success(res)

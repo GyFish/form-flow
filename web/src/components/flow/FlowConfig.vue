@@ -83,6 +83,8 @@ export default class FlowConfig extends Vue {
   @Prop()
   configModel!: ConfigModel
 
+  appId: any = ''
+
   //== data =====================================
 
   get activeTab() {
@@ -121,6 +123,7 @@ export default class FlowConfig extends Vue {
   //== methods =====================================
 
   async mounted() {
+    this.appId = JSON.parse(localStorage.appInfo).id
     await this.getUserList()
     await this.getFormList()
   }
@@ -129,13 +132,17 @@ export default class FlowConfig extends Vue {
 
   // 获取处理人列表
   async getUserList() {
-    this.userList = await new UserApi().userList({})
+    this.userList = await new UserApi().userList({
+      appId: this.appId
+    })
     this.userList.forEach((u: any) => (this.userMap[u.id] = u.userName))
   }
 
   // 获取表单列表
   async getFormList() {
-    this.formList = await new FormApi().getFormList()
+    this.formList = await new FormApi().getFormList({
+      appId: this.appId
+    })
   }
 }
 </script>

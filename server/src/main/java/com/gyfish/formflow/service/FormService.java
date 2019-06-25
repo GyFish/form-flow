@@ -1,10 +1,12 @@
 package com.gyfish.formflow.service;
 
-import com.gyfish.formflow.domain.form.FormInfo;
 import com.gyfish.formflow.domain.form.FormMeta;
+import com.gyfish.formflow.vo.FormQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +29,12 @@ public class FormService {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public List<FormMeta> getFormList() {
+    public List<FormMeta> getList(FormQuery formQuery) {
 
-        return mongoTemplate.findAll(FormMeta.class);
+        Criteria criteria = Criteria.where("appId").is(formQuery.getAppId());
+        Query query = new Query(criteria);
+
+        return mongoTemplate.find(query, FormMeta.class);
     }
 
     @Transactional(rollbackFor = Exception.class)

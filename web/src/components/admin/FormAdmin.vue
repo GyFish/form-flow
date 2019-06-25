@@ -68,19 +68,18 @@ export default class AppInfo extends Vue {
   // 当前选中表单的元素
   formItems = []
 
-  // 更新 state 中的表单数据
-  @Mutation updateFormItems: any
+  appId: any = ''
 
   mounted() {
-    // 获取表单列表
+    this.appId = JSON.parse(localStorage.appInfo).id
     this.getFormList()
-    // 设置 state，关联引用
-    this.updateFormItems(this.formItems)
   }
 
   // 查询表单列表
   async getFormList() {
-    this.formList = await new FormApi().getFormList()
+    this.formList = await new FormApi().getFormList({
+      appId: this.appId
+    })
   }
 
   // 获取表单列表

@@ -6,12 +6,15 @@ import com.gyfish.formflow.vo.UserQuery;
 import com.gyfish.formflow.vo.UserVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,12 +43,17 @@ public class UserService {
             mongoTemplate.remove(user);
         }
 
+        user.setCreateTime(new Date());
+
         return mongoTemplate.save(user);
     }
 
     public List<User> userList(UserQuery userQuery) {
 
-        Query query = new BasicQuery("{}");
+        Sort sort = new Sort(Sort.Direction.ASC, "createTime");
+        Criteria criteria = Criteria.where("appId").is(userQuery.getAppId());
+
+        Query query = new Query(criteria).with(sort);
 
         return mongoTemplate.find(query, User.class);
     }

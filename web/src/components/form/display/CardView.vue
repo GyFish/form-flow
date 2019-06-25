@@ -28,7 +28,7 @@ export default class CardView extends Vue {
 <style lang="scss" scoped>
 .card-view {
   .item {
-    padding: 10px;
+    padding: 10px 0px;
   }
 }
 </style>

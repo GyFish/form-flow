@@ -19,6 +19,8 @@ public class Process {
     @Id
     private String id;
 
+    private String appId;
+
     private String flowId;
 
     private String status;

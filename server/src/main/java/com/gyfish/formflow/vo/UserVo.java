@@ -14,7 +14,9 @@ public class UserVo {
 
     private String id;
 
-    private String userId;
+    private String appId;
+
+    private String userNo;
 
     private String userName;
 

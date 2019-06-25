@@ -21,6 +21,8 @@ public class Task {
     @Id
     private String id;
 
+    private String appId;
+
     private String previousId;
 
     private String nextId;

@@ -20,14 +20,14 @@
         </div>
       </el-header>
       <el-main class="main-box">
-        <el-form ref="form" :model="form" label-width="100px">
+        <el-form ref="form" :model="appInfo" label-width="100px">
           <el-form-item label="应用名称：">
-            <div v-if="mode == `show`">{{form.title}}</div>
-            <el-input v-if="mode == `edit`" v-model="form.title"></el-input>
+            <div v-if="mode == `show`">{{appInfo.title}}</div>
+            <el-input v-if="mode == `edit`" v-model="appInfo.title"></el-input>
           </el-form-item>
           <el-form-item label="应用描述：">
-            <div v-if="mode == `show`">{{form.description}}</div>
-            <el-input v-if="mode == `edit`" v-model="form.description"></el-input>
+            <div v-if="mode == `show`">{{appInfo.description}}</div>
+            <el-input v-if="mode == `edit`" v-model="appInfo.description"></el-input>
           </el-form-item>
         </el-form>
       </el-main>
@@ -37,27 +37,25 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import AppStoreApi from '@/apis/AppStoreApi'
+import AppApi from '@/apis/AppApi'
 
 @Component
 export default class AppInfo extends Vue {
   // 表单显示模式，show | edit
   mode: any = 'show'
 
-  appId = ''
-
-  form: any = {
+  appInfo: any = {
+    id: '',
     title: '这是名字',
     description: '这是一段描述'
   }
 
   mounted() {
-    this.appId = this.$route.params.appId
+    this.appInfo = JSON.parse(localStorage.appInfo)
   }
 
   // 删除
   async handleDelete() {
-    if (this.appId == 'demo') return
     // 确认是否删除
     try {
       let confirmDelete = await this.$confirm('是否删除该应用?', {
@@ -69,7 +67,7 @@ export default class AppInfo extends Vue {
       // 如果有异常代表点了取消
       return
     }
-    let res = await new AppStoreApi().deleteApp(this.appId)
+    let res = await new AppApi().deleteApp(this.appInfo.id)
     this.$message.success(res)
     this.$router.push("/appStore")
   }
@@ -86,6 +84,8 @@ export default class AppInfo extends Vue {
 
   // 保存，同时进入显示状态
   save() {
+    let res: any = new AppApi().saveApp(this.appInfo)
+    this.$message.success(res)
     this.mode = 'show'
   }
 }

@@ -48,10 +48,10 @@ export default class AppTodo extends Vue {
 
   itemList: any = []
 
-  @Prop()
-  user: any
+  user: any = {}
+  appInfo: any = {}
 
-  startVo = {
+  taskVo = {
     userId: this.user.userId,
     flowId: '',
     nodeId: '',
@@ -61,6 +61,7 @@ export default class AppTodo extends Vue {
   }
 
   mounted() {
+    this.user = JSON.parse(localStorage.user)
     this.handleSearch()
   }
 

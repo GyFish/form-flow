@@ -1,6 +1,6 @@
 import Api from "./Api"
 
-export default class AppStoreApi extends Api {
+export default class AppApi extends Api {
   constructor() {
     super()
   }

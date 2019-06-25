@@ -51,13 +51,18 @@ export default class AppInfo extends Vue {
 
   timeFormater = DateUtil.format
 
+  appId: any = ''
+
   mounted() {
+    this.appId = JSON.parse(localStorage.appInfo).id
     this.getFlowList()
   }
 
   // 查询流程列表
   async getFlowList() {
-    this.flowInfoList = await new FlowApi().getFlowList()
+    this.flowInfoList = await new FlowApi().getFlowList({
+      appId: this.appId
+    })
   }
 
   // 搜索

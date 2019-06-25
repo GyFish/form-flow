@@ -2,14 +2,13 @@ package com.gyfish.formflow.vo;
 
 import lombok.Data;
 
+/**
+ * @author geyu
+ */
 @Data
 public class AppInfoVo {
 
-    private Integer id;
-
-    private Integer formId;
-
-    private Integer processId;
+    private String id;
 
     private String title;
 

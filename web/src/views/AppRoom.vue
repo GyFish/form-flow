@@ -2,7 +2,7 @@
   <div class="app-store">
     <el-container>
       <el-main class="app">
-        <app-card :appInfo="appInfoDemo"/>
+        <!-- <app-card :appInfo="appInfoDemo"/> -->
         <app-card v-for="(item, index) of appInfoList" :key="index" :appInfo="item"/>
         <new-card @newApp="showDialog = true"/>
       </el-main>
@@ -33,8 +33,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { State, Mutation } from 'vuex-class'
-import AppStoreApi from '@/apis/AppStoreApi'
+import AppApi from '@/apis/AppApi'
 import AppCard from '@/components/app-room/AppCard.vue'
 import NewCard from '@/components/app-room/NewCard.vue'
 
@@ -46,8 +45,6 @@ export default class AppRoom extends Vue {
 
   // 是否显示弹窗
   showDialog: Boolean = false
-
-  @Mutation setActiveMenu: any
 
   // app demo
   appInfoDemo: any = {
@@ -77,13 +74,13 @@ export default class AppRoom extends Vue {
 
   // 查询应用列表
   async showAppList() {
-    let res = await new AppStoreApi().appList()
+    let res = await new AppApi().appList()
     this.appInfoList = res
   }
 
   // 保存应用
   async saveApp() {
-    let res = await new AppStoreApi().saveApp(this.appInfo)
+    let res = await new AppApi().saveApp(this.appInfo)
     this.showDialog = false
     this.showAppList()
   }

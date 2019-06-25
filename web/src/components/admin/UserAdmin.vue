@@ -10,7 +10,7 @@
         </div>
         <div class="list-box">
           <el-table :data="userList">
-            <el-table-column label="工号" fit prop="userId"></el-table-column>
+            <el-table-column label="工号" fit prop="userNo"></el-table-column>
             <el-table-column label="姓名" fit prop="userName"></el-table-column>
             <el-table-column label="权限" fit>
               <template slot-scope="scope">
@@ -30,7 +30,7 @@
         <el-dialog width="30%" title="新建用户" :visible.sync="addUserFlag">
           <el-form>
             <el-form-item label="工号">
-              <el-input v-model="userVo.userId"/>
+              <el-input v-model="userVo.userNo"/>
             </el-form-item>
             <el-form-item label="姓名">
               <el-input v-model="userVo.userName"/>
@@ -48,11 +48,7 @@
             <!-- <el-checkbox v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox> -->
             <div style="margin: 15px 0;"></div>
             <el-checkbox-group v-model="checkedFlowList" @change="handleCheckedChange">
-              <el-checkbox
-                v-for="flow in flowList"
-                :key="flow.id"
-                :label="flow.id"
-              >{{flow.title}}</el-checkbox>
+              <el-checkbox v-for="flow in flowList" :key="flow.id" :label="flow.id">{{flow.title}}</el-checkbox>
             </el-checkbox-group>
           </div>
           <span slot="footer" class="dialog-footer">
@@ -91,37 +87,44 @@ export default class UserAdmin extends Vue {
   // 用户详情
   userVo: any = {}
 
-  // 用户搜索
-  userQuery: any = {}
+  appId: any = ''
 
   // mounted
   mounted() {
+    this.appId = JSON.parse(localStorage.appInfo).id
     this.search()
     this.getFlowList()
   }
 
   // 用户列表
   async search() {
-    this.userList = await new UserApi().userList(this.userQuery)
+    this.userList = await new UserApi().userList({
+      appId: this.appId
+    })
   }
 
   // 流程列表
   async getFlowList() {
-    this.flowList = await new FlowApi().getFlowList()
+    this.flowList = await new FlowApi().getFlowList({
+      appId: this.appId
+    })
   }
 
+  // 打开流程权限弹窗
   handleAuth(user: any) {
     this.checkedFlowList = user.flowList || []
     this.flowAuthFlag = true
     this.userVo = user
   }
 
+  // 更新权限
   async saveAuth() {
     this.userVo.flowList = this.checkedFlowList
     this.saveUser()
     this.flowAuthFlag = false
   }
 
+  // 打开添加用户弹窗
   handleAddUser() {
     this.userVo = {}
     this.addUserFlag = true
@@ -129,6 +132,7 @@ export default class UserAdmin extends Vue {
 
   // 新建用户
   async saveUser() {
+    this.userVo.appId = this.appId
     let res = await new UserApi().saveUser(this.userVo)
     this.$message.success(res)
     this.addUserFlag = false
@@ -143,9 +147,7 @@ export default class UserAdmin extends Vue {
   }
 
   // 全选
-  handleCheckAllChange(processId: any) {
-
-  }
+  handleCheckAllChange(processId: any) {}
 
   // 选中
   handleCheckedChange(value: any) {

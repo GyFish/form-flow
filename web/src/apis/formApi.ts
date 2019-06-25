@@ -21,8 +21,8 @@ export default class FormApi extends Api {
   }
 
   // 查询表单列表
-  async getFormList() {
-    const res: any = await this.http.get('/api/form/getFormList')
+  async getFormList(formQuery: any) {
+    const res: any = await this.http.post('/api/form/getList', formQuery)
     return super.extractData(res)
   }
 

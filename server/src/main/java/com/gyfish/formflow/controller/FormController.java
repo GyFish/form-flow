@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.gyfish.formflow.domain.form.FormMeta;
 import com.gyfish.formflow.service.FormService;
 import com.gyfish.formflow.util.AppResponse;
+import com.gyfish.formflow.vo.FormQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
@@ -60,12 +62,12 @@ public class FormController {
         return new AppResponse<>().ok("ok！", formService.findById(id));
     }
 
-    @GetMapping("/getFormList")
-    public Object getFormList() {
+    @PostMapping("/getList")
+    public Object getList(@RequestBody FormQuery formQuery) {
 
         log.info("|获取表单列表|");
 
-        return new AppResponse<>().ok(formService.getFormList());
+        return new AppResponse<>().ok(formService.getList(formQuery));
     }
 
 

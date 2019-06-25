@@ -85,10 +85,14 @@ export default class FlowEditor extends Vue {
   // 节点 索引
   nodeIndex = 0
 
+  appId: any = ''
+
   //== vue 狗子 =====================================
 
   mounted() {
     console.log('=== mounted ===')
+
+    this.appId = JSON.parse(localStorage.appInfo).id
 
     this.createEditor()
     this.handleRead()
@@ -393,6 +397,8 @@ export default class FlowEditor extends Vue {
       nodes: this.nodeList,
       graph: this.graph.save()
     }
+
+    data.appId = this.appId
 
     if (this.metaProp) {
       data.id = this.metaProp.id

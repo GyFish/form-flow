@@ -3,6 +3,7 @@ package com.gyfish.formflow.service;
 import com.gyfish.formflow.domain.User;
 import com.gyfish.formflow.domain.flow.FlowMeta;
 import com.gyfish.formflow.domain.flow.FlowNode;
+import com.gyfish.formflow.vo.FlowQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -72,9 +73,12 @@ public class FlowService {
         mongoTemplate.remove(meta);
     }
 
-    public List<FlowMeta> getList() {
+    public List<FlowMeta> getList(FlowQuery flowQuery) {
 
-        return mongoTemplate.findAll(FlowMeta.class);
+        Criteria criteria = Criteria.where("appId").is(flowQuery.getAppId());
+        Query query = new Query(criteria);
+
+        return mongoTemplate.find(query, FlowMeta.class);
     }
 
     public List<FlowMeta> getByUser(String userId) {
