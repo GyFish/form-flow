@@ -15,6 +15,8 @@ public class TaskStartVo {
 
     private String flowId;
 
+    private String flowTitle;
+
     private String nodeId;
 
     private String taskName;

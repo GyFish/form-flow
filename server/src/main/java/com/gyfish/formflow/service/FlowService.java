@@ -29,9 +29,12 @@ public class FlowService {
 
     private final MongoTemplate mongoTemplate;
 
+    private final UserService userService;
+
     @Autowired
-    public FlowService(MongoTemplate mongoTemplate) {
+    public FlowService(MongoTemplate mongoTemplate, UserService userService) {
         this.mongoTemplate = mongoTemplate;
+        this.userService = userService;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -63,6 +66,13 @@ public class FlowService {
         }
 
         mongoTemplate.save(meta);
+
+        // 设置起始节点处理人权限
+        FlowNode startNode = nodes.get(1);
+        User user = userService.getById(startNode.getHandlerId());
+
+        user.addFlow(meta.getId());
+        userService.save(user);
     }
 
     public void delete(String id) {

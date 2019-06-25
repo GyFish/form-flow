@@ -23,6 +23,8 @@ public class Process {
 
     private String flowId;
 
+    private String processName;
+
     private String status;
 
     private String creator;

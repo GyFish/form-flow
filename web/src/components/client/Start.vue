@@ -61,8 +61,9 @@ export default class AppStart extends Vue {
   appInfo: any = {}
 
   taskVo = {
-    userId: this.user.userId,
+    userId: '',
     flowId: '',
+    flowTitle: '',
     nodeId: '',
     taskName: '',
     formId: '',
@@ -71,6 +72,7 @@ export default class AppStart extends Vue {
 
   mounted() {
     this.user = JSON.parse(localStorage.user)
+    this.taskVo.userId = this.user.id
     this.handleSearch()
   }
 
@@ -84,6 +86,7 @@ export default class AppStart extends Vue {
     let { id, formId, nodeName } = row.nodes[1]
 
     this.taskVo.flowId = row.id
+    this.taskVo.flowTitle = row.title
     this.taskVo.formId = formId
     this.taskVo.nodeId = id
     this.taskVo.taskName = nodeName

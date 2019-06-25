@@ -42,6 +42,7 @@ public class TaskService {
         // 生成 process
         Process p = new Process();
         p.setFlowId(startVo.getFlowId());
+        p.setProcessName(startVo.getFlowTitle());
         p.setCreator(startVo.getUserId());
         p.setCreateTime(new Date());
         p.setUpdateTime(new Date());
@@ -49,19 +50,22 @@ public class TaskService {
         mongoTemplate.save(p);
 
         // 生成 task
-        Task task = new Task();
-        BeanUtil.copy(startVo, task, false);
-        task.setProcessId(p.getId());
-        task.setStatus("DONE");
-        task.setCreateTime(new Date());
-        task.setUpdateTime(new Date());
-        mongoTemplate.save(task);
+        Task done = new Task();
+        BeanUtil.copy(startVo, done, false);
+        done.setProcessId(p.getId());
+        done.setProcessName(startVo.getFlowTitle());
+        done.setUserId(startVo.getUserId());
+        done.setStatus("DONE");
+        done.setCreateTime(new Date());
+        done.setUpdateTime(new Date());
+        mongoTemplate.save(done);
 
         // 生成下一个 task
         FlowNode node = flowService.next(startVo.getFlowId(), startVo.getNodeId());
         Task next = new Task();
         next.setProcessId(p.getId());
-        next.setPreviousId(task.getId());
+        next.setProcessName(p.getProcessName());
+        next.setPreviousId(done.getId());
         next.setTaskName(node.getNodeName());
         next.setFormId(node.getFormId());
         next.setUserId(node.getHandlerId());
@@ -75,7 +79,7 @@ public class TaskService {
 
         JSONObject criteria = new JSONObject();
 
-        criteria.put("userNo", userId);
+        criteria.put("userId", userId);
         criteria.put("status", status);
 
         Query query = new BasicQuery(criteria.toJSONString());

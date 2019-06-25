@@ -16,6 +16,7 @@
             :show-header="false"
             highlight-current-row
           >
+            <el-table-column prop="processName"></el-table-column>
             <el-table-column prop="taskName"></el-table-column>
           </el-table>
         </div>
@@ -59,7 +60,6 @@ export default class AppTodo extends Vue {
 
   async handleSearch() {
     this.taskList = await new TaskApi().query({
-      appId: this.appInfo.id,
       userId: this.user.id,
       status: 'DONE'
     })
@@ -69,7 +69,6 @@ export default class AppTodo extends Vue {
     if (!row) return
 
     let tasks = await new TaskApi().previous(row.id)
-
   }
 }
 </script>

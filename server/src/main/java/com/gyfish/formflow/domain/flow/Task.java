@@ -29,6 +29,8 @@ public class Task {
 
     private String processId;
 
+    private String processName;
+
     private String nodeId;
 
     private String formId;

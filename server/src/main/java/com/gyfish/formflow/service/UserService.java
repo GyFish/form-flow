@@ -35,7 +35,7 @@ public class UserService {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public Object addUser(UserVo userVo) {
+    public Object save(UserVo userVo) {
 
         User user = BeanUtil.copy(userVo, User.class);
 
@@ -46,6 +46,10 @@ public class UserService {
         user.setCreateTime(new Date());
 
         return mongoTemplate.save(user);
+    }
+
+    public void save(User user) {
+        mongoTemplate.save(user);
     }
 
     public List<User> userList(UserQuery userQuery) {
@@ -64,5 +68,10 @@ public class UserService {
         user.setId(id);
 
         mongoTemplate.remove(user);
+    }
+
+    public User getById(String id) {
+
+        return mongoTemplate.findById(id, User.class);
     }
 }

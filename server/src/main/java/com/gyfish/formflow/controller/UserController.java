@@ -34,7 +34,7 @@ public class UserController {
     @PostMapping("/save")
     public Object addUser(@RequestBody UserVo userVo) {
 
-        return new AppResponse<>().ok("保存用户成功！", userService.addUser(userVo));
+        return new AppResponse<>().ok("保存用户成功！", userService.save(userVo));
     }
 
     /**
