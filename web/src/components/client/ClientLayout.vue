@@ -47,7 +47,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
-export default class AppClient extends Vue {
+export default class ClientLayout extends Vue {
   avatar = 'Tom'
 
   @Prop()

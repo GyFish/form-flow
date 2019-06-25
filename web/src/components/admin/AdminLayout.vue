@@ -36,7 +36,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component
-export default class AppAdmin extends Vue {
+export default class AdminLayout extends Vue {
 
   appId = ''
 

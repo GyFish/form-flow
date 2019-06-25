@@ -9,11 +9,6 @@ const routes = [
     component: () => import('@/views/Home.vue')
   },
   {
-    path: '/table',
-    name: 'table',
-    component: () => import('@/views/Table.vue')
-  },
-  {
     path: '/formEditor',
     name: 'formEditor',
     component: () => import('@/views/FormEditor.vue')
@@ -25,71 +20,71 @@ const routes = [
     component: () => import('@/views/FlowEditor.vue')
   },
   {
-    path: '/appStore',
-    name: 'AppStore',
-    component: () => import('@/views/AppStore.vue')
+    path: '/appRoom',
+    name: 'AppRoom',
+    component: () => import('@/views/AppRoom.vue')
   },
   {
     path: '/appAdmin',
     name: 'AppAdmin',
-    component: () => import('@/components/app-admin/AppAdmin.vue'),
+    component: () => import('@/components/admin/AdminLayout.vue'),
     children: [
       {
         path: 'appInfo',
         name: 'AppInfo',
-        component: () => import('@/components/app-admin/AppInfo.vue')
+        component: () => import('@/components/admin/AppInfo.vue')
       },
       {
         path: 'userAdmin',
         name: 'UserAdmin',
-        component: () => import('@/components/app-admin/UserAdmin.vue')
+        component: () => import('@/components/admin/UserAdmin.vue')
       },
       {
         path: 'formAdmin',
         name: 'FormAdmin',
-        component: () => import('@/components/app-admin/FormAdmin.vue')
+        component: () => import('@/components/admin/FormAdmin.vue')
       },
       {
         path: 'flowAdmin',
         name: 'FlowAdmin',
-        component: () => import('@/components/app-admin/FlowAdmin.vue')
+        component: () => import('@/components/admin/FlowAdmin.vue')
       }
     ]
   },
   {
     path: '/appReport',
     name: 'AppReport',
-    component: () => import('@/components/app-report/AppReport.vue')
+    component: () => import('@/components/report/AppReport.vue')
   },
   {
     path: '/appClient',
     name: 'AppClient',
     props: true,
-    component: () => import('@/components/app-client/AppClient.vue'),
+    component: () => import('@/components/client/ClientLayout.vue'),
     children: [
       {
         path: 'start',
         name: 'Start',
         props: true,
-        component: () => import('@/components/app-client/Start.vue')
+        component: () => import('@/components/client/Start.vue')
       },
       {
         path: 'created',
         name: 'Created',
         props: true,
-        component: () => import('@/components/app-client/Created.vue')
+        component: () => import('@/components/client/Created.vue')
       },
       {
         path: 'todo',
         name: 'Todo',
         props: true,
-        component: () => import('@/components/app-client/Todo.vue')
+        component: () => import('@/components/client/Todo.vue')
       },
       {
         path: 'done',
         name: 'Done',
         props: true,
-        component: () => import('@/components/app-client/Done.vue')
+        component: () => import('@/components/client/Done.vue')
       }
     ]
   }

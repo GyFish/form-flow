@@ -2,9 +2,8 @@
   <div id="app">
     <el-menu :default-active="activeMenu" @select="setMenu" mode="horizontal" router>
       <el-menu-item index="/formEditor">表单</el-menu-item>
-      <!-- <el-menu-item index="/table">表格</el-menu-item> -->
       <el-menu-item index="/flowEditor">流程</el-menu-item>
-      <el-menu-item index="/appStore">应用</el-menu-item>
+      <el-menu-item index="/appRoom">应用</el-menu-item>
     </el-menu>
     <router-view/>
   </div>

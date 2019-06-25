@@ -35,13 +35,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
 import AppStoreApi from '@/apis/AppStoreApi'
-import AppCard from '@/components/app-store/AppCard.vue'
-import NewCard from '@/components/app-store/NewCard.vue'
+import AppCard from '@/components/app-room/AppCard.vue'
+import NewCard from '@/components/app-room/NewCard.vue'
 
 @Component({
   components: { AppCard, NewCard }
 })
-export default class AppStore extends Vue {
+export default class AppRoom extends Vue {
   // ~ fields --------------------------------------------------
 
   // 是否显示弹窗
