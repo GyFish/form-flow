@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { Prop, Component } from 'vue-property-decorator'
 import InputConfig from './configs/InputConfig.vue'
+import SelectConfig from './configs/SelectConfig.vue'
 
 @Component({ components: { InputConfig } })
 export default class FormConfig extends Vue {
@@ -30,6 +31,8 @@ export default class FormConfig extends Vue {
     switch (this.item.itemType) {
       case 'el-input':
         return InputConfig
+      case 'el-select':
+        return SelectConfig
     }
   }
 

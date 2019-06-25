@@ -20,19 +20,31 @@ export class BaseItem {
       itemType: 'el-input',
       prop: 'input',
       label: '文本框',
-      icon: 'el-icon-edit'
+      icon: 'el-icon-edit',
+      type: 'text'
     },
     {
       itemType: 'el-input',
       prop: 'input',
       label: '多行文本',
-      icon: 'el-icon-tickets'
+      icon: 'el-icon-tickets',
+      type: 'textarea'
     },
     {
       itemType: 'el-select',
       prop: 'input',
       label: '下拉框',
-      icon: 'el-icon-arrow-down'
+      icon: 'el-icon-arrow-down',
+      options: [
+        {
+          label: '西瓜',
+          value: 'watermelon'
+        },
+        {
+          label: '可乐',
+          value: 'cola'
+        }
+      ]
     },
     {
       itemType: 'el-date-picker',

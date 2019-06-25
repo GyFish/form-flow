@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { Prop, Component } from 'vue-property-decorator'
 import Input from './items/Input.vue'
+import Select from './items/Select.vue'
 import { Item } from '.'
 
 @Component({ components: { Input } })
@@ -40,6 +41,8 @@ export default class FormItem extends Vue {
     switch (this.item.itemType) {
       case 'el-input':
         return Input
+      case 'el-select':
+        return Select
       default:
         break
     }
