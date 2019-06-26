@@ -9,8 +9,8 @@ export default class TaskApi extends Api {
 
   //~ ------------------------------------------------------
   // 保存流程结构数据
-  async start(taskStartVo: any) {
-    const res: any = await this.http.post('/api/task/start', taskStartVo)
+  async commit(taskVo: any) {
+    const res: any = await this.http.post('/api/task/commit', taskVo)
     return super.extractData(res)
   }
 

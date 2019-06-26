@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.gyfish.formflow.domain.flow.Task;
 import com.gyfish.formflow.service.TaskService;
 import com.gyfish.formflow.util.AppResponse;
-import com.gyfish.formflow.vo.TaskQueryVo;
-import com.gyfish.formflow.vo.TaskStartVo;
+import com.gyfish.formflow.vo.TaskQuery;
+import com.gyfish.formflow.vo.TaskVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +33,10 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/start")
-    public Object start(@RequestBody TaskStartVo startVo) {
+    @PostMapping("/commit")
+    public Object start(@RequestBody TaskVo vo) {
 
-        taskService.start(startVo);
+        taskService.commit(vo);
 
         return new AppResponse<>().ok("提交成功！");
     }
@@ -54,13 +54,11 @@ public class TaskController {
     }
 
     @PostMapping("/query")
-    public Object query(@RequestBody TaskQueryVo queryVo) {
+    public Object query(@RequestBody TaskQuery vo) {
 
-        log.info("|查询task| queryVo = {}", JSON.toJSONString(queryVo, true));
+        log.info("|查询task| queryVo = {}", JSON.toJSONString(vo, true));
 
-        List<Task> result = taskService.getByUserAndStatus(queryVo.getUserId(), queryVo.getStatus());
-
-        log.info("|查询task| result = {}", result);
+        List<Task> result = taskService.query(vo);
 
         return new AppResponse<>().ok(result);
     }

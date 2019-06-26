@@ -22,7 +22,7 @@ public class RedisTest {
     @Test
     public void concurrentHashInc() {
 
-        System.out.println("//~ start --------------------");
+        System.out.println("//~ commit --------------------");
         long startTime = System.currentTimeMillis();
         System.out.println("answerCount = "
                 + stringRedisTemplate.opsForHash().get("state", "answerCount"));

@@ -112,6 +112,10 @@ public class FlowService {
 
     FlowNode next(String flowId, String nodeId) {
 
+        if (flowId == null || nodeId == null) {
+            return null;
+        }
+
         FlowMeta flow = mongoTemplate.findById(flowId, FlowMeta.class);
 
         if (flow == null) {

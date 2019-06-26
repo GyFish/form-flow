@@ -24,19 +24,21 @@
     <!-- 中间 main -->
     <div class="main-box">
       <el-main>
-        <el-tag v-if="taskVo.taskName" style="margin-bottom:20px">{{taskVo.taskName}}</el-tag>
-        <el-form label-position="top">
-          <div v-for="(item, idx) of taskVo.formData" :key="idx">
-            <el-row type="flex" align="middle">
-              <el-col :span="22">
-                <form-item :item="item"></form-item>
-              </el-col>
-            </el-row>
-          </div>
-          <el-form-item>
-            <el-button v-if="taskVo.taskName" type="success" @click="commit">提交</el-button>
-          </el-form-item>
-        </el-form>
+        <div v-if="showTask">
+          <el-tag style="margin-bottom:20px">{{taskVo.taskName}}</el-tag>
+          <el-form label-position="top">
+            <div v-for="(item, idx) of taskVo.formData" :key="idx">
+              <el-row type="flex" align="middle">
+                <el-col :span="22">
+                  <form-item :item="item"></form-item>
+                </el-col>
+              </el-row>
+            </div>
+            <el-form-item>
+              <el-button type="success" @click="commit">提交</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </el-main>
     </div>
   </el-container>
@@ -45,7 +47,6 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import FormItem from '@/components/form/FormItem.tsx'
-import { Mutation } from 'vuex-class'
 import FlowApi from '@/apis/FlowApi'
 import FormApi from '../../apis/FormApi'
 import TaskApi from '../../apis/TaskApi'
@@ -60,47 +61,48 @@ export default class AppStart extends Vue {
   user: any = {}
   appInfo: any = {}
 
-  taskVo = {
-    userId: '',
-    flowId: '',
-    flowTitle: '',
-    nodeId: '',
-    taskName: '',
-    formId: '',
+  taskVo: any = {
     formData: []
   }
 
+  showTask = false
+
   mounted() {
     this.user = JSON.parse(localStorage.user)
-    this.taskVo.userId = this.user.id
     this.handleSearch()
   }
 
+  // 搜索流程
   async handleSearch() {
+    this.showTask = false
     this.flowList = await new FlowApi().getByUser(this.user.id)
   }
 
-  async handleFlowChange(row: any) {
-    if (!row) return
+  // 选择流程
+  async handleFlowChange(flow: any) {
+    if (!flow) return
 
-    let { id, formId, nodeName } = row.nodes[1]
+    this.taskVo.flowId = flow.id
+    this.taskVo.flowTitle = flow.title
 
-    this.taskVo.flowId = row.id
-    this.taskVo.flowTitle = row.title
-    this.taskVo.formId = formId
-    this.taskVo.nodeId = id
-    this.taskVo.taskName = nodeName
+    let node = flow.nodes[1]
 
-    let form = await new FormApi().getFormById(formId)
+    this.taskVo.userId = this.user.id
+    this.taskVo.taskName = node.nodeName
+
+    this.taskVo.nodeId = node.id
+    this.taskVo.formId = node.formId
+    let form = await new FormApi().getFormById(node.formId)
     this.taskVo.formData = form.items
+
+    this.showTask = true
   }
 
-  // 提交表单
+  // 提交任务
   async commit() {
-    let res = await new TaskApi().start(this.taskVo)
+    let res = await new TaskApi().commit(this.taskVo)
     this.$message.success(res)
     this.handleSearch()
-    this.taskVo.formData = []
   }
 }
 </script>

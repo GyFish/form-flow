@@ -12,7 +12,7 @@ public class BeanUtilTest {
         a1.setA("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
         long t1 = System.currentTimeMillis();
-        System.out.println("start");
+        System.out.println("commit");
 
         for (int i = 0; i < 1e6; i++) {
 

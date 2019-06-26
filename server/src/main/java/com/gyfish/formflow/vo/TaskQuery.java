@@ -6,10 +6,12 @@ import lombok.Data;
  * @author geyu
  */
 @Data
-public class TaskQueryVo {
+public class TaskQuery {
 
     private String userId;
 
     private String status;
+
+    private String processId;
 
 }

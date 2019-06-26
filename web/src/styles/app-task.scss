@@ -39,3 +39,33 @@
     width: 100%;
   }
 }
+
+.todo-box {
+  width: 100%;
+  .content {
+    .el-collapse {
+      margin-bottom: 30px;
+    }
+  }
+}
+
+.task-card {
+  .item {
+    padding: 10px 0px;
+  }
+  .el-tag {
+    margin-right: 5px;
+  }
+  .el-card {
+    min-height: 100px;
+    margin-bottom: 20px;
+  }
+  .el-icon-question {
+    margin-right: 5px;
+    color: #E6A23C;
+  }
+  .el-icon-success {
+    margin-right: 5px;
+    color: #67C23A;
+  }
+}

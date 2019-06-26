@@ -12,7 +12,7 @@
         <div class="task-list">
           <el-table
             @current-change="handleFlowChange"
-            :data="taskList"
+            :data="processList"
             :show-header="false"
             highlight-current-row
           >
@@ -25,7 +25,9 @@
     <!-- 中间 main -->
     <div class="todo-box">
       <el-main class="content">
-        <card-view :list="itemList" :cardName="cardName"/>
+        <div v-for="(task, i) of taskList" :key="i">
+          <task-card :task="task"/>
+        </div>
       </el-main>
     </div>
   </el-container>
@@ -35,19 +37,15 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import FormApi from '../../apis/FormApi'
 import TaskApi from '../../apis/TaskApi'
-import CardView from '@/components/form/display/CardView.vue'
-import '@/styles/app-todo.scss'
+import TaskCard from '@/components/client/TaskCard.vue'
 
 @Component({
-  components: { CardView }
+  components: { TaskCard }
 })
 export default class AppTodo extends Vue {
   // 流程列表
+  processList: any = []
   taskList: any = []
-
-  cardName: any = ''
-
-  itemList: any = []
 
   user: any = {}
   appInfo: any = {}
@@ -58,17 +56,21 @@ export default class AppTodo extends Vue {
     this.handleSearch()
   }
 
+  // 搜索已处理流程
   async handleSearch() {
-    this.taskList = await new TaskApi().query({
+    this.processList = await new TaskApi().query({
       userId: this.user.id,
       status: 'DONE'
     })
   }
 
-  async handleFlowChange(row: any) {
-    if (!row) return
+  // 选择流程
+  async handleFlowChange(task: any) {
+    if (!task) return
 
-    let tasks = await new TaskApi().previous(row.id)
+    this.taskList = await new TaskApi().query({
+      processId: task.processId
+    })
   }
 }
 </script>

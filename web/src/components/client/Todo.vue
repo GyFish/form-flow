@@ -17,7 +17,8 @@
             highlight-current-row
           >
             <el-table-column prop="processName"></el-table-column>
-            <el-table-column prop="taskName"></el-table-column>
+            <!-- <el-table-column prop="taskName"></el-table-column> -->
+            <el-table-column prop="updateTime" :formatter="timeFormatter"></el-table-column>
           </el-table>
         </div>
       </el-aside>
@@ -25,16 +26,16 @@
     <!-- 中间 main -->
     <div class="todo-box">
       <el-main class="content">
-        <div v-if="cardName">
+        <div v-if="showTask">
           <!-- 卡片 -->
-          <card-view :list="itemList" :cardName="cardName"/>
+          <task-card :task="preTask"/>
           <!-- 历史 -->
           <el-collapse>
             <el-collapse-item>
               <template slot="title">
                 <el-button type="text" icon="el-icon-receiving">Task Log</el-button>
               </template>
-              <card-view :list="itemList" :cardName="cardName"/>
+              <task-card :task="preTask"/>
             </el-collapse-item>
           </el-collapse>
           <!-- 表单 -->
@@ -60,40 +61,36 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import FormApi from '../../apis/FormApi'
 import TaskApi from '../../apis/TaskApi'
-import CardView from '@/components/form/display/CardView.vue'
 import FormItem from '@/components/form/FormItem.tsx'
-import '@/styles/app-todo.scss'
+import TaskCard from '@/components/client/TaskCard.vue'
+import DateUtil from '@/util/DateUtil'
 
 @Component({
-  components: { CardView, FormItem }
+  components: { TaskCard, FormItem }
 })
 export default class AppTodo extends Vue {
   // 流程列表
   taskList: any = []
 
-  cardName: any = ''
-  itemList: any = []
-
   user: any = {}
   appInfo: any = {}
 
-  taskVo = {
-    userId: '',
-    flowId: '',
-    nodeId: '',
-    taskName: '',
-    formId: '',
+  taskVo: any = {
     formData: []
   }
 
+  // 前一个 task
+  preTask: any = {}
+
+  showTask = false
+
   mounted() {
     this.user = JSON.parse(localStorage.user)
-    this.taskVo.userId = this.user.id
     this.handleSearch()
   }
 
   async handleSearch() {
-    this.cardName = ''
+    this.showTask = false
     this.taskList = await new TaskApi().query({
       userId: this.user.id,
       status: 'TODO'
@@ -103,16 +100,25 @@ export default class AppTodo extends Vue {
   async handleFlowChange(task: any) {
     if (!task) return
 
-    let previousTask = await new TaskApi().previous(task.id)
+    this.taskVo = task
 
-    this.cardName = previousTask.taskName
-    this.itemList = previousTask.formData
+    this.preTask = await new TaskApi().previous(task.id)
 
     let form = await new FormApi().getFormById(task.formId)
     this.taskVo.formData = form.items
+
+    this.showTask = true
   }
 
   // 提交表单
-  async commit() {}
+  async commit() {
+    let res = await new TaskApi().commit(this.taskVo)
+    this.$message.success(res)
+    this.handleSearch()
+  }
+
+  timeFormatter(row: any) {
+    return DateUtil.formatStr(row.updateTime)
+  }
 }
 </script>
