@@ -82,17 +82,13 @@ export default class AppStart extends Vue {
   async handleFlowChange(flow: any) {
     if (!flow) return
 
-    this.taskVo.flowId = flow.id
-    this.taskVo.flowTitle = flow.title
-
     let node = flow.nodes[1]
+    let form = await new FormApi().getFormById(node.formId)
 
     this.taskVo.userId = this.user.id
-    this.taskVo.taskName = node.nodeName
-
-    this.taskVo.nodeId = node.id
+    this.taskVo.flowId = flow.id
     this.taskVo.formId = node.formId
-    let form = await new FormApi().getFormById(node.formId)
+    this.taskVo.taskName = node.nodeName
     this.taskVo.formData = form.items
 
     this.showTask = true
@@ -100,7 +96,7 @@ export default class AppStart extends Vue {
 
   // 提交任务
   async commit() {
-    let res = await new TaskApi().commit(this.taskVo)
+    let res = await new TaskApi().start(this.taskVo)
     this.$message.success(res)
     this.handleSearch()
   }

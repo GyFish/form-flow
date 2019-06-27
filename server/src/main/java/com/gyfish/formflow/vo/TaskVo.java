@@ -20,6 +20,8 @@ public class TaskVo {
 
     private Date createTime;
 
+    private String status;
+
 
     private String processId;
 

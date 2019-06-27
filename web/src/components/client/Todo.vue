@@ -100,11 +100,11 @@ export default class AppTodo extends Vue {
   async handleFlowChange(task: any) {
     if (!task) return
 
-    this.taskVo = task
-
     this.preTask = await new TaskApi().previous(task.id)
 
     let form = await new FormApi().getFormById(task.formId)
+
+    this.taskVo.id = task.id
     this.taskVo.formData = form.items
 
     this.showTask = true

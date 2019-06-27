@@ -3,6 +3,7 @@ package com.gyfish.formflow.service;
 import com.gyfish.formflow.domain.User;
 import com.gyfish.formflow.domain.flow.FlowMeta;
 import com.gyfish.formflow.domain.flow.FlowNode;
+import com.gyfish.formflow.domain.flow.Process;
 import com.gyfish.formflow.vo.FlowQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -110,13 +110,9 @@ public class FlowService {
     }
 
 
-    FlowNode next(String flowId, String nodeId) {
+    FlowNode next(Process p) {
 
-        if (flowId == null || nodeId == null) {
-            return null;
-        }
-
-        FlowMeta flow = mongoTemplate.findById(flowId, FlowMeta.class);
+        FlowMeta flow = mongoTemplate.findById(p.getFlowId(), FlowMeta.class);
 
         if (flow == null) {
             log.error("没有这个流程！");
@@ -126,11 +122,21 @@ public class FlowService {
         List<FlowNode> nodes = flow.getNodes();
 
         for (int i = 0; i < nodes.size(); i++) {
-            if (nodes.get(i).getId().equals(nodeId)) {
-                return nodes.get(i + 1);
+            if (nodes.get(i).getId().equals(p.getNodeId())) {
+                if (i == nodes.size() - 1) {
+                    return null;
+                } else {
+                    return nodes.get(i + 1);
+                }
             }
         }
 
         return null;
     }
+
+    FlowMeta getById(String id) {
+
+        return mongoTemplate.findById(id, FlowMeta.class);
+    }
+
 }

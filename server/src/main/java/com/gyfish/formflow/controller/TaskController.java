@@ -33,8 +33,16 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/commit")
+    @PostMapping("/start")
     public Object start(@RequestBody TaskVo vo) {
+
+        taskService.start(vo);
+
+        return new AppResponse<>().ok("创建成功！");
+    }
+
+    @PostMapping("/commit")
+    public Object commit(@RequestBody TaskVo vo) {
 
         taskService.commit(vo);
 
