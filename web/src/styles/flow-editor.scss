@@ -1,6 +1,8 @@
 .flow-editor {
   height: calc(100% - 36px);
 
+  padding-top: 36px;
+  
   .flow-item-container {
     .el-button {
       display: block;

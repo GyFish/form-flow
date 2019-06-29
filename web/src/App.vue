@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <el-menu :default-active="activeMenu" @select="setMenu" mode="horizontal" router>
+    <el-menu
+      class="nav-top"
+      :default-active="activeMenu"
+      @select="setMenu"
+      mode="horizontal"
+      router
+    >
       <el-menu-item index="/formEditor">表单</el-menu-item>
       <el-menu-item index="/flowEditor">流程</el-menu-item>
       <el-menu-item index="/appRoom">应用</el-menu-item>
@@ -33,6 +39,12 @@ body {
 #app {
   height: 100%;
   min-height: 100%;
+  .nav-top {
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 999999999;
+  }
   .el-menu-item {
     height: 35px;
     line-height: 35px;

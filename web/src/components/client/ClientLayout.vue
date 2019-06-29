@@ -12,7 +12,13 @@
             <span>{{user.userName}}</span>
           </div>
           <!-- 导航 -->
-          <el-menu collapse width="100%" @select="handleSelect">
+          <el-menu
+            collapse
+            width="100%"
+            @select="handleSelect"
+            background-color="#545c64"
+            active-text-color="#ffd04b"
+          >
             <el-menu-item index="Start">
               <i class="el-icon-edit"></i>
               <span slot="title">新建一个任务，Go！</span>
@@ -20,7 +26,7 @@
             <!-- <el-menu-item index="Created">
               <i class="el-icon-time"></i>
               <span slot="title">我发起的，看看结束了没有？</span>
-            </el-menu-item> -->
+            </el-menu-item>-->
             <el-menu-item index="Todo">
               <i class="el-icon-document"></i>
               <span slot="title">待处理的，Todo!</span>
@@ -31,9 +37,9 @@
             </el-menu-item>
           </el-menu>
           <!-- 底部设置 -->
-          <div class="setting-box">
+          <!-- <div class="setting-box">
             <el-button circle type="info" icon="el-icon-menu"></el-button>
-          </div>
+          </div>-->
         </el-aside>
       </div>
       <div class="app-box">

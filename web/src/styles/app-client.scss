@@ -1,6 +1,9 @@
 .app-client {
   // 设置父容器与页面等高
   height: calc(100% - 36px);
+
+  padding-top: 36px;
+  
   .el-container {
     height: 100%;
   }
@@ -10,22 +13,17 @@
   }
 
   .el-menu {
-    height: calc(100% - 160px);
-    background-color: #282b31;
     border: 0;
-  }
-
-  .el-menu-item:hover {
-    i:hover {
-      color: #409eff;
-    }
-    background-color: #282b31;
   }
 
   // 左侧菜单容器
   .left-aside {
+    position: fixed;
+    top: 36px;
     width: 60px;
     height: 100%;
+    border-right: solid 1px #f5f5f5;
+    background-color: #545c64;
     // 菜单高度
     .el-menu-item {
       height: 50px !important;
@@ -38,7 +36,7 @@
     .el-tooltip {
       display: block !important;
       padding: 0 30% !important;
-      [class^="el-icon-"] {
+      [class^='el-icon-'] {
         font-size: 22px;
       }
     }
@@ -46,7 +44,6 @@
     .avatar-box {
       height: 40px;
       padding-top: 20px;
-      background-color: #282b31;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -57,12 +54,10 @@
     .name-box {
       height: 40px;
       text-align: center;
-      background-color: #282b31;
       color: aliceblue;
     }
     .setting-box {
       height: 60px;
-      background-color: #282b31;
       display: flex;
       align-items: center;
       justify-content: center;
