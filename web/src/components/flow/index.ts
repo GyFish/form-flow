@@ -8,6 +8,8 @@ export interface ConfigModel {
   activeTab: string
   // 流程名称
   title: any
+  // todo 详情展示哪个 task 卡片
+  todoShow: any
 }
 
 // 节点

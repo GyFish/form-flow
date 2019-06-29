@@ -30,12 +30,12 @@
           <!-- 卡片 -->
           <task-card :task="preTask"/>
           <!-- 历史 -->
-          <el-collapse>
+          <el-collapse @change="showTaskLog">
             <el-collapse-item>
               <template slot="title">
                 <el-button type="text" icon="el-icon-receiving">Task Log</el-button>
               </template>
-              <task-card :task="preTask"/>
+              <task-card v-for="(task, i) of allTasks" :key="i" :task="task"/>
             </el-collapse-item>
           </el-collapse>
           <!-- 表单 -->
@@ -79,8 +79,11 @@ export default class AppTodo extends Vue {
     formData: []
   }
 
-  // 前一个 task
+  // 首部 task
   preTask: any = {}
+
+  // 历史 所有 task
+  allTasks: any = {}
 
   showTask = false
 
@@ -100,15 +103,18 @@ export default class AppTodo extends Vue {
   async handleFlowChange(task: any) {
     if (!task) return
 
-    this.preTask = await new TaskApi().previous(task.id)
+    this.preTask = await new TaskApi().preTask(task.id)
 
     let form = await new FormApi().getFormById(task.formId)
-
-    this.taskVo.id = task.id
     this.taskVo.formData = form.items
 
     this.showTask = true
+
+    this.taskVo.id = task.id
+    this.allTasks = await new TaskApi().getByProcess(this.preTask.processId)
   }
+
+  async showTaskLog() {}
 
   // 提交表单
   async commit() {

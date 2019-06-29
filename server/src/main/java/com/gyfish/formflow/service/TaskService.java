@@ -1,6 +1,10 @@
 package com.gyfish.formflow.service;
 
+import com.google.common.collect.Lists;
+
 import com.alibaba.fastjson.JSONObject;
+import com.gyfish.formflow.config.Constant;
+import com.gyfish.formflow.domain.flow.Flow;
 import com.gyfish.formflow.domain.flow.FlowNode;
 import com.gyfish.formflow.domain.flow.Process;
 import com.gyfish.formflow.domain.flow.Task;
@@ -14,6 +18,7 @@ import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -152,14 +157,41 @@ public class TaskService {
         return mongoTemplate.find(query, Task.class);
     }
 
-    public Task previous(String taskId) {
-
-        Task task = this.getById(taskId);
+    public List<Task> getByProcess(String processId) {
 
         TaskQuery query = new TaskQuery();
 
-        query.setProcessId(task.getProcessId());
+        query.setProcessId(processId);
 
-        return this.query(query).get(0);
+        return this.query(query);
+    }
+
+    /**
+     * 返回todo页面首部展示的任务
+     */
+    public Task preTask(String taskId) {
+
+        Task t = this.getById(taskId);
+        List<Task> tasks = this.getByProcess(t.getProcessId());
+
+        Process p = processService.getById(t.getProcessId());
+
+        Flow f = flowService.getById(p.getFlowId());
+
+        // 先把自己移除
+        tasks.remove(t);
+
+        String show = f.getTodoShow();
+
+        List<Task> list = new ArrayList<>();
+        if (Constant.TODO_SHOW_LAST.equals(show)) {
+            list = tasks;
+        }
+
+        if (Constant.TODO_SHOW_FIRST.equals(show)) {
+            list = Lists.reverse(tasks);
+        }
+
+        return list.stream().findFirst().orElse(null);
     }
 }

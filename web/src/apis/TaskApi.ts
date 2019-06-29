@@ -26,9 +26,15 @@ export default class TaskApi extends Api {
     return super.extractData(res)
   }
 
-  // 前面的节点
-  async previous(taskId: string) {
-    const res: any = await this.http.get('/api/task/previous?taskId=' + taskId)
+  // 需要展示的任务
+  async preTask(taskId: string) {
+    const res: any = await this.http.get('/api/task/preTask?taskId=' + taskId)
+    return super.extractData(res)
+  }
+
+  // 所有任务
+  async getByProcess(processId: string) {
+    const res: any = await this.http.get('/api/task/getByProcess?processId=' + processId)
     return super.extractData(res)
   }
 }

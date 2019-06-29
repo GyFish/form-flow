@@ -49,14 +49,18 @@ public class TaskController {
         return new AppResponse<>().ok("提交成功！");
     }
 
-    @GetMapping("/previous")
-    public Object previous(String taskId) {
+    @GetMapping("/preTask")
+    public Object preTask(String taskId) {
 
-        log.info("|查询上一节点| taskId = {}", taskId);
+        return new AppResponse<>().ok("ok！", taskService.preTask(taskId));
+    }
 
-        Task task = taskService.previous(taskId);
+    @GetMapping("/getByProcess")
+    public Object getByProcess(String processId) {
 
-        log.info("|上一节点| task = {}", JSON.toJSONString(task, true));
+        log.info("|查询流程内所有任务| processId = {}", processId);
+
+        List<Task> task = taskService.getByProcess(processId);
 
         return new AppResponse<>().ok("ok！", task);
     }

@@ -1,6 +1,6 @@
 package com.gyfish.formflow.service;
 
-import com.gyfish.formflow.domain.flow.FlowMeta;
+import com.gyfish.formflow.domain.flow.Flow;
 import com.gyfish.formflow.domain.flow.FlowNode;
 import com.gyfish.formflow.domain.flow.FlowStatus;
 import com.gyfish.formflow.domain.flow.Process;
@@ -41,7 +41,7 @@ public class ProcessService {
 
         Process p = new Process();
 
-        FlowMeta meta = flowService.getById(vo.getFlowId());
+        Flow meta = flowService.getById(vo.getFlowId());
 
         p.setFlowId(meta.getId());
         p.setProcessName(meta.getTitle());

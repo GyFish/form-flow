@@ -1,7 +1,7 @@
 package com.gyfish.formflow.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.gyfish.formflow.domain.flow.FlowMeta;
+import com.gyfish.formflow.domain.flow.Flow;
 import com.gyfish.formflow.service.FlowService;
 import com.gyfish.formflow.util.AppResponse;
 import com.gyfish.formflow.vo.FlowQuery;
@@ -36,21 +36,17 @@ public class FlowController {
     }
 
     @PostMapping("/save")
-    public Object saveFLow(@RequestBody FlowMeta flowMeta) {
+    public Object save(@RequestBody Flow flow) {
 
-        log.info("\n>> 保存流程信息，flowMeta = {}", JSON.toJSONString(flowMeta, true));
+        log.info("\n>> 保存流程信息，flow = {}", JSON.toJSONString(flow, true));
 
-        flowService.save(flowMeta);
-
-        log.info("保存流程信息成功，id = {}", flowMeta.getId());
+        flowService.save(flow);
 
         return new AppResponse<>().ok("save flow ok！");
     }
 
     @DeleteMapping("/delete")
-    public Object deleteFlow(String id) {
-
-        log.info("\n>> 删除流程，id = {}", id);
+    public Object delete(String id) {
 
         flowService.delete(id);
 
@@ -66,9 +62,7 @@ public class FlowController {
     @GetMapping("/getByUser")
     public Object getByUser(String userId) {
 
-        List<FlowMeta> flows = flowService.getByUser(userId);
-
-        log.info("|getByUser| flows = {}", JSON.toJSONString(flows));
+        List<Flow> flows = flowService.getByUser(userId);
 
         return new AppResponse<>().ok(flows);
     }

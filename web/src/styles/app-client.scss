@@ -66,4 +66,13 @@
   .app-box {
     width: 100%;
   }
+
+  // 右侧主界面容器
+  .main-box {
+    margin-left: 410px;
+    width: 100%;
+    .el-select {
+      width: 100%;
+    }
+  }
 }

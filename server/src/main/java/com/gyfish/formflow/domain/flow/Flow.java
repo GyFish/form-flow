@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @Document("flow")
-public class FlowMeta {
+public class Flow {
 
     @Id
     private String id;
@@ -23,6 +23,11 @@ public class FlowMeta {
     private String uuid;
 
     private String title;
+
+    /**
+     * todo展示，可选 firstTask / lastTask
+     */
+    private String todoShow;
 
     private Date createTime;
 

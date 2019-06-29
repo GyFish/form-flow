@@ -1,7 +1,7 @@
 package com.gyfish.formflow.service;
 
 import com.gyfish.formflow.domain.User;
-import com.gyfish.formflow.domain.flow.FlowMeta;
+import com.gyfish.formflow.domain.flow.Flow;
 import com.gyfish.formflow.domain.flow.FlowNode;
 import com.gyfish.formflow.domain.flow.Process;
 import com.gyfish.formflow.vo.FlowQuery;
@@ -38,7 +38,7 @@ public class FlowService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void save(FlowMeta meta) {
+    public void save(Flow meta) {
 
         // 先删除
         String id = meta.getId();
@@ -77,21 +77,21 @@ public class FlowService {
 
     public void delete(String id) {
 
-        FlowMeta meta = new FlowMeta();
+        Flow meta = new Flow();
         meta.setId(id);
 
         mongoTemplate.remove(meta);
     }
 
-    public List<FlowMeta> getList(FlowQuery flowQuery) {
+    public List<Flow> getList(FlowQuery flowQuery) {
 
         Criteria criteria = Criteria.where("appId").is(flowQuery.getAppId());
         Query query = new Query(criteria);
 
-        return mongoTemplate.find(query, FlowMeta.class);
+        return mongoTemplate.find(query, Flow.class);
     }
 
-    public List<FlowMeta> getByUser(String userId) {
+    public List<Flow> getByUser(String userId) {
 
         User user = mongoTemplate.findById(userId, User.class);
         if (user == null) {
@@ -106,13 +106,13 @@ public class FlowService {
         Criteria criteria = Criteria.where("id").in(flowIds);
         Query query = new Query(criteria);
 
-        return mongoTemplate.find(query, FlowMeta.class);
+        return mongoTemplate.find(query, Flow.class);
     }
 
 
     FlowNode next(Process p) {
 
-        FlowMeta flow = mongoTemplate.findById(p.getFlowId(), FlowMeta.class);
+        Flow flow = mongoTemplate.findById(p.getFlowId(), Flow.class);
 
         if (flow == null) {
             log.error("没有这个流程！");
@@ -134,9 +134,9 @@ public class FlowService {
         return null;
     }
 
-    FlowMeta getById(String id) {
+    Flow getById(String id) {
 
-        return mongoTemplate.findById(id, FlowMeta.class);
+        return mongoTemplate.findById(id, Flow.class);
     }
 
 }

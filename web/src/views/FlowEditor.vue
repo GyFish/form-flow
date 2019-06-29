@@ -57,6 +57,7 @@ export default class FlowEditor extends Vue {
     activeTab: 'flowConfig',
     model: {},
     title: '',
+    todoShow: '',
     node: {
       id: 0,
       processId: 0,
@@ -117,9 +118,10 @@ export default class FlowEditor extends Vue {
   replay(startNode: any) {
     console.log('  开始恢复流程图，metaProp =', this.metaProp)
 
-    let { title, nodes } = this.metaProp
+    let { title, todoShow, nodes } = this.metaProp
 
     this.configModel.title = title
+    this.configModel.todoShow = todoShow
 
     for (let i = 0; i < nodes.length - 1; i++) {
       let curNode = i == 0 ? startNode : nodes[i]
@@ -394,6 +396,7 @@ export default class FlowEditor extends Vue {
 
     let data: any = {
       title: this.configModel.title,
+      todoShow: this.configModel.todoShow,
       nodes: this.nodeList,
       graph: this.graph.save()
     }
