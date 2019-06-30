@@ -35,7 +35,7 @@ export default class TaskCard extends Vue {
   }
 
   get createTime() {
-    return DateUtil.formatStr(this.task.createTime)
+    return DateUtil.formatTime(this.task.createTime)
   }
 }
 </script>

@@ -4,8 +4,9 @@ import { FlowNode } from '.'
 export default class NodeCard {
   render(h: CreateElement, node: FlowNode, handler: any): VNode {
     return (
-      <el-card shadow="never" class="card-container">
+      <el-card shadow="never" class={`card-container ${this.isActive(node)}`}>
         <div slot="header">
+          <i class="el-icon-edit" style="color: #909399; padding: 3px 0; margin-right: 3px;" />
           <span>{node.nodeName}</span>
           <el-dropdown onCommand={() => handler.add(node)} trigger="click" style="float: right;">
             <el-button type="primary" icon="el-icon-plus" />
@@ -21,17 +22,26 @@ export default class NodeCard {
             icon="el-icon-delete"
             onClick={() => handler.delete(node)}
           />
-          <el-button
+          {/* <el-button
             style="float: right; padding: 3px 0; margin-right: 10px;"
             type="text"
             icon="el-icon-edit"
             onClick={() => handler.edit(node)}
-          />
+          /> */}
         </div>
         <div>
           <span>处理人：{node.handlerName}</span>
         </div>
       </el-card>
     )
+  }
+
+  isActive(node: any) {
+    console.log('is active node = ', node)
+    if (node.active) {
+      return 'active'
+    } else {
+      return ''
+    }
   }
 }

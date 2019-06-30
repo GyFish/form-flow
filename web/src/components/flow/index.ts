@@ -40,7 +40,8 @@ export class FlowNode {
   nextNodeId?: number
   // 是否可流回
   canFlowBack?: Boolean
-  //
+  // 是否激活
+  active?: any
 }
 
 // 流程动作，即流程图中的连线

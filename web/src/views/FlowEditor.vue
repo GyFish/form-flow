@@ -70,7 +70,8 @@ export default class FlowEditor extends Vue {
       handlerId: 0,
       handlerName: '',
       handlerGroupId: 0,
-      handlerGroupName: ''
+      handlerGroupName: '',
+      active: false
     }
   }
   // 节点列表
@@ -79,13 +80,7 @@ export default class FlowEditor extends Vue {
   idG6Map: any = {}
   // id - vueNode map
   idNodeMap: any = {}
-
-  // starter 索引
-  starterIndex = 0
-
-  // 节点 索引
-  nodeIndex = 0
-
+  // 应用id
   appId: any = ''
 
   //== vue 狗子 =====================================
@@ -151,8 +146,17 @@ export default class FlowEditor extends Vue {
     this.graph.on('node:click', (ev: any) => {
       let nodeId = ev.item.id
       console.debug('=== 点击节点', nodeId, ev.item)
+
+      if (nodeId == 'startNode') return
+
       this.configModel.activeTab = 'nodeConfig'
-      this.configModel.node = this.idNodeMap[nodeId]
+
+      let curNode: any = this.idNodeMap[nodeId]
+
+      this.configModel.node = curNode
+
+      this.nodeList.forEach(n => (n.active = false))
+      curNode.active = true
     })
   }
 
@@ -267,7 +271,7 @@ export default class FlowEditor extends Vue {
       newNode = new FlowNode()
       newNode.id = 'node-' + new Date().getTime()
       newNode.nodeName = 'task'
-      newNode.handlerName = ''
+      ;(newNode.handlerName = ''), (newNode.active = false)
     }
 
     // 插入点的索引

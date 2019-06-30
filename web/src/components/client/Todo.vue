@@ -17,7 +17,7 @@
             highlight-current-row
           >
             <el-table-column prop="processName"></el-table-column>
-            <!-- <el-table-column prop="taskName"></el-table-column> -->
+            <el-table-column prop="taskName"></el-table-column>
             <el-table-column prop="updateTime" :formatter="timeFormatter"></el-table-column>
           </el-table>
         </div>
@@ -124,7 +124,7 @@ export default class AppTodo extends Vue {
   }
 
   timeFormatter(row: any) {
-    return DateUtil.formatStr(row.updateTime)
+    return DateUtil.formatDay(row.updateTime)
   }
 }
 </script>
