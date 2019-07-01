@@ -10,3 +10,17 @@
 |-- web            // 前端
 ```
 
+App之间相互独立
+![](server/doc/app.png)
+
+目前支持自定义线性流程
+![](server/doc/flow.png)
+
+自定义表单
+![](server/doc/form.png)
+
+新建任务
+![](server/doc/start.png)
+
+处理任务
+![](server/doc/todo.png)
